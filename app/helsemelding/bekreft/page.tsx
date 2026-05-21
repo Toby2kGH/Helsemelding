@@ -82,6 +82,18 @@ export default function Bekreft() {
                 Tilbake til Min helse
               </Link>
             </div>
+
+            <div className="mt-6 border-t border-success-700/20 pt-5">
+              <p className="text-sm text-neutral-600 mb-3 text-center">
+                Nysgjerrig på hva helsepersonell ser?
+              </p>
+              <Link
+                href="/helsemelding/kvittering-lege"
+                className="flex items-center justify-center gap-2 w-full rounded-md border-2 border-blueberry-500 bg-blueberry-50 px-4 py-3 text-sm font-semibold text-blueberry-900 hover:bg-blueberry-100 focus:outline-none focus:ring-2 focus:ring-blueberry-500"
+              >
+                👨‍⚕️ Se hva fastlegen og sykehuslegen mottar
+              </Link>
+            </div>
           </div>
         </div>
       </div>

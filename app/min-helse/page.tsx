@@ -115,6 +115,22 @@ export default function MinHelse() {
           </dl>
         </div>
 
+        {/* Demo: helsepersonell-visning */}
+        <div className="mb-8 rounded-lg border-2 border-dashed border-blueberry-200 bg-blueberry-50 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-blueberry-700 mb-2">
+            🔬 Demo-funksjon
+          </p>
+          <p className="text-sm text-neutral-700 mb-3">
+            Se hva fastlegen og sykehuslegen mottar etter at du sender inn Helsemelding.
+          </p>
+          <Link
+            href="/helsemelding/kvittering-lege"
+            className="inline-flex items-center gap-2 rounded-md bg-blueberry-900 px-4 py-2 text-sm font-semibold text-white hover:bg-blueberry-700 focus:outline-none focus:ring-2 focus:ring-blueberry-500"
+          >
+            👨‍⚕️ Se helsepersonell-rapport
+          </Link>
+        </div>
+
         {/* Moduler */}
         <h2 className="text-xl font-bold text-neutral-900 mb-4">Dine helsetjenester</h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
