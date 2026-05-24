@@ -556,6 +556,20 @@ export default function KvitteringLege() {
               </div>
             </section>
 
+            {/* Tilleggsinformasjon fra pasienten */}
+            {kritiskInfoState.personligInfo && (
+              <section aria-labelledby="tillegg-syk-heading">
+                <h2 id="tillegg-syk-heading" className="text-lg font-bold text-neutral-900 mb-3">
+                  Viktig informasjon fra pasienten
+                </h2>
+                <div className="rounded-lg border-l-4 border-blueberry-500 bg-blueberry-50 p-4">
+                  <p className="text-sm text-neutral-700 whitespace-pre-wrap">
+                    {kritiskInfoState.personligInfo}
+                  </p>
+                </div>
+              </section>
+            )}
+
             {/* Samtykker — kritisk for sykehus */}
             <section aria-labelledby="samtykke-syk-heading">
               <h2 id="samtykke-syk-heading" className="text-lg font-bold text-neutral-900 mb-3">
