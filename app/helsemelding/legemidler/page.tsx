@@ -15,7 +15,6 @@ function defaultResponse(medId: string): MedicationResponse {
     vetHvorfor: null,
     tarMedisinen: null,
     annenDoseBeskriv: "",
-    vetForverring: null,
   };
 }
 
@@ -35,31 +34,6 @@ export default function Legemidler() {
     return helsemeldingState.medicationResponses.find((r) => r.medId === medId) ?? defaultResponse(medId);
   }
 
-  function getForverringSporsmaltekst(medId: string): string | undefined {
-    const plan = profil.kroniskSykdomPlan;
-    if (!plan.harKroniskSykdom) return undefined;
-
-    const med = [...profil.legemidler.faste, ...profil.legemidler.behovs].find((m) => m.id === medId);
-    if (!med) return undefined;
-
-    if (
-      med.atc.startsWith("B01") &&
-      plan.sporsmal.atrieflimmer
-    ) return plan.sporsmal.atrieflimmer;
-
-    if (
-      (med.atc.startsWith("A10") || med.atc.startsWith("H04")) &&
-      plan.sporsmal.diabetes
-    ) return plan.sporsmal.diabetes;
-
-    if (med.atc.startsWith("R03") && plan.sporsmal.astma) return plan.sporsmal.astma;
-
-    return undefined;
-  }
-
-  function visForverring(medId: string): boolean {
-    return !!getForverringSporsmaltekst(medId);
-  }
 
   function neste() {
     fullforSteg("legemidler");
@@ -67,6 +41,7 @@ export default function Legemidler() {
   }
 
   const alleMed = [...profil.legemidler.faste, ...profil.legemidler.behovs];
+  const kur = profil.legemidler.faste.filter((m) => m.kategori === "kur");
 
   return (
     <div>
@@ -92,21 +67,38 @@ export default function Legemidler() {
           </div>
         )}
 
-        {profil.legemidler.faste.length > 0 && (
+        {profil.legemidler.faste.filter((m) => m.kategori === "fast").length > 0 && (
           <section className="mb-8" aria-labelledby="faste-heading">
             <h2 id="faste-heading" className="text-xl font-semibold text-neutral-900 mb-4">
-              Dine faste legemidler ({profil.legemidler.faste.length})
+              Dine faste legemidler ({profil.legemidler.faste.filter((m) => m.kategori === "fast").length})
             </h2>
             <div className="space-y-4">
-              {profil.legemidler.faste.map((med) => (
+              {profil.legemidler.faste.filter((m) => m.kategori === "fast").map((med) => (
                 <MedicationCard
                   key={med.id}
                   legemiddel={med}
                   fastlege={profil.fastlege}
                   response={getResponse(med.id)}
                   onUpdate={oppdaterMedicationResponse}
-                  visForverringSporsmal={visForverring(med.id)}
-                  forverringSporsmaltekst={getForverringSporsmaltekst(med.id)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {kur.length > 0 && (
+          <section className="mb-8" aria-labelledby="kur-heading">
+            <h2 id="kur-heading" className="text-xl font-semibold text-neutral-900 mb-4">
+              Dine kurer ({kur.length})
+            </h2>
+            <div className="space-y-4">
+              {kur.map((med) => (
+                <MedicationCard
+                  key={med.id}
+                  legemiddel={med}
+                  fastlege={profil.fastlege}
+                  response={getResponse(med.id)}
+                  onUpdate={oppdaterMedicationResponse}
                 />
               ))}
             </div>
@@ -126,8 +118,6 @@ export default function Legemidler() {
                   fastlege={profil.fastlege}
                   response={getResponse(med.id)}
                   onUpdate={oppdaterMedicationResponse}
-                  visForverringSporsmal={visForverring(med.id)}
-                  forverringSporsmaltekst={getForverringSporsmaltekst(med.id)}
                 />
               ))}
             </div>
