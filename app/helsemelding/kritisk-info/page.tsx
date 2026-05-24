@@ -53,55 +53,44 @@ export default function KritiskInfo() {
           <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 2 av 5</p>
           <h1 className="text-3xl font-bold text-neutral-900">Kritisk helseinformasjon</h1>
           <p className="text-neutral-600 mt-2">
-            Viktig informasjon fra kjernejournal og dine kroniske sykdommer er vist nedenfor.
+            Gjennomgå informasjonen som er registrert i din kjernejournal. Kontakt helsepersonell hvis noe er uklart eller skal oppdateres.
           </p>
         </div>
 
-        {/* ALLERGI - MAKSIMAL SYNLIGHET */}
+        {/* ALLERGI */}
         {harAllergi && (
           <section className="mb-8" aria-labelledby="allergi-heading">
-            <div className="rounded-lg border-4 border-cherry-600 bg-cherry-50 p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="text-4xl flex-shrink-0" aria-hidden="true">🚨</span>
-                <h2 id="allergi-heading" className="text-2xl font-bold text-cherry-900">
-                  ALLERGI
-                </h2>
+            <div className="rounded-lg border border-cherry-200 bg-cherry-50 p-6">
+              <h2 id="allergi-heading" className="text-lg font-semibold text-cherry-900 mb-4">
+                Registrerte allergier
+              </h2>
+              <div className="rounded-md bg-white p-4 space-y-2 border border-cherry-100">
+                {kritiskInfo.allergi!.map((allergi) => (
+                  <div key={allergi} className="flex items-start gap-2 text-sm">
+                    <span className="text-cherry-600 font-bold mt-0.5">•</span>
+                    <span className="text-neutral-900">{allergi}</span>
+                  </div>
+                ))}
               </div>
-              <div className="bg-white rounded-md p-4 border-2 border-cherry-300">
-                <ul className="space-y-2">
-                  {kritiskInfo.allergi!.map((allergi) => (
-                    <li key={allergi} className="text-lg font-semibold text-cherry-900 flex items-center gap-2">
-                      <span className="inline-block w-3 h-3 rounded-full bg-cherry-600"></span>
-                      {allergi}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <p className="text-sm text-cherry-900 mt-3 font-medium">
-                ⚠️ Helsepersonell MÅ være klar over denne informasjonen før behandling.
-              </p>
             </div>
           </section>
         )}
 
         {/* Annen kritisk info fra kjernejournal */}
         {harKritiskInfo && !harAllergi && (
-          <section className="mb-8 rounded-lg border-2 border-cherry-500 bg-cherry-50 p-6" aria-labelledby="kjernejournal-heading">
-            <div className="flex items-start gap-3 mb-4">
-              <span className="text-2xl flex-shrink-0" aria-hidden="true">⚠️</span>
-              <h2 id="kjernejournal-heading" className="text-lg font-bold text-cherry-900">
-                Kritisk informasjon fra kjernejournal
-              </h2>
-            </div>
+          <section className="mb-8 rounded-lg border border-neutral-200 bg-white p-6" aria-labelledby="kjernejournal-heading">
+            <h2 id="kjernejournal-heading" className="text-lg font-semibold text-neutral-900 mb-4">
+              Annen kritisk informasjon
+            </h2>
 
             <div className="space-y-4">
               {/* Bivirkninger */}
               {kritiskInfo.bivirkninger && kritiskInfo.bivirkninger.length > 0 && (
-                <div className="rounded-md bg-white p-4 border-l-4 border-warning-500">
-                  <p className="text-sm font-semibold text-warning-900 mb-2">⚠️ Kjente bivirkninger</p>
+                <div className="rounded-md bg-warning-50 p-4 border border-warning-100">
+                  <p className="text-sm font-semibold text-neutral-900 mb-2">Kjente bivirkninger</p>
                   <ul className="space-y-1">
                     {kritiskInfo.bivirkninger.map((bivirkning) => (
-                      <li key={bivirkning} className="text-sm text-neutral-700 font-medium">
+                      <li key={bivirkning} className="text-sm text-neutral-700">
                         • {bivirkning}
                       </li>
                     ))}
@@ -111,17 +100,17 @@ export default function KritiskInfo() {
 
               {/* Kritisk funksjon */}
               {kritiskInfo.kritiskFunksjon && (
-                <div className="rounded-md bg-white p-4 border-l-4 border-cherry-500">
-                  <p className="text-sm font-semibold text-cherry-900 mb-2">⚠️ Kritisk funksjon</p>
-                  <p className="text-sm text-neutral-700 font-medium">{kritiskInfo.kritiskFunksjon}</p>
+                <div className="rounded-md bg-cherry-50 p-4 border border-cherry-100">
+                  <p className="text-sm font-semibold text-neutral-900 mb-2">Kritisk funksjon</p>
+                  <p className="text-sm text-neutral-700">{kritiskInfo.kritiskFunksjon}</p>
                 </div>
               )}
 
               {/* Annen kritisk info */}
               {kritiskInfo.annenKritiskInfo && (
-                <div className="rounded-md bg-white p-4 border-l-4 border-blueberry-500">
-                  <p className="text-sm font-semibold text-blueberry-900 mb-2">ℹ️ Viktig informasjon</p>
-                  <p className="text-sm text-neutral-700 font-medium">{kritiskInfo.annenKritiskInfo}</p>
+                <div className="rounded-md bg-blueberry-50 p-4 border border-blueberry-100">
+                  <p className="text-sm font-semibold text-neutral-900 mb-2">Annen viktig informasjon</p>
+                  <p className="text-sm text-neutral-700">{kritiskInfo.annenKritiskInfo}</p>
                 </div>
               )}
             </div>
@@ -129,62 +118,41 @@ export default function KritiskInfo() {
         )}
 
         {/* Kroniske sykdommer */}
-        <section className="mb-8" aria-labelledby="kronisk-heading">
-          <h2 id="kronisk-heading" className="text-xl font-semibold text-neutral-900 mb-4">
-            Kroniske sykdommer (identifisert fra legemidler)
-          </h2>
+        {detektendeSykdommer.length > 0 && (
+          <section className="mb-8" aria-labelledby="kronisk-heading">
+            <h2 id="kronisk-heading" className="text-lg font-semibold text-neutral-900 mb-4">
+              Identifiserte kroniske sykdommer
+            </h2>
 
-          {detektendeSykdommer.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {detektendeSykdommer.map((sykdom) => (
-                <div key={sykdom} className="flex items-start gap-3 rounded-lg border border-warning-200 bg-warning-50 p-4">
-                  <ExclamationCircleIcon className="h-5 w-5 text-warning-700 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  <div>
-                    <p className="font-medium text-neutral-900">{sykdom}</p>
-                    <p className="text-sm text-neutral-600 mt-1">
-                      Basert på dine nåværende legemidler.
-                    </p>
-                  </div>
+                <div key={sykdom} className="rounded-md bg-neutral-50 p-3 border border-neutral-200">
+                  <p className="text-sm text-neutral-900">{sykdom}</p>
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="rounded-lg border border-blueberry-100 bg-blueberry-50 p-4">
-              <p className="text-neutral-700">
-                Ingen kroniske sykdommer identifisert fra dine nåværende legemidler.
-              </p>
-            </div>
-          )}
+            <p className="text-xs text-neutral-600 mt-3">
+              Basert på dine nåværende legemidler.
+            </p>
+          </section>
+        )}
 
-          {profil.kroniskSykdomPlan.harKroniskSykdom && detektendeSykdommer.length > 0 && (
-            <div className="mt-4 rounded-lg border border-blueberry-100 bg-blueberry-50 p-4">
-              <div className="flex gap-2">
-                <InformationCircleIcon className="h-5 w-5 text-blueberry-700 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <div className="text-sm text-neutral-700">
-                  <p className="font-medium text-blueberry-900 mb-1">Viktig informasjon</p>
-                  <p>Det er viktig at du og helsepersonell ditt er enige om behandlingsplaner for kroniske sykdommer.</p>
-                </div>
-              </div>
-            </div>
-          )}
-        </section>
-
-        {/* Personlig helseinformasjon */}
+        {/* Tilleggsinformasjon fra pasienten */}
         <section className="mb-8" aria-labelledby="personlig-heading">
-          <h2 id="personlig-heading" className="text-xl font-semibold text-neutral-900 mb-4">
-            Personlig helseinformasjon
+          <h2 id="personlig-heading" className="text-lg font-semibold text-neutral-900 mb-4">
+            Tilleggsinformasjon
           </h2>
           <p className="text-neutral-700 text-sm mb-3">
-            Del kort hva som er viktig for deg og din helse. For eksempel: psykiske utfordringer, sosial situasjon, kostholds- eller livsstilspreferanser, eller annet som helsepersonell bør vite.
+            Er det annen informasjon om din helse som du ønsker å dele med helsepersonell? For eksempel sosial situasjon eller andre forhold som er relevant for din helsemelding.
           </p>
 
           <div className="relative">
             <textarea
               value={personligInfo}
               onChange={handlePersonligInfoChange}
-              placeholder="Skriv her... (maks 200 tegn)"
+              placeholder="Skriv her... (valgfritt, maks 200 tegn)"
               className="w-full rounded-md border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:border-transparent resize-none"
-              rows={5}
+              rows={4}
             />
             <p className="text-xs text-neutral-500 mt-2">
               {personligInfo.length} / 200 tegn
@@ -193,62 +161,35 @@ export default function KritiskInfo() {
         </section>
 
         {/* Behandlingsplan */}
-        <section className="mb-8" aria-labelledby="plan-heading">
-          <h2 id="plan-heading" className="text-xl font-semibold text-neutral-900 mb-4">
-            Behandlingsplan
-          </h2>
-          <p className="text-neutral-700 text-sm mb-4">
-            Har du en kjent behandlingsplan for kroniske sykdommer?
-          </p>
-
-          <div className="space-y-3 mb-6">
-            {[
-              { value: true, label: "Ja, jeg har en behandlingsplan" },
-              { value: false, label: "Nei, jeg har ikke en behandlingsplan" },
-            ].map((option) => (
-              <label key={option.value ? "ja" : "nei"} className="flex items-center gap-3 p-3 rounded-md border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition">
-                <input
-                  type="radio"
-                  name="behandlingsplan"
-                  value={option.value ? "ja" : "nei"}
-                  checked={harBehandlingsplan === option.value}
-                  onChange={() => oppdaterKritiskInfo({ harKjentBehandlingsplan: option.value })}
-                  className="w-4 h-4 accent-blueberry-900"
-                />
-                <span className="font-medium text-neutral-900">{option.label}</span>
-              </label>
-            ))}
-          </div>
-
-          {harBehandlingsplan === false && (
-            <div className="rounded-lg border-l-4 border-blueberry-500 bg-blueberry-50 p-4 mb-6">
-              <p className="text-sm text-blueberry-900 font-medium mb-2">
-                📋 Råd: Ta kontakt med din fastlege
-              </p>
-              <p className="text-sm text-blueberry-800">
-                Hvis du har kroniske sykdommer, er det viktig å ha en behandlingsplan. Din fastlege kan hjelpe deg å lage en plan som passer for deg.
-              </p>
-            </div>
-          )}
-
-          <div className="rounded-lg border border-blueberry-100 bg-blueberry-50 p-4">
-            <p className="text-sm text-neutral-700 mb-2">
-              <strong>Ressurser fra Folkehelseinstituttet (FHI):</strong>
+        {profil.kroniskSykdomPlan.harKroniskSykdom && (
+          <section className="mb-8" aria-labelledby="plan-heading">
+            <h2 id="plan-heading" className="text-lg font-semibold text-neutral-900 mb-4">
+              Behandlingsplan for kronisk sykdom
+            </h2>
+            <p className="text-neutral-700 text-sm mb-4">
+              Har du en kjent behandlingsplan?
             </p>
-            <ul className="text-sm space-y-1">
-              <li>
-                <a href="https://www.fhi.no/nettpub/hovedtemaer/kroniske-sykdommer/" target="_blank" rel="noopener noreferrer" className="text-blueberry-700 hover:underline">
-                  FHI: Kroniske sykdommer →
-                </a>
-              </li>
-              <li>
-                <a href="https://www.helsenorge.no/" target="_blank" rel="noopener noreferrer" className="text-blueberry-700 hover:underline">
-                  Helsenorge: Din helseportal →
-                </a>
-              </li>
-            </ul>
-          </div>
-        </section>
+
+            <div className="space-y-3">
+              {[
+                { value: true, label: "Ja, jeg har en behandlingsplan" },
+                { value: false, label: "Nei, jeg har ikke en behandlingsplan" },
+              ].map((option) => (
+                <label key={option.value ? "ja" : "nei"} className="flex items-center gap-3 p-3 rounded-md border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition">
+                  <input
+                    type="radio"
+                    name="behandlingsplan"
+                    value={option.value ? "ja" : "nei"}
+                    checked={harBehandlingsplan === option.value}
+                    onChange={() => oppdaterKritiskInfo({ harKjentBehandlingsplan: option.value })}
+                    className="w-4 h-4 accent-blueberry-900"
+                  />
+                  <span className="text-neutral-900">{option.label}</span>
+                </label>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="flex items-center justify-between gap-4 pt-4 border-t border-neutral-200">
           <Link
