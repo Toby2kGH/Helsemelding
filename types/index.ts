@@ -57,6 +57,13 @@ export interface KroniskSykdomPlan {
   sporsmal: Record<string, string>;
 }
 
+export interface KritiskInfoFraKjernejournal {
+  allergi?: string[];
+  bivirkninger?: string[];
+  kritiskFunksjon?: string;
+  annenKritiskInfo?: string;
+}
+
 export interface UserProfile {
   id: string;
   navn: string;
@@ -73,6 +80,7 @@ export interface UserProfile {
   vaksinanbefalinger: VaksinAnbefaling[];
   samtykker: Samtykker;
   kroniskSykdomPlan: KroniskSykdomPlan;
+  kritiskInfo: KritiskInfoFraKjernejournal;
 }
 
 export interface MedicationResponse {

@@ -21,6 +21,8 @@ export default function KritiskInfo() {
   ];
 
   const detektendeSykdommer = inferrerKroniskeSykdommer();
+  const kritiskInfo = profil.kritiskInfo;
+  const harKritiskInfo = !!(kritiskInfo.allergi?.length || kritiskInfo.bivirkninger?.length || kritiskInfo.kritiskFunksjon || kritiskInfo.annenKritiskInfo);
 
   function inferrerKroniskeSykdommer(): string[] {
     const sykdommer: string[] = [];
@@ -71,9 +73,67 @@ export default function KritiskInfo() {
           <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 2 av 5</p>
           <h1 className="text-3xl font-bold text-neutral-900">Kritisk helseinformasjon</h1>
           <p className="text-neutral-600 mt-2">
-            Basert på dine legemidler har vi identifisert kroniske sykdommer. Del også viktig personlig helseinformasjon som du ønsker at helsepersonell skal vite.
+            Viktig informasjon fra kjernejournal og dine kroniske sykdommer er vist nedenfor.
           </p>
         </div>
+
+        {/* Kritisk info fra kjernejournal - HØYT OPPE */}
+        {harKritiskInfo && (
+          <section className="mb-8 rounded-lg border-2 border-cherry-500 bg-cherry-50 p-6" aria-labelledby="kjernejournal-heading">
+            <div className="flex items-start gap-3 mb-4">
+              <span className="text-2xl flex-shrink-0" aria-hidden="true">⚠️</span>
+              <h2 id="kjernejournal-heading" className="text-lg font-bold text-cherry-900">
+                Kritisk informasjon fra kjernejournal
+              </h2>
+            </div>
+
+            <div className="space-y-4">
+              {/* Allergi */}
+              {kritiskInfo.allergi && kritiskInfo.allergi.length > 0 && (
+                <div className="rounded-md bg-white p-4 border-l-4 border-cherry-500">
+                  <p className="text-sm font-semibold text-cherry-900 mb-2">⚠️ Allergi</p>
+                  <ul className="space-y-1">
+                    {kritiskInfo.allergi.map((allergi) => (
+                      <li key={allergi} className="text-sm text-neutral-700">
+                        • {allergi}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Bivirkninger */}
+              {kritiskInfo.bivirkninger && kritiskInfo.bivirkninger.length > 0 && (
+                <div className="rounded-md bg-white p-4 border-l-4 border-warning-500">
+                  <p className="text-sm font-semibold text-warning-900 mb-2">⚠️ Kjente bivirkninger</p>
+                  <ul className="space-y-1">
+                    {kritiskInfo.bivirkninger.map((bivirkning) => (
+                      <li key={bivirkning} className="text-sm text-neutral-700">
+                        • {bivirkning}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Kritisk funksjon */}
+              {kritiskInfo.kritiskFunksjon && (
+                <div className="rounded-md bg-white p-4 border-l-4 border-cherry-500">
+                  <p className="text-sm font-semibold text-cherry-900 mb-2">⚠️ Kritisk funksjon</p>
+                  <p className="text-sm text-neutral-700">{kritiskInfo.kritiskFunksjon}</p>
+                </div>
+              )}
+
+              {/* Annen kritisk info */}
+              {kritiskInfo.annenKritiskInfo && (
+                <div className="rounded-md bg-white p-4 border-l-4 border-blueberry-500">
+                  <p className="text-sm font-semibold text-blueberry-900 mb-2">ℹ️ Viktig informasjon</p>
+                  <p className="text-sm text-neutral-700">{kritiskInfo.annenKritiskInfo}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* Kroniske sykdommer */}
         <section className="mb-8" aria-labelledby="kronisk-heading">
