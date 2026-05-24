@@ -12,6 +12,7 @@ import {
 import { DemoBanner } from "@/components/DemoBanner";
 import { Stepper } from "@/components/Stepper";
 import { ConsentToggle } from "@/components/ConsentToggle";
+import ConsentSection from "@/components/ConsentSection";
 import { useUser } from "@/context/UserContext";
 import type { Step } from "@/types";
 
@@ -39,29 +40,6 @@ export default function Samtykker() {
     router.push("/helsemelding/bekreft");
   }
 
-  const delingPunkter = [
-    {
-      key: "deling_mellom_sykehus" as const,
-      label: "Deling av journalopplysninger mellom sykehus",
-      desc: 'Tillater at sykehus du er innlagt på kan se relevante journalnotat fra andre sykehus du har besøkt.',
-    },
-    {
-      key: "deling_mellom_regioner" as const,
-      label: "Deling mellom helseregioner",
-      desc: "Gjelder f.eks. ved innleggelse i annen region enn der du normalt behandles.",
-    },
-    {
-      key: "deling_sykehus_kommune" as const,
-      label: "Deling mellom sykehus og kommune",
-      desc: "Relevant ved utskrivelse til hjemmetjeneste eller kommunal omsorgstjeneste.",
-    },
-    {
-      key: "deling_private_aktorer" as const,
-      label: "Deling med private tilbydere",
-      desc: "Private klinikker og spesialister som ikke er tilknyttet offentlig sykehus.",
-    },
-  ];
-
   return (
     <div>
       <DemoBanner />
@@ -77,111 +55,234 @@ export default function Samtykker() {
           </p>
         </div>
 
-        {/* A: Organdonasjon */}
-        <section className="mb-6 rounded-lg border border-neutral-200 bg-white p-5 shadow-sm" aria-labelledby="organ-heading">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-2xl" aria-hidden="true">❤️</span>
-            <h2 id="organ-heading" className="text-lg font-semibold text-neutral-900">Organdonasjon</h2>
-          </div>
-
-          {samtykkeState.organdonasjon !== null && (
-            <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-blueberry-100 px-3 py-1 text-xs font-semibold text-blueberry-700">
-              Status:{" "}
-              {samtykkeState.organdonasjon === "ja"
-                ? "Registrert donor"
-                : samtykkeState.organdonasjon === "nei"
-                ? "Reservert"
-                : "Ikke tatt stilling"}
+        {/* 1. Min behandling */}
+        <ConsentSection
+          title="Min behandling"
+          description="Hvem kan se min helseinformasjon og hvordan skal den deles i mitt behandlingsforløp?"
+          category="min_behandling"
+        >
+          {/* Organdonasjon */}
+          <div className="border-b border-blue-100 pb-4 mb-4">
+            <div className="flex items-center gap-2 mb-3">
+              <span aria-hidden="true">❤️</span>
+              <h3 className="font-semibold text-neutral-900">Organdonasjon</h3>
             </div>
-          )}
-
-          <p className="text-sm text-neutral-700 mb-4">
-            I Norge er utgangspunktet at alle er potensielle organdonorer, men pårørende har avgjørende innflytelse.
-            Du kan registrere din vilje digitalt.
-          </p>
-
-          <fieldset className="space-y-2">
-            <legend className="sr-only">Ditt valg om organdonasjon</legend>
-            {(
-              [
-                ["ja", "Jeg ønsker å donere organer"],
-                ["nei", "Jeg ønsker IKKE å donere organer"],
-                ["ikke_tatt_stilling", "Jeg vil ikke ta stilling til dette nå"],
-              ] as const
-            ).map(([v, label]) => (
-              <label key={v} className="flex items-center gap-2 cursor-pointer text-sm">
-                <input
-                  type="radio"
-                  name="organdonasjon"
-                  value={v}
-                  checked={samtykkeState.organdonasjon === v}
-                  onChange={() => settOrgan(v)}
-                  className="h-4 w-4 accent-blueberry-700"
-                />
-                {label}
-              </label>
-            ))}
-          </fieldset>
-        </section>
-
-        {/* B: Journaldeling */}
-        <section className="mb-6 rounded-lg border border-neutral-200 bg-white shadow-sm overflow-hidden" aria-labelledby="deling-heading">
-          <div className="bg-blueberry-50 px-5 py-4 border-b border-blueberry-100">
-            <h2 id="deling-heading" className="text-lg font-semibold text-neutral-900">
-              Kjernejournal og journaldeling
-            </h2>
-            <p className="text-sm text-neutral-600 mt-1">
-              Kontroller hvem som kan se din helseinformasjon.
+            {samtykkeState.organdonasjon !== null && (
+              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                Status:{" "}
+                {samtykkeState.organdonasjon === "ja"
+                  ? "Registrert donor"
+                  : samtykkeState.organdonasjon === "nei"
+                  ? "Reservert"
+                  : "Ikke tatt stilling"}
+              </div>
+            )}
+            <p className="text-sm text-neutral-700 mb-3">
+              I Norge er utgangspunktet at alle er potensielle organdonorer. Du kan registrere din vilje digitalt.
             </p>
+            <fieldset className="space-y-2">
+              <legend className="sr-only">Ditt valg om organdonasjon</legend>
+              {(
+                [
+                  ["ja", "Jeg ønsker å donere organer"],
+                  ["nei", "Jeg ønsker IKKE å donere organer"],
+                  ["ikke_tatt_stilling", "Jeg vil ikke ta stilling til dette nå"],
+                ] as const
+              ).map(([v, label]) => (
+                <label key={v} className="flex items-center gap-2 cursor-pointer text-sm">
+                  <input
+                    type="radio"
+                    name="organdonasjon"
+                    value={v}
+                    checked={samtykkeState.organdonasjon === v}
+                    onChange={() => settOrgan(v)}
+                    className="h-4 w-4 accent-blue-700"
+                  />
+                  {label}
+                </label>
+              ))}
+            </fieldset>
           </div>
-          <div className="px-5">
-            {delingPunkter.map((d) => (
-              <ConsentToggle
-                key={d.key}
-                label={d.label}
-                description={d.desc}
-                value={samtykkeState[d.key]}
-                onChange={(val) => oppdaterSamtykke({ [d.key]: val })}
-              />
-            ))}
+
+          {/* Fastlege-specific consents */}
+          <div className="border-b border-blue-100 pb-4 mb-4">
+            <h3 className="font-semibold text-neutral-900 mb-3">Deling med fastlegen</h3>
+            <ConsentToggle
+              label="Sendelse av epikrise etter sykehusopphold"
+              description="Fastlegen mottar oppsummering av hva som skjedde under sykehusoppholdet."
+              value={samtykkeState.epikrise_til_fastlege}
+              onChange={(val) => oppdaterSamtykke({ epikrise_til_fastlege: val })}
+            />
+            <ConsentToggle
+              label="Fastlegen min kan se sykehusjournal"
+              description="Tillater fastlegen å se journalnotater fra sykehusbesøk for bedre oversikt over din behandling."
+              value={samtykkeState.fastlege_sykehusjournal_innsyn}
+              onChange={(val) => oppdaterSamtykke({ fastlege_sykehusjournal_innsyn: val })}
+            />
+            <ConsentToggle
+              label="Digital meldingsutveksling med fastlege"
+              description="Fastlegen kan sende og motta meldinger digitalt om din behandling."
+              value={samtykkeState.fastlege_digital_kommunikasjon}
+              onChange={(val) => oppdaterSamtykke({ fastlege_digital_kommunikasjon: val })}
+            />
+            <ConsentToggle
+              label="Dele spesialopplysninger automatisk"
+              description="Rapporter fra spesialister sendes automatisk til fastlegen for koordinert oppfølging."
+              value={samtykkeState.fastlege_spesialist_deling}
+              onChange={(val) => oppdaterSamtykke({ fastlege_spesialist_deling: val })}
+            />
           </div>
-        </section>
 
-        {/* C: Forskning */}
-        <section className="mb-6 rounded-lg border border-neutral-200 bg-white p-5 shadow-sm" aria-labelledby="forskning-heading">
-          <h2 id="forskning-heading" className="text-lg font-semibold text-neutral-900 mb-4">
-            Forskning og kvalitetsarbeid
-          </h2>
+          {/* Journal sharing */}
+          <div>
+            <h3 className="font-semibold text-neutral-900 mb-3">Deling av journal mellom helseinstitusjoner</h3>
+            <ConsentToggle
+              label="Deling av journalopplysninger mellom sykehus"
+              description="Tillater at sykehus du er innlagt på kan se relevante journalnotat fra andre sykehus du har besøkt."
+              value={samtykkeState.deling_mellom_sykehus}
+              onChange={(val) => oppdaterSamtykke({ deling_mellom_sykehus: val })}
+            />
+            <ConsentToggle
+              label="Deling mellom helseregioner"
+              description="Gjelder f.eks. ved innleggelse i annen region enn der du normalt behandles."
+              value={samtykkeState.deling_mellom_regioner}
+              onChange={(val) => oppdaterSamtykke({ deling_mellom_regioner: val })}
+            />
+            <ConsentToggle
+              label="Deling med private tilbydere"
+              description="Private klinikker og spesialister som ikke er tilknyttet offentlig sykehus kan få tilgang."
+              value={samtykkeState.deling_private_aktorer}
+              onChange={(val) => oppdaterSamtykke({ deling_private_aktorer: val })}
+            />
+          </div>
+        </ConsentSection>
 
+        {/* 2. Samarbeid om meg */}
+        <ConsentSection
+          title="Samarbeid om meg"
+          description="Hvordan skal ulike deler av helsevesenet samarbeide om min oppfølging?"
+          category="samarbeid_om_meg"
+        >
+          {/* Municipal health services */}
+          <div className="border-b border-green-100 pb-4 mb-4">
+            <h3 className="font-semibold text-neutral-900 mb-3">Kommunale helsetjenester</h3>
+            <ConsentToggle
+              label="Deling mellom sykehus og kommune"
+              description="Relevant ved utskrivelse til hjemmetjeneste eller kommunal omsorgstjeneste."
+              value={samtykkeState.deling_sykehus_kommune}
+              onChange={(val) => oppdaterSamtykke({ deling_sykehus_kommune: val })}
+            />
+            <ConsentToggle
+              label="Samordning av pleie og omsorg"
+              description="Kommune og sykehus samordner innsatsen når du trenger både sykehus og kommunale tjenester."
+              value={samtykkeState.kommune_samordning_omsorg}
+              onChange={(val) => oppdaterSamtykke({ kommune_samordning_omsorg: val })}
+            />
+            <ConsentToggle
+              label="Helsekoordiator får tilgang til journal"
+              description="En helsekoordiator i kommunen kan se deler av journalen for å koordinere din behandling."
+              value={samtykkeState.kommune_helsekoordiator_innsyn}
+              onChange={(val) => oppdaterSamtykke({ kommune_helsekoordiator_innsyn: val })}
+            />
+          </div>
+
+          {/* Digital cooperation */}
+          <div>
+            <h3 className="font-semibold text-neutral-900 mb-3">Digital samhandling</h3>
+            <ConsentToggle
+              label="Digital samhandling via Helsenorge"
+              description="Gjør at du kan kommunisere digitalt med ulike deler av helsevesenet gjennom Helsenorge."
+              value={samtykkeState.digital_samhandling_helsenorge}
+              onChange={(val) => oppdaterSamtykke({ digital_samhandling_helsenorge: val })}
+            />
+          </div>
+        </ConsentSection>
+
+        {/* 3. Bidra til fremtiden */}
+        <ConsentSection
+          title="Bidra til fremtiden"
+          description="Hvordan ønsker du at dine data kan brukes til forskning, kvalitetsforbedring og undervisning?"
+          category="bidra_til_fremtiden"
+        >
+          {/* Quality improvement */}
+          <div className="border-b border-purple-100 pb-4 mb-4">
+            <h3 className="font-semibold text-neutral-900 mb-3">Kvalitetsarbeid</h3>
+            <ConsentToggle
+              label="Kontakt for forebyggende helsearbeid"
+              description="Helsevesenet kan kontakte deg om deltakelse i forebyggende helseprogram."
+              value={samtykkeState.forebyggende_helse_kontakt}
+              onChange={(val) => oppdaterSamtykke({ forebyggende_helse_kontakt: val })}
+            />
+            <ConsentToggle
+              label="Bidra til kvalitetsforbedring"
+              description="Din erfaring kan brukes til å forbedre kvaliteten på helsetjenestene."
+              value={samtykkeState.kvalitetsforbedring}
+              onChange={(val) => oppdaterSamtykke({ kvalitetsforbedring: val })}
+            />
+          </div>
+
+          {/* Quality registries */}
           {profil.samtykker.kvalitetsregistre.length > 0 && (
-            <div className="mb-5">
-              <h3 className="text-sm font-semibold text-neutral-700 mb-2">Dine eksisterende samtykker:</h3>
-              <ul className="space-y-1.5">
+            <div className="border-b border-purple-100 pb-4 mb-4">
+              <h3 className="font-semibold text-neutral-900 mb-3">Kvalitetsregistre</h3>
+              <div className="space-y-2">
                 {profil.samtykker.kvalitetsregistre.map((kv) => (
-                  <li key={kv.navn} className="flex items-center gap-2 text-sm">
+                  <div key={kv.navn} className="flex items-center gap-2 text-sm">
                     <span className={kv.samtykke ? "text-success-700" : "text-neutral-400"} aria-hidden="true">
                       {kv.samtykke ? "✅" : "❌"}
                     </span>
                     <span className="text-neutral-900">{kv.navn}</span>
-                    <span className="text-neutral-500 text-xs">
-                      {kv.samtykke ? "Samtykke gitt" : "Ikke samtykket"}
-                    </span>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           )}
 
+          {/* Research */}
+          <div className="border-b border-purple-100 pb-4 mb-4">
+            <h3 className="font-semibold text-neutral-900 mb-3">Forskning</h3>
+            <ConsentToggle
+              label="Kontakt for forskning"
+              description="Du kan bli kontaktet om deltakelse i forskningsprosjekter som er relevant for din diagnose."
+              value={samtykkeState.forskning_kontakt}
+              onChange={(val) => oppdaterSamtykke({ forskning_kontakt: val })}
+            />
+            <ConsentToggle
+              label="Biobank — lagring av biologisk materiale"
+              description="Blodprøver eller annet biologisk materiale kan lagres for fremtidig forskning."
+              value={samtykkeState.forskning_biobank}
+              onChange={(val) => oppdaterSamtykke({ forskning_biobank: val })}
+            />
+          </div>
+
+          {/* Technology and teaching */}
+          <div className="border-b border-purple-100 pb-4 mb-4">
+            <h3 className="font-semibold text-neutral-900 mb-3">Teknologi og utdanning</h3>
+            <ConsentToggle
+              label="AI og maskinlæring"
+              description="Dine anonymiserte data kan brukes til å forbedre kunstig intelligens i helsetjenesten."
+              value={samtykkeState.ai_maskinlaering}
+              onChange={(val) => oppdaterSamtykke({ ai_maskinlaering: val })}
+            />
+            <ConsentToggle
+              label="Student- og undervisningsformål"
+              description="Dine anonymiserte data kan brukes til undervisning av helsefagstudenter."
+              value={samtykkeState.student_undervisning}
+              onChange={(val) => oppdaterSamtykke({ student_undervisning: val })}
+            />
+          </div>
+
+          {/* Active study requests */}
           {profil.samtykker.aktive_studier.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold text-neutral-700 mb-3">Aktive forespørsler:</h3>
+              <h3 className="font-semibold text-neutral-900 mb-3">Aktive forespørsler</h3>
               <div className="space-y-4">
                 {profil.samtykker.aktive_studier.map((studie) => {
                   const studieResp = samtykkeState.aktive_studier[studie.id];
                   return (
                     <div
                       key={studie.id}
-                      className="rounded-md border border-blueberry-100 bg-blueberry-50 p-4"
+                      className="rounded-md border border-purple-100 bg-purple-50 p-4"
                     >
                       <div className="flex items-start gap-2 mb-2">
                         <span aria-hidden="true" className="text-lg">📊</span>
@@ -217,7 +318,7 @@ export default function Samtykker() {
                                 },
                               })
                             }
-                            className="rounded-md bg-blueberry-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blueberry-700 focus:outline-none focus:ring-2 focus:ring-blueberry-500"
+                            className="rounded-md bg-purple-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                           >
                             Samtykke
                           </button>
@@ -235,7 +336,7 @@ export default function Samtykker() {
                           </button>
                           <a
                             href="#"
-                            className="rounded-md px-3 py-1.5 text-xs text-blueberry-700 underline hover:text-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500"
+                            className="rounded-md px-3 py-1.5 text-xs text-purple-700 underline hover:text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
                           >
                             Les mer om studien
                           </a>
@@ -247,9 +348,9 @@ export default function Samtykker() {
               </div>
             </div>
           )}
-        </section>
+        </ConsentSection>
 
-        {/* D: Trekke tilbake */}
+        {/* Withdraw consents */}
         <section className="mb-8 rounded-lg border border-neutral-200 bg-white p-5 shadow-sm" aria-labelledby="trekk-heading">
           <h2 id="trekk-heading" className="text-lg font-semibold text-neutral-900 mb-2">
             Trekk tilbake samtykker
