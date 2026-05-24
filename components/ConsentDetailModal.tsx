@@ -57,8 +57,8 @@ export function ConsentDetailModal({
               <div className="ml-4 flex-shrink-0">
                 <Toggle
                   checked={currentValue === true}
-                  onCheckedChange={onToggle}
-                  aria-label={`${currentValue === true ? "Nei" : "Ja"} til ${detail.navn}`}
+                  onChange={onToggle}
+                  label={`${currentValue === true ? "Nei" : "Ja"} til ${detail.navn}`}
                 />
               </div>
             )}
