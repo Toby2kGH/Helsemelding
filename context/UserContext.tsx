@@ -53,8 +53,14 @@ function lagInitialSamtykkeState(profil: UserProfile): SamtykkeState {
     deling_mellom_regioner: profil.samtykker.deling_mellom_regioner,
     deling_sykehus_kommune: profil.samtykker.deling_sykehus_kommune,
     deling_private_aktorer: profil.samtykker.deling_private_aktorer,
-    forskning_biobank: profil.samtykker.forskning_biobank,
+    paroerende_informasjon: null,
+    paroerende_navn: "",
     kvalitetsregistre: kvReg,
+    kvalitetsforbedring: null,
+    forskning_kontakt: null,
+    forskning_biobank: profil.samtykker.forskning_biobank,
+    ai_maskinlaering: null,
+    student_undervisning: null,
     aktive_studier: studier,
   };
 }
