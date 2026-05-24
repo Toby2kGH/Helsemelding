@@ -275,41 +275,6 @@ export default function KvitteringLege() {
               </div>
             </section>
 
-            {/* Forverringshåndtering */}
-            {profil.kroniskSykdomPlan.harKroniskSykdom && (
-              <section aria-labelledby="forverring-heading">
-                <h2 id="forverring-heading" className="text-lg font-bold text-neutral-900 mb-3">
-                  <span className="flex items-center gap-2">
-                    <span aria-hidden="true">🫀</span> Forverringshåndtering (kronisk sykdom)
-                  </span>
-                </h2>
-                <div className="rounded-lg border border-neutral-200 bg-white p-4 shadow-sm">
-                  <p className="text-sm text-neutral-700 mb-3">
-                    Pasienten har kroniske diagnoser:{" "}
-                    <strong>{profil.kroniskSykdomPlan.sykdommer.join(", ")}</strong>
-                  </p>
-                  <div className="space-y-2">
-                    {Object.entries(profil.kroniskSykdomPlan.sporsmal).map(([k, sporsmal]) => {
-                      const svar = medicationResponses.find((r) => r.vetForverring !== null)?.vetForverring;
-                      return (
-                        <div key={k} className="flex items-start gap-3 text-sm">
-                          <span className={svar === "ja" ? "text-success-700" : svar === "nei" ? "text-cherry-700" : "text-neutral-400"} aria-hidden="true">
-                            {svar === "ja" ? "✅" : svar === "nei" ? "❌" : "○"}
-                          </span>
-                          <div>
-                            <p className="text-neutral-700">{sporsmal}</p>
-                            <p className={`text-xs font-medium mt-0.5 ${svar === "ja" ? "text-success-700" : svar === "nei" ? "text-cherry-700" : "text-neutral-400"}`}>
-                              {svar === "ja" ? "Pasienten bekreftet: Ja" : svar === "nei" ? "Pasienten svarte: Nei — bør tas opp" : "Ikke besvart"}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </section>
-            )}
-
             {/* Vaksiner */}
             <section aria-labelledby="vaksine-heading">
               <h2 id="vaksine-heading" className="text-lg font-bold text-neutral-900 mb-3">

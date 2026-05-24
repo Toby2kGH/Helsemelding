@@ -15,7 +15,6 @@ function defaultResponse(medId: string): MedicationResponse {
     vetHvorfor: null,
     tarMedisinen: null,
     annenDoseBeskriv: "",
-    vetForverring: null,
   };
 }
 
