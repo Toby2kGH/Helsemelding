@@ -55,9 +55,10 @@ export default function Vaksiner() {
 
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "completed" },
-    { id: 2, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "active" },
-    { id: 3, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted[2] ? "completed" : "pending" },
-    { id: 4, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: helsemeldingState.stepsCompleted.kritiskInfo ? "completed" : "pending" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "active" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted.samtykker ? "completed" : "pending" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted.bekreft ? "completed" : "pending" },
   ];
 
   const anbefalinger = beregnVaksinanbefalinger(
@@ -71,7 +72,7 @@ export default function Vaksiner() {
   }
 
   function neste() {
-    fullforSteg(1);
+    fullforSteg("vaksiner");
     router.push("/helsemelding/samtykker");
   }
 
@@ -83,7 +84,7 @@ export default function Vaksiner() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 2 av 4</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 3 av 5</p>
           <h1 className="text-3xl font-bold text-neutral-900">Vaksiner</h1>
           <p className="text-neutral-600 mt-2">
             Vi har hentet vaksinasjonshistorikken din fra SYSVAK og sjekket den mot anbefalingene fra Folkehelseinstituttet (FHI).

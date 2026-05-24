@@ -22,9 +22,10 @@ export default function Bekreft() {
 
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "completed" },
-    { id: 2, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
-    { id: 3, label: "Samtykker", path: "/helsemelding/samtykker", status: "completed" },
-    { id: 4, label: "Bekreft", path: "/helsemelding/bekreft", status: innsendt ? "completed" : "active" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: "completed" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: "completed" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: innsendt ? "completed" : "active" },
   ];
 
   const antallLegemidler =
@@ -45,7 +46,7 @@ export default function Bekreft() {
 
   function sendInn() {
     if (!bekreftet) return;
-    fullforSteg(3);
+    fullforSteg("bekreft");
     setInnsendt(true);
   }
 
@@ -108,7 +109,7 @@ export default function Bekreft() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 4 av 4</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 5 av 5</p>
           <h1 className="text-3xl font-bold text-neutral-900">Bekreft og send inn</h1>
           <p className="text-neutral-600 mt-2">
             Se gjennom oppsummeringen og bekreft at opplysningene er korrekte.

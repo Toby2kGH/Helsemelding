@@ -222,6 +222,12 @@ export const kariSolberg: UserProfile = {
       diabetes: "Vet du hva du skal gjøre dersom blodsukkeret blir for høyt eller for lavt?",
     },
   },
+  kritiskInfo: {
+    allergi: ["Penicillin (utslag)", "Ibuprofen (mageplager)"],
+    bivirkninger: ["Metoprolol kan forverke astma-symptomer"],
+    kritiskFunksjon: "Nedsatt nyrfunksjon (eGFR 45)",
+    annenKritiskInfo: "Fallrisiko på grunn av svimmelhet og bruk av sovemedisin. Bør unngå lange dropper når mulig.",
+  },
 };
 
 export const saraKhan: UserProfile = {
@@ -391,6 +397,12 @@ export const saraKhan: UserProfile = {
       astma: "Vet du hva du skal gjøre ved et alvorlig astmaanfall?",
     },
   },
+  kritiskInfo: {
+    allergi: ["Pollen (allergisk rhinitt)", "Shellfish (anafylaksi-risiko)"],
+    bivirkninger: ["Høyere insulin-behov under infeksjoner"],
+    kritiskFunksjon: "Type 1-diabetes — høy risiko for DKA (diabetisk ketoacidose)",
+    annenKritiskInfo: "Svanger eller planlegger graviditet — intensiv blodsukkerkontroll er viktig.",
+  },
 };
 
 export const jonasBerg: UserProfile = {
@@ -467,6 +479,12 @@ export const jonasBerg: UserProfile = {
     harKroniskSykdom: false,
     sykdommer: [],
     sporsmal: {},
+  },
+  kritiskInfo: {
+    allergi: ["Pollen og husstøvmilber (sesongallergi)"],
+    bivirkninger: [],
+    kritiskFunksjon: "",
+    annenKritiskInfo: "",
   },
 };
 

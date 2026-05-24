@@ -12,10 +12,11 @@ export default function HelsemeldingLanding() {
   const år = new Date().getFullYear();
 
   const steps: Step[] = [
-    { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: helsemeldingState.stepsCompleted[0] ? "completed" : "pending" },
-    { id: 2, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted[1] ? "completed" : "pending" },
-    { id: 3, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted[2] ? "completed" : "pending" },
-    { id: 4, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
+    { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: helsemeldingState.stepsCompleted.legemidler ? "completed" : "pending" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: helsemeldingState.stepsCompleted.kritiskInfo ? "completed" : "pending" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted.vaksiner ? "completed" : "pending" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted.samtykker ? "completed" : "pending" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted.bekreft ? "completed" : "pending" },
   ];
 
   const datakilder = [
@@ -29,6 +30,11 @@ export default function HelsemeldingLanding() {
       ikon: "📋",
       tittel: "Legemidler",
       tekst: "Vi har hentet inn din legemiddelliste (PLL) og ber deg bekrefte hva du faktisk tar.",
+    },
+    {
+      ikon: "⚠️",
+      tittel: "Kritisk info",
+      tekst: "Informasjon om kroniske sykdommer, behandlingsplaner og personlig helseinfo som er viktig for deg.",
     },
     {
       ikon: "💉",
@@ -60,7 +66,7 @@ export default function HelsemeldingLanding() {
         </div>
 
         {/* Info-kort */}
-        <div className="grid gap-4 mb-8 md:grid-cols-3">
+        <div className="grid gap-4 mb-8 md:grid-cols-2 lg:grid-cols-4">
           {infokort.map((k) => (
             <div key={k.tittel} className="rounded-lg border border-blueberry-100 bg-blueberry-50 p-4">
               <span className="text-2xl mb-2 block" aria-hidden="true">{k.ikon}</span>

@@ -57,6 +57,13 @@ export interface KroniskSykdomPlan {
   sporsmal: Record<string, string>;
 }
 
+export interface KritiskInfoFraKjernejournal {
+  allergi?: string[];
+  bivirkninger?: string[];
+  kritiskFunksjon?: string;
+  annenKritiskInfo?: string;
+}
+
 export interface UserProfile {
   id: string;
   navn: string;
@@ -73,6 +80,7 @@ export interface UserProfile {
   vaksinanbefalinger: VaksinAnbefaling[];
   samtykker: Samtykker;
   kroniskSykdomPlan: KroniskSykdomPlan;
+  kritiskInfo: KritiskInfoFraKjernejournal;
 }
 
 export interface MedicationResponse {
@@ -99,12 +107,27 @@ export interface SamtykkeState {
   aktive_studier: Record<string, boolean | null>;
 }
 
+export interface KritiskInfoState {
+  personligInfo: string;
+  harKjentBehandlingsplan: boolean | null;
+  behandlingsplanBeskrivelse: string;
+}
+
+export interface StepCompletionStatus {
+  legemidler: boolean;
+  kritiskInfo: boolean;
+  vaksiner: boolean;
+  samtykker: boolean;
+  bekreft: boolean;
+}
+
 export interface HelsemeldingState {
   medicationResponses: MedicationResponse[];
   vaccineResponses: VaccineResponse[];
   samtykkeState: SamtykkeState;
+  kritiskInfoState: KritiskInfoState;
   erImmunkompromittert: boolean;
-  stepsCompleted: boolean[];
+  stepsCompleted: StepCompletionStatus;
 }
 
 export type ProfilId = "kari" | "sara" | "jonas";

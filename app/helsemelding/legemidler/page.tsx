@@ -25,9 +25,10 @@ export default function Legemidler() {
 
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "active" },
-    { id: 2, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted[1] ? "completed" : "pending" },
-    { id: 3, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted[2] ? "completed" : "pending" },
-    { id: 4, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: helsemeldingState.stepsCompleted.kritiskInfo ? "completed" : "pending" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted.vaksiner ? "completed" : "pending" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted.samtykker ? "completed" : "pending" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted.bekreft ? "completed" : "pending" },
   ];
 
   function getResponse(medId: string): MedicationResponse {
@@ -61,8 +62,8 @@ export default function Legemidler() {
   }
 
   function neste() {
-    fullforSteg(0);
-    router.push("/helsemelding/vaksiner");
+    fullforSteg("legemidler");
+    router.push("/helsemelding/kritisk-info");
   }
 
   const alleMed = [...profil.legemidler.faste, ...profil.legemidler.behovs];
@@ -75,7 +76,7 @@ export default function Legemidler() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 1 av 4</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 1 av 5</p>
           <h1 className="text-3xl font-bold text-neutral-900">Legemidler</h1>
           <p className="text-neutral-600 mt-2">
             Vi har hentet inn din legemiddelliste fra PLL. Bekreft at opplysningene stemmer og fyll ut eventuelle avvik.
@@ -153,7 +154,7 @@ export default function Legemidler() {
             onClick={neste}
             className="flex items-center gap-2 rounded-md bg-blueberry-900 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blueberry-700 focus:outline-none focus:ring-2 focus:ring-blueberry-500"
           >
-            Neste: Vaksiner
+            Neste: Kritisk info
             <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>

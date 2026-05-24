@@ -13,6 +13,8 @@ import type {
   MedicationResponse,
   VaccineResponse,
   SamtykkeState,
+  KritiskInfoState,
+  StepCompletionStatus,
   HelsemeldingState,
 } from "@/types";
 
@@ -24,8 +26,9 @@ interface UserContextValue {
   oppdaterMedicationResponse: (response: MedicationResponse) => void;
   oppdaterVaccineResponse: (response: VaccineResponse) => void;
   oppdaterSamtykke: (updates: Partial<SamtykkeState>) => void;
+  oppdaterKritiskInfo: (updates: Partial<KritiskInfoState>) => void;
   setErImmunkompromittert: (val: boolean) => void;
-  fullforSteg: (stegIndex: number) => void;
+  fullforSteg: (stegNavn: keyof StepCompletionStatus) => void;
   nullstill: () => void;
 }
 
@@ -61,8 +64,19 @@ function lagInitialHelsemeldingState(profil: UserProfile): HelsemeldingState {
     medicationResponses: [],
     vaccineResponses: [],
     samtykkeState: lagInitialSamtykkeState(profil),
+    kritiskInfoState: {
+      personligInfo: "",
+      harKjentBehandlingsplan: null,
+      behandlingsplanBeskrivelse: "",
+    },
     erImmunkompromittert: false,
-    stepsCompleted: [false, false, false, false],
+    stepsCompleted: {
+      legemidler: false,
+      kritiskInfo: false,
+      vaksiner: false,
+      samtykker: false,
+      bekreft: false,
+    },
   };
 }
 
@@ -127,6 +141,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const oppdaterKritiskInfo = useCallback(
+    (updates: Partial<KritiskInfoState>) => {
+      setHelsemeldingState((prev) => ({
+        ...prev,
+        kritiskInfoState: { ...prev.kritiskInfoState, ...updates },
+      }));
+    },
+    []
+  );
+
   const setErImmunkompromittert = useCallback((val: boolean) => {
     setHelsemeldingState((prev) => ({
       ...prev,
@@ -134,12 +158,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  const fullforSteg = useCallback((stegIndex: number) => {
-    setHelsemeldingState((prev) => {
-      const updated = [...prev.stepsCompleted];
-      updated[stegIndex] = true;
-      return { ...prev, stepsCompleted: updated };
-    });
+  const fullforSteg = useCallback((stegNavn: keyof StepCompletionStatus) => {
+    setHelsemeldingState((prev) => ({
+      ...prev,
+      stepsCompleted: { ...prev.stepsCompleted, [stegNavn]: true },
+    }));
   }, []);
 
   const nullstill = useCallback(() => {
@@ -156,6 +179,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         oppdaterMedicationResponse,
         oppdaterVaccineResponse,
         oppdaterSamtykke,
+        oppdaterKritiskInfo,
         setErImmunkompromittert,
         fullforSteg,
         nullstill,
