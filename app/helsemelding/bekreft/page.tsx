@@ -7,7 +7,6 @@ import {
   ArrowLeftIcon,
   CheckCircleIcon,
   LockClosedIcon,
-  DocumentArrowDownIcon,
 } from "@heroicons/react/24/outline";
 import { DemoBanner } from "@/components/DemoBanner";
 import { Stepper } from "@/components/Stepper";
@@ -26,7 +25,7 @@ export default function Bekreft() {
     { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: "completed" },
     { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
     { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: "completed" },
-    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: innsendt ? "completed" : "active" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: "active" },
   ];
 
   const antallLegemidler =
@@ -49,57 +48,6 @@ export default function Bekreft() {
     if (!bekreftet) return;
     fullforSteg("bekreft");
     router.push("/helsemelding/signatures");
-  }
-
-  if (false) {
-    return (
-      <div>
-        <DemoBanner />
-        <div className="mx-auto max-w-3xl px-4 py-8">
-          <div className="rounded-lg border border-success-700 bg-success-100 p-8 text-center">
-            <CheckCircleIcon className="h-16 w-16 text-success-700 mx-auto mb-4" aria-hidden="true" />
-            <h1 className="text-3xl font-bold text-success-700 mb-2">
-              Helsemelding {år} er sendt inn!
-            </h1>
-            <p className="text-neutral-700 mb-2">
-              Din fastlege{" "}
-              <strong>{profil.fastlege}</strong> er varslet.
-            </p>
-            <p className="text-neutral-600 text-sm mb-6">
-              Du kan se og endre svarene dine frem til 31.01.{år + 1}.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => alert("PDF-kvittering ville blitt generert her (DEMO)")}
-                className="flex items-center gap-2 rounded-md border border-success-700 bg-white px-4 py-2 text-sm font-medium text-success-700 hover:bg-success-100 focus:outline-none focus:ring-2 focus:ring-success-700"
-              >
-                <DocumentArrowDownIcon className="h-4 w-4" aria-hidden="true" />
-                Last ned PDF-kvittering
-              </button>
-              <Link
-                href="/min-helse"
-                className="flex items-center gap-2 rounded-md bg-blueberry-900 px-4 py-2 text-sm font-semibold text-white hover:bg-blueberry-700 focus:outline-none focus:ring-2 focus:ring-blueberry-500"
-              >
-                Tilbake til Min helse
-              </Link>
-            </div>
-
-            <div className="mt-6 border-t border-success-700/20 pt-5">
-              <p className="text-sm text-neutral-600 mb-3 text-center">
-                Nysgjerrig på hva helsepersonell ser?
-              </p>
-              <Link
-                href="/helsemelding/kvittering-lege"
-                className="flex items-center justify-center gap-2 w-full rounded-md border-2 border-blueberry-500 bg-blueberry-50 px-4 py-3 text-sm font-semibold text-blueberry-900 hover:bg-blueberry-100 focus:outline-none focus:ring-2 focus:ring-blueberry-500"
-              >
-                👨‍⚕️ Se hva fastlegen og sykehuslegen mottar
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   }
 
   return (
