@@ -14,6 +14,7 @@ import type {
   VaccineResponse,
   SamtykkeState,
   KritiskInfoState,
+  StepCompletionStatus,
   HelsemeldingState,
 } from "@/types";
 
@@ -69,7 +70,13 @@ function lagInitialHelsemeldingState(profil: UserProfile): HelsemeldingState {
       behandlingsplanBeskrivelse: "",
     },
     erImmunkompromittert: false,
-    stepsCompleted: [false, false, false, false, false],
+    stepsCompleted: {
+      legemidler: false,
+      kritiskInfo: false,
+      vaksiner: false,
+      samtykker: false,
+      bekreft: false,
+    },
   };
 }
 
@@ -151,12 +158,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  const fullforSteg = useCallback((stegIndex: number) => {
-    setHelsemeldingState((prev) => {
-      const updated = [...prev.stepsCompleted];
-      updated[stegIndex] = true;
-      return { ...prev, stepsCompleted: updated };
-    });
+  const fullforSteg = useCallback((stegNavn: keyof StepCompletionStatus) => {
+    setHelsemeldingState((prev) => ({
+      ...prev,
+      stepsCompleted: { ...prev.stepsCompleted, [stegNavn]: true },
+    }));
   }, []);
 
   const nullstill = useCallback(() => {

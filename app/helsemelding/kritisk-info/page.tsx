@@ -6,6 +6,7 @@ import { ArrowLeftIcon, ArrowRightIcon, ExclamationCircleIcon, InformationCircle
 import { DemoBanner } from "@/components/DemoBanner";
 import { Stepper } from "@/components/Stepper";
 import { useUser } from "@/context/UserContext";
+import { detektKroniskeSykdommer } from "@/lib/medicalUtils";
 import type { Step } from "@/types";
 
 export default function KritiskInfo() {
@@ -15,39 +16,18 @@ export default function KritiskInfo() {
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "completed" },
     { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: "active" },
-    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted[2] ? "completed" : "pending" },
-    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
-    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[4] ? "completed" : "pending" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted.vaksiner ? "completed" : "pending" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted.samtykker ? "completed" : "pending" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted.bekreft ? "completed" : "pending" },
   ];
 
-  const detektendeSykdommer = inferrerKroniskeSykdommer();
+  const detektendeSykdommer = detektKroniskeSykdommer(
+    profil.legemidler.faste,
+    profil.legemidler.behovs
+  );
   const kritiskInfo = profil.kritiskInfo;
-  const harKritiskInfo = !!(kritiskInfo.allergi?.length || kritiskInfo.bivirkninger?.length || kritiskInfo.kritiskFunksjon || kritiskInfo.annenKritiskInfo);
-
-  function inferrerKroniskeSykdommer(): string[] {
-    const sykdommer: string[] = [];
-    const alleMed = [...profil.legemidler.faste, ...profil.legemidler.behovs];
-
-    const atcSykdomMap: Record<string, string> = {
-      "B01": "Atrieflimmer/blodpropp",
-      "A10": "Diabetes",
-      "H04": "Diabetes",
-      "R03": "Astma/KOLS",
-    };
-
-    const detektert = new Set<string>();
-
-    for (const med of alleMed) {
-      for (const [atcPrefix, sykdom] of Object.entries(atcSykdomMap)) {
-        if (med.atc.startsWith(atcPrefix) && !detektert.has(sykdom)) {
-          detektert.add(sykdom);
-          sykdommer.push(sykdom);
-        }
-      }
-    }
-
-    return sykdommer;
-  }
+  const harAllergi = kritiskInfo.allergi && kritiskInfo.allergi.length > 0;
+  const harKritiskInfo = !!(harAllergi || kritiskInfo.bivirkninger?.length || kritiskInfo.kritiskFunksjon || kritiskInfo.annenKritiskInfo);
 
   const personligInfo = helsemeldingState.kritiskInfoState.personligInfo;
   const harBehandlingsplan = helsemeldingState.kritiskInfoState.harKjentBehandlingsplan;
@@ -58,7 +38,7 @@ export default function KritiskInfo() {
   }
 
   function neste() {
-    fullforSteg(1);
+    fullforSteg("kritiskInfo");
     router.push("/helsemelding/vaksiner");
   }
 
@@ -77,8 +57,35 @@ export default function KritiskInfo() {
           </p>
         </div>
 
-        {/* Kritisk info fra kjernejournal - HØYT OPPE */}
-        {harKritiskInfo && (
+        {/* ALLERGI - MAKSIMAL SYNLIGHET */}
+        {harAllergi && (
+          <section className="mb-8" aria-labelledby="allergi-heading">
+            <div className="rounded-lg border-4 border-cherry-600 bg-cherry-50 p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-4xl flex-shrink-0" aria-hidden="true">🚨</span>
+                <h2 id="allergi-heading" className="text-2xl font-bold text-cherry-900">
+                  ALLERGI
+                </h2>
+              </div>
+              <div className="bg-white rounded-md p-4 border-2 border-cherry-300">
+                <ul className="space-y-2">
+                  {kritiskInfo.allergi!.map((allergi) => (
+                    <li key={allergi} className="text-lg font-semibold text-cherry-900 flex items-center gap-2">
+                      <span className="inline-block w-3 h-3 rounded-full bg-cherry-600"></span>
+                      {allergi}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <p className="text-sm text-cherry-900 mt-3 font-medium">
+                ⚠️ Helsepersonell MÅ være klar over denne informasjonen før behandling.
+              </p>
+            </div>
+          </section>
+        )}
+
+        {/* Annen kritisk info fra kjernejournal */}
+        {harKritiskInfo && !harAllergi && (
           <section className="mb-8 rounded-lg border-2 border-cherry-500 bg-cherry-50 p-6" aria-labelledby="kjernejournal-heading">
             <div className="flex items-start gap-3 mb-4">
               <span className="text-2xl flex-shrink-0" aria-hidden="true">⚠️</span>
@@ -88,27 +95,13 @@ export default function KritiskInfo() {
             </div>
 
             <div className="space-y-4">
-              {/* Allergi */}
-              {kritiskInfo.allergi && kritiskInfo.allergi.length > 0 && (
-                <div className="rounded-md bg-white p-4 border-l-4 border-cherry-500">
-                  <p className="text-sm font-semibold text-cherry-900 mb-2">⚠️ Allergi</p>
-                  <ul className="space-y-1">
-                    {kritiskInfo.allergi.map((allergi) => (
-                      <li key={allergi} className="text-sm text-neutral-700">
-                        • {allergi}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
               {/* Bivirkninger */}
               {kritiskInfo.bivirkninger && kritiskInfo.bivirkninger.length > 0 && (
                 <div className="rounded-md bg-white p-4 border-l-4 border-warning-500">
                   <p className="text-sm font-semibold text-warning-900 mb-2">⚠️ Kjente bivirkninger</p>
                   <ul className="space-y-1">
                     {kritiskInfo.bivirkninger.map((bivirkning) => (
-                      <li key={bivirkning} className="text-sm text-neutral-700">
+                      <li key={bivirkning} className="text-sm text-neutral-700 font-medium">
                         • {bivirkning}
                       </li>
                     ))}
@@ -120,7 +113,7 @@ export default function KritiskInfo() {
               {kritiskInfo.kritiskFunksjon && (
                 <div className="rounded-md bg-white p-4 border-l-4 border-cherry-500">
                   <p className="text-sm font-semibold text-cherry-900 mb-2">⚠️ Kritisk funksjon</p>
-                  <p className="text-sm text-neutral-700">{kritiskInfo.kritiskFunksjon}</p>
+                  <p className="text-sm text-neutral-700 font-medium">{kritiskInfo.kritiskFunksjon}</p>
                 </div>
               )}
 
@@ -128,7 +121,7 @@ export default function KritiskInfo() {
               {kritiskInfo.annenKritiskInfo && (
                 <div className="rounded-md bg-white p-4 border-l-4 border-blueberry-500">
                   <p className="text-sm font-semibold text-blueberry-900 mb-2">ℹ️ Viktig informasjon</p>
-                  <p className="text-sm text-neutral-700">{kritiskInfo.annenKritiskInfo}</p>
+                  <p className="text-sm text-neutral-700 font-medium">{kritiskInfo.annenKritiskInfo}</p>
                 </div>
               )}
             </div>
@@ -202,7 +195,7 @@ export default function KritiskInfo() {
         {/* Behandlingsplan */}
         <section className="mb-8" aria-labelledby="plan-heading">
           <h2 id="plan-heading" className="text-xl font-semibold text-neutral-900 mb-4">
-            Kjent behandlingsplan
+            Behandlingsplan
           </h2>
           <p className="text-neutral-700 text-sm mb-4">
             Har du en kjent behandlingsplan for kroniske sykdommer?
@@ -227,22 +220,18 @@ export default function KritiskInfo() {
             ))}
           </div>
 
-          {harBehandlingsplan && (
-            <div>
-              <p className="text-neutral-700 text-sm mb-3">
-                Beskriv kort din behandlingsplan (valgfritt):
+          {harBehandlingsplan === false && (
+            <div className="rounded-lg border-l-4 border-blueberry-500 bg-blueberry-50 p-4 mb-6">
+              <p className="text-sm text-blueberry-900 font-medium mb-2">
+                📋 Råd: Ta kontakt med din fastlege
               </p>
-              <textarea
-                value={helsemeldingState.kritiskInfoState.behandlingsplanBeskrivelse}
-                onChange={(e) => oppdaterKritiskInfo({ behandlingsplanBeskrivelse: e.target.value })}
-                placeholder="F.eks. kardiolog følger min hjertesykdom, nevrolog behandler min epilepsi..."
-                className="w-full rounded-md border border-neutral-300 px-4 py-3 text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:border-transparent resize-none"
-                rows={3}
-              />
+              <p className="text-sm text-blueberry-800">
+                Hvis du har kroniske sykdommer, er det viktig å ha en behandlingsplan. Din fastlege kan hjelpe deg å lage en plan som passer for deg.
+              </p>
             </div>
           )}
 
-          <div className="mt-4 rounded-lg border border-blueberry-100 bg-blueberry-50 p-4">
+          <div className="rounded-lg border border-blueberry-100 bg-blueberry-50 p-4">
             <p className="text-sm text-neutral-700 mb-2">
               <strong>Ressurser fra Folkehelseinstituttet (FHI):</strong>
             </p>
@@ -250,11 +239,6 @@ export default function KritiskInfo() {
               <li>
                 <a href="https://www.fhi.no/nettpub/hovedtemaer/kroniske-sykdommer/" target="_blank" rel="noopener noreferrer" className="text-blueberry-700 hover:underline">
                   FHI: Kroniske sykdommer →
-                </a>
-              </li>
-              <li>
-                <a href="https://www.fhi.no/nettpub/behandlingsplaner/" target="_blank" rel="noopener noreferrer" className="text-blueberry-700 hover:underline">
-                  FHI: Behandlingsplaner →
                 </a>
               </li>
               <li>

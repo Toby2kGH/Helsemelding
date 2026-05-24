@@ -25,7 +25,7 @@ export default function Samtykker() {
     { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: "completed" },
     { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
     { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: "active" },
-    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[4] ? "completed" : "pending" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted.bekreft ? "completed" : "pending" },
   ];
 
   const { samtykkeState } = helsemeldingState;
@@ -35,7 +35,7 @@ export default function Samtykker() {
   }
 
   function neste() {
-    fullforSteg(3);
+    fullforSteg("samtykker");
     router.push("/helsemelding/bekreft");
   }
 
@@ -70,7 +70,7 @@ export default function Samtykker() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 3 av 4</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 4 av 5</p>
           <h1 className="text-3xl font-bold text-neutral-900">Samtykker og reservasjoner</h1>
           <p className="text-neutral-600 mt-2">
             Her kan du se og oppdatere dine samtykker. Du kan til enhver tid endre eller trekke tilbake et samtykke.

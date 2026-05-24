@@ -12,11 +12,11 @@ export default function HelsemeldingLanding() {
   const år = new Date().getFullYear();
 
   const steps: Step[] = [
-    { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: helsemeldingState.stepsCompleted[0] ? "completed" : "pending" },
-    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: helsemeldingState.stepsCompleted[1] ? "completed" : "pending" },
-    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted[2] ? "completed" : "pending" },
-    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
-    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[4] ? "completed" : "pending" },
+    { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: helsemeldingState.stepsCompleted.legemidler ? "completed" : "pending" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: helsemeldingState.stepsCompleted.kritiskInfo ? "completed" : "pending" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: helsemeldingState.stepsCompleted.vaksiner ? "completed" : "pending" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted.samtykker ? "completed" : "pending" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted.bekreft ? "completed" : "pending" },
   ];
 
   const datakilder = [

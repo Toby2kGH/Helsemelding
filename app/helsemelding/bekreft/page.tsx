@@ -46,7 +46,7 @@ export default function Bekreft() {
 
   function sendInn() {
     if (!bekreftet) return;
-    fullforSteg(4);
+    fullforSteg("bekreft");
     setInnsendt(true);
   }
 
@@ -109,7 +109,7 @@ export default function Bekreft() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 4 av 4</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 5 av 5</p>
           <h1 className="text-3xl font-bold text-neutral-900">Bekreft og send inn</h1>
           <p className="text-neutral-600 mt-2">
             Se gjennom oppsummeringen og bekreft at opplysningene er korrekte.

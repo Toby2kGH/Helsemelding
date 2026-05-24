@@ -113,13 +113,21 @@ export interface KritiskInfoState {
   behandlingsplanBeskrivelse: string;
 }
 
+export interface StepCompletionStatus {
+  legemidler: boolean;
+  kritiskInfo: boolean;
+  vaksiner: boolean;
+  samtykker: boolean;
+  bekreft: boolean;
+}
+
 export interface HelsemeldingState {
   medicationResponses: MedicationResponse[];
   vaccineResponses: VaccineResponse[];
   samtykkeState: SamtykkeState;
   kritiskInfoState: KritiskInfoState;
   erImmunkompromittert: boolean;
-  stepsCompleted: boolean[];
+  stepsCompleted: StepCompletionStatus;
 }
 
 export type ProfilId = "kari" | "sara" | "jonas";
