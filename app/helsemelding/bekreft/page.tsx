@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeftIcon,
@@ -14,9 +15,9 @@ import { useUser } from "@/context/UserContext";
 import type { Step } from "@/types";
 
 export default function Bekreft() {
+  const router = useRouter();
   const { profil, helsemeldingState, fullforSteg, nullstill } = useUser();
   const [bekreftet, setBekreftet] = useState(false);
-  const [innsendt, setInnsendt] = useState(false);
   const [visDetaljer, setVisDetaljer] = useState(false);
   const år = new Date().getFullYear();
 
@@ -47,10 +48,10 @@ export default function Bekreft() {
   function sendInn() {
     if (!bekreftet) return;
     fullforSteg("bekreft");
-    setInnsendt(true);
+    router.push("/helsemelding/signatures");
   }
 
-  if (innsendt) {
+  if (false) {
     return (
       <div>
         <DemoBanner />

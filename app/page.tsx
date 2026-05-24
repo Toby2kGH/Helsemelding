@@ -39,16 +39,28 @@ const artikler = [
 export default function Forside() {
   return (
     <div>
+      {/* Disclaimer Banner */}
+      <section className="bg-warning-100 border-b-2 border-warning-700 px-4 py-4">
+        <div className="mx-auto max-w-6xl">
+          <p className="text-sm font-semibold text-warning-900 mb-1">
+            ⚠️ DEMO-VERSJON - IKKE EKTE SYSTEM
+          </p>
+          <p className="text-sm text-warning-800">
+            Dette er en demoversjonen av en fremtidig helseportal. Det er ikke tilknyttet Helsenorge.no eller noen faktiske helseopplysninger. Data er fiktiv og brukes kun til demonstrasjon.
+          </p>
+        </div>
+      </section>
+
       {/* Hero */}
       <section className="bg-blueberry-900 text-white py-16 px-4">
         <div className="mx-auto max-w-6xl">
-          <h1 className="text-4xl font-bold mb-3">Din helseportal</h1>
+          <h1 className="text-4xl font-bold mb-3">Din helseportal (Demo)</h1>
           <p className="text-blueberry-100 text-lg mb-8 max-w-xl">
-            Helsenorge gir deg tilgang til dine helseopplysninger og offentlige helsetjenester.
+            Helsedemo gir deg tilgang til en demo av fremtiden helseopplysninger og helsetjenester.
           </p>
 
           <div className="relative max-w-lg mb-8">
-            <label htmlFor="sok" className="sr-only">Søk på helsenorge.no</label>
+            <label htmlFor="sok" className="sr-only">Søk</label>
             <MagnifyingGlassIcon
               className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400"
               aria-hidden="true"
@@ -56,7 +68,7 @@ export default function Forside() {
             <input
               id="sok"
               type="search"
-              placeholder="Søk på helsenorge.no"
+              placeholder="Søk (demo data)"
               className="w-full rounded-md border-0 py-3 pl-10 pr-4 text-neutral-900 text-base focus:outline-none focus:ring-2 focus:ring-blueberry-500"
             />
           </div>
@@ -132,20 +144,20 @@ export default function Forside() {
       <section className="py-12 px-4 bg-blueberry-50 border-t border-blueberry-100">
         <div className="mx-auto max-w-6xl text-center">
           <h2 className="text-2xl font-bold text-blueberry-900 mb-3">
-            Logg inn for å se dine helseopplysninger
+            Logg inn for å utforske demoen
           </h2>
           <p className="text-neutral-700 mb-6 max-w-xl mx-auto">
-            Med BankID får du trygg tilgang til Helsenorge. Se resepter, vaksiner, timeavtaler og mer.
+            Med mockBankID får du tilgang til Helsedemo. Se demo av resepter, vaksiner, timeavtaler og mer.
           </p>
           <Link
             href="/logg-inn"
             className="inline-flex items-center gap-2 rounded-md bg-blueberry-900 px-6 py-3 text-lg font-semibold text-white hover:bg-blueberry-700 transition focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2"
           >
             <span aria-hidden="true">🔐</span>
-            Logg inn med BankID
+            Logg inn til demo
           </Link>
           <p className="text-xs text-neutral-400 mt-4">
-            Helsenorge bruker BankID for sikker identifikasjon. Din innlogging er kryptert.
+            Dette er en sikker demo. All data er fiktiv og brukes kun til demonstrasjonsformål.
           </p>
         </div>
       </section>

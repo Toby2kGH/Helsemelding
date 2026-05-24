@@ -19,7 +19,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blueberry-900 rounded-sm">
             <span className="text-2xl font-bold tracking-tight">
               helse
-              <span className="text-blueberry-500">norge</span>
+              <span className="text-blueberry-500">demo</span>
               <span className="inline-block ml-0.5 h-2 w-2 rounded-full bg-blueberry-500 align-middle" aria-hidden="true" />
             </span>
           </Link>
@@ -29,7 +29,7 @@ export function Header() {
               Hjem
             </Link>
             <Link href="/om-helsemelding" className="opacity-85 hover:opacity-100 transition-opacity focus:outline-none focus:underline">
-              Om Helsemelding
+              Om demo
             </Link>
             {erInnlogget ? (
               <>
