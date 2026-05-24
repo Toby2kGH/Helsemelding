@@ -98,13 +98,32 @@ export interface VaccineResponse {
 }
 
 export interface SamtykkeState {
+  // Organdonasjon
   organdonasjon: "ja" | "nei" | "ikke_tatt_stilling" | null;
+
+  // Journalinnsyn og deling
   deling_mellom_sykehus: boolean | null;
   deling_mellom_regioner: boolean | null;
   deling_sykehus_kommune: boolean | null;
   deling_private_aktorer: boolean | null;
-  forskning_biobank: boolean | null;
+
+  // Pårørende
+  paroerende_informasjon: boolean | null;
+  paroerende_navn: string;
+
+  // Kvalitetsarbeid og registre
   kvalitetsregistre: Record<string, boolean>;
+  kvalitetsforbedring: boolean | null;
+
+  // Forskning og biobank
+  forskning_kontakt: boolean | null;
+  forskning_biobank: boolean | null;
+
+  // Digital og data
+  ai_maskinlaering: boolean | null;
+  student_undervisning: boolean | null;
+
+  // Aktive studier
   aktive_studier: Record<string, boolean | null>;
 }
 
