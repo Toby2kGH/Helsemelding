@@ -55,9 +55,10 @@ export default function Vaksiner() {
 
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "completed" },
-    { id: 2, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "active" },
-    { id: 3, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted[2] ? "completed" : "pending" },
-    { id: 4, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: helsemeldingState.stepsCompleted[1] ? "completed" : "pending" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "active" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[4] ? "completed" : "pending" },
   ];
 
   const anbefalinger = beregnVaksinanbefalinger(
@@ -71,7 +72,7 @@ export default function Vaksiner() {
   }
 
   function neste() {
-    fullforSteg(1);
+    fullforSteg(2);
     router.push("/helsemelding/samtykker");
   }
 

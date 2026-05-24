@@ -13,6 +13,7 @@ import type {
   MedicationResponse,
   VaccineResponse,
   SamtykkeState,
+  KritiskInfoState,
   HelsemeldingState,
 } from "@/types";
 
@@ -24,6 +25,7 @@ interface UserContextValue {
   oppdaterMedicationResponse: (response: MedicationResponse) => void;
   oppdaterVaccineResponse: (response: VaccineResponse) => void;
   oppdaterSamtykke: (updates: Partial<SamtykkeState>) => void;
+  oppdaterKritiskInfo: (updates: Partial<KritiskInfoState>) => void;
   setErImmunkompromittert: (val: boolean) => void;
   fullforSteg: (stegIndex: number) => void;
   nullstill: () => void;
@@ -61,8 +63,13 @@ function lagInitialHelsemeldingState(profil: UserProfile): HelsemeldingState {
     medicationResponses: [],
     vaccineResponses: [],
     samtykkeState: lagInitialSamtykkeState(profil),
+    kritiskInfoState: {
+      personligInfo: "",
+      harKjentBehandlingsplan: null,
+      behandlingsplanBeskrivelse: "",
+    },
     erImmunkompromittert: false,
-    stepsCompleted: [false, false, false, false],
+    stepsCompleted: [false, false, false, false, false],
   };
 }
 
@@ -127,6 +134,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const oppdaterKritiskInfo = useCallback(
+    (updates: Partial<KritiskInfoState>) => {
+      setHelsemeldingState((prev) => ({
+        ...prev,
+        kritiskInfoState: { ...prev.kritiskInfoState, ...updates },
+      }));
+    },
+    []
+  );
+
   const setErImmunkompromittert = useCallback((val: boolean) => {
     setHelsemeldingState((prev) => ({
       ...prev,
@@ -156,6 +173,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         oppdaterMedicationResponse,
         oppdaterVaccineResponse,
         oppdaterSamtykke,
+        oppdaterKritiskInfo,
         setErImmunkompromittert,
         fullforSteg,
         nullstill,

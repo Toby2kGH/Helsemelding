@@ -22,9 +22,10 @@ export default function Bekreft() {
 
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "completed" },
-    { id: 2, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
-    { id: 3, label: "Samtykker", path: "/helsemelding/samtykker", status: "completed" },
-    { id: 4, label: "Bekreft", path: "/helsemelding/bekreft", status: innsendt ? "completed" : "active" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: "completed" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: "completed" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: innsendt ? "completed" : "active" },
   ];
 
   const antallLegemidler =
@@ -45,7 +46,7 @@ export default function Bekreft() {
 
   function sendInn() {
     if (!bekreftet) return;
-    fullforSteg(3);
+    fullforSteg(4);
     setInnsendt(true);
   }
 

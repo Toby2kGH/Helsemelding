@@ -22,9 +22,10 @@ export default function Samtykker() {
 
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "completed" },
-    { id: 2, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
-    { id: 3, label: "Samtykker", path: "/helsemelding/samtykker", status: "active" },
-    { id: 4, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[3] ? "completed" : "pending" },
+    { id: 2, label: "Kritisk info", path: "/helsemelding/kritisk-info", status: "completed" },
+    { id: 3, label: "Vaksiner", path: "/helsemelding/vaksiner", status: "completed" },
+    { id: 4, label: "Samtykker", path: "/helsemelding/samtykker", status: "active" },
+    { id: 5, label: "Bekreft", path: "/helsemelding/bekreft", status: helsemeldingState.stepsCompleted[4] ? "completed" : "pending" },
   ];
 
   const { samtykkeState } = helsemeldingState;
@@ -34,7 +35,7 @@ export default function Samtykker() {
   }
 
   function neste() {
-    fullforSteg(2);
+    fullforSteg(3);
     router.push("/helsemelding/bekreft");
   }
 

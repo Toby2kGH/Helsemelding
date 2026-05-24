@@ -99,10 +99,17 @@ export interface SamtykkeState {
   aktive_studier: Record<string, boolean | null>;
 }
 
+export interface KritiskInfoState {
+  personligInfo: string;
+  harKjentBehandlingsplan: boolean | null;
+  behandlingsplanBeskrivelse: string;
+}
+
 export interface HelsemeldingState {
   medicationResponses: MedicationResponse[];
   vaccineResponses: VaccineResponse[];
   samtykkeState: SamtykkeState;
+  kritiskInfoState: KritiskInfoState;
   erImmunkompromittert: boolean;
   stepsCompleted: boolean[];
 }
