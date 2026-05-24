@@ -18,6 +18,7 @@ import { useUser } from "@/context/UserContext";
 import type { MedicationResponse } from "@/types";
 
 type Visning = "fastlege" | "sykehus";
+type MedicationSort = "alle" | "tar" | "tar-ikke";
 
 function ingenSvar(responses: MedicationResponse[], medId: string): boolean {
   return !responses.find((r) => r.medId === medId);
@@ -26,6 +27,7 @@ function ingenSvar(responses: MedicationResponse[], medId: string): boolean {
 export default function KvitteringLege() {
   const { profil, helsemeldingState } = useUser();
   const [visning, setVisning] = useState<Visning>("fastlege");
+  const [medicationSort, setMedicationSort] = useState<MedicationSort>("tar");
   const år = new Date().getFullYear();
   const innsendt = new Date().toLocaleDateString("nb-NO", {
     day: "numeric",
@@ -223,11 +225,45 @@ export default function KvitteringLege() {
 
             {/* Legemiddelstatus */}
             <section aria-labelledby="legemiddel-heading">
-              <h2 id="legemiddel-heading" className="text-lg font-bold text-neutral-900 mb-3">
-                <span className="flex items-center gap-2">
-                  <span aria-hidden="true">💊</span> Legemiddelstatus
-                </span>
-              </h2>
+              <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
+                <h2 id="legemiddel-heading" className="text-lg font-bold text-neutral-900">
+                  <span className="flex items-center gap-2">
+                    <span aria-hidden="true">💊</span> Legemiddelstatus
+                  </span>
+                </h2>
+                <div className="flex gap-2 flex-wrap">
+                  <button
+                    onClick={() => setMedicationSort("tar")}
+                    className={`text-sm px-3 py-1.5 rounded-md font-medium transition ${
+                      medicationSort === "tar"
+                        ? "bg-success-700 text-white"
+                        : "border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
+                    }`}
+                  >
+                    ✓ Tar
+                  </button>
+                  <button
+                    onClick={() => setMedicationSort("tar-ikke")}
+                    className={`text-sm px-3 py-1.5 rounded-md font-medium transition ${
+                      medicationSort === "tar-ikke"
+                        ? "bg-cherry-700 text-white"
+                        : "border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
+                    }`}
+                  >
+                    ✗ Tar ikke
+                  </button>
+                  <button
+                    onClick={() => setMedicationSort("alle")}
+                    className={`text-sm px-3 py-1.5 rounded-md font-medium transition ${
+                      medicationSort === "alle"
+                        ? "bg-blueberry-900 text-white"
+                        : "border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
+                    }`}
+                  >
+                    Alle
+                  </button>
+                </div>
+              </div>
               <div className="rounded-lg border border-neutral-200 bg-white overflow-hidden shadow-sm">
                 <table className="w-full text-sm">
                   <thead>
@@ -238,41 +274,55 @@ export default function KvitteringLege() {
                     </tr>
                   </thead>
                   <tbody>
-                    {alleMed.map((med) => {
-                      const resp = medicationResponses.find((r) => r.medId === med.id);
-                      const ubesvart = !resp || resp.tarMedisinen === null;
-                      const status =
-                        ubesvart ? "ubesvart"
-                        : resp.tarMedisinen === "ja_som_forskrevet" ? "ok"
-                        : resp.tarMedisinen === "ja_annen_dose" ? "avvik"
-                        : "seponert";
+                    {alleMed
+                      .filter((med) => {
+                        const resp = medicationResponses.find((r) => r.medId === med.id);
+                        const tarMedisinen = resp?.tarMedisinen;
+                        if (medicationSort === "tar") return tarMedisinen === "ja_som_forskrevet" || tarMedisinen === "ja_annen_dose";
+                        if (medicationSort === "tar-ikke") return tarMedisinen === "nei";
+                        return true;
+                      })
+                      .map((med) => {
+                        const resp = medicationResponses.find((r) => r.medId === med.id);
+                        const ubesvart = !resp || resp.tarMedisinen === null;
+                        const status =
+                          ubesvart ? "ubesvart"
+                          : resp.tarMedisinen === "ja_som_forskrevet" ? "ok"
+                          : resp.tarMedisinen === "ja_annen_dose" ? "avvik"
+                          : "seponert";
 
-                      const statusVis = {
-                        ok: <span className="flex items-center gap-1 text-success-700"><CheckCircleIcon className="h-4 w-4" aria-hidden="true" />Som forskrevet</span>,
-                        avvik: <span className="flex items-center gap-1 text-warning-700"><ExclamationTriangleIcon className="h-4 w-4" aria-hidden="true" />Annen dose{resp?.annenDoseBeskriv ? `: «${resp.annenDoseBeskriv}»` : ""}</span>,
-                        seponert: <span className="flex items-center gap-1 text-cherry-700"><ExclamationTriangleIcon className="h-4 w-4" aria-hidden="true" />Tar ikke lenger</span>,
-                        ubesvart: <span className="text-neutral-400 italic">Ikke besvart</span>,
-                      }[status];
+                        const statusVis = {
+                          ok: <span className="flex items-center gap-1 text-success-700"><CheckCircleIcon className="h-4 w-4" aria-hidden="true" />Som forskrevet</span>,
+                          avvik: <span className="flex items-center gap-1 text-warning-700"><ExclamationTriangleIcon className="h-4 w-4" aria-hidden="true" />Annen dose{resp?.annenDoseBeskriv ? `: «${resp.annenDoseBeskriv}»` : ""}</span>,
+                          seponert: <span className="flex items-center gap-1 text-cherry-700"><ExclamationTriangleIcon className="h-4 w-4" aria-hidden="true" />Tar ikke lenger</span>,
+                          ubesvart: <span className="text-neutral-400 italic">Ikke besvart</span>,
+                        }[status];
 
-                      return (
-                        <tr key={med.id} className={`border-b border-neutral-100 last:border-0 ${status === "seponert" ? "bg-cherry-100/30" : status === "avvik" ? "bg-warning-100/30" : ""}`}>
-                          <td className="px-4 py-3">
-                            <p className="font-medium text-neutral-900">
-                              {med.handelsnavn}
-                              {med.viktig && (
-                                <span className="ml-2 inline-flex items-center rounded-full bg-cherry-100 px-1.5 py-0.5 text-xs font-semibold text-cherry-700">KRITISK</span>
-                              )}
-                            </p>
-                            <p className="text-xs text-neutral-500">{med.virkestoff} {med.styrke}</p>
-                          </td>
-                          <td className="px-4 py-3 text-neutral-600 text-xs hidden md:table-cell">{med.indikasjon}</td>
-                          <td className="px-4 py-3 text-sm">{statusVis}</td>
-                        </tr>
-                      );
-                    })}
+                        return (
+                          <tr key={med.id} className={`border-b border-neutral-100 last:border-0 ${status === "seponert" ? "bg-cherry-100/30" : status === "avvik" ? "bg-warning-100/30" : ""}`}>
+                            <td className="px-4 py-3">
+                              <p className="font-medium text-neutral-900">
+                                {med.handelsnavn}
+                                {med.viktig && (
+                                  <span className="ml-2 inline-flex items-center rounded-full bg-cherry-100 px-1.5 py-0.5 text-xs font-semibold text-cherry-700">KRITISK</span>
+                                )}
+                              </p>
+                              <p className="text-xs text-neutral-500">{med.virkestoff} {med.styrke}</p>
+                            </td>
+                            <td className="px-4 py-3 text-neutral-600 text-xs hidden md:table-cell">{med.indikasjon}</td>
+                            <td className="px-4 py-3 text-sm">{statusVis}</td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
+              {medicationSort === "tar-ikke" && seponertMed.length === 0 && (
+                <p className="mt-3 text-sm text-success-700 flex items-center gap-1.5">
+                  <CheckCircleIcon className="h-4 w-4" aria-hidden="true" />
+                  Pasienten tar alle legemidlene sine som foreskrevet
+                </p>
+              )}
             </section>
 
             {/* Vaksiner */}

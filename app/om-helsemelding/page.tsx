@@ -61,7 +61,7 @@ export default function OmHelsemelding() {
             </h3>
             <p>
               Mellom 30 og 50 % av alle pasienter med kroniske sykdommer tar ikke medisinen sin
-              som forskrevet (WHO, 2003; <em>Adherence to Long-term Therapies — Evidence for action</em>).
+              som forskrevet (WHO, 2023; <em>Global Report on Adherence to Medication</em>).
               Dette fører til:
             </p>
             <ul className="mt-3 space-y-1.5 list-none">
@@ -77,13 +77,13 @@ export default function OmHelsemelding() {
               ))}
             </ul>
             <p className="mt-3">
-              I norsk kontekst er dette særlig kritisk fordi Pasientens legemiddelliste (PLL) rulles
-              ut nasjonalt 2026–2029, men er avhengig av at den informasjonen som legges inn er korrekt.
-              Pasienten er den eneste som vet hva de faktisk tar mellom helsekontakter.
+              <strong>Helsemelding løser et spesifikt problem:</strong> Pasientstyrt legemiddelliste (PLL) er en administrativ liste som fastlegen vedlikeholder.
+              Men pasienten vet ofte best hva de faktisk tar mellom helsekontakter. Helsemelding er en ny nasjonal tjeneste som lar pasienten <strong>bekrefte og korrigere</strong> informasjonen,
+              slik at PLL blir så korrekt som mulig.
             </p>
             <p className="text-sm text-neutral-500 mt-3 italic">
-              Kilde: WHO (2003). <em>Adherence to Long-term Therapies: Evidence for Action.</em>{" "}
-              Geneva: World Health Organization.
+              Kilder: WHO (2023). <em>Global Report on Adherence to Medication.</em> Geneva: World Health Organization. |
+              Norges Helsedirektorat. Pasientstyrt legemiddelliste (PLL) — Nasjonal implementering 2026–2029.
             </p>
           </div>
         </Seksjon>
@@ -135,16 +135,20 @@ export default function OmHelsemelding() {
         <Seksjon id="losning" ikon="💡" tittel="Løsningen">
           <div className="rounded-lg border border-blueberry-100 bg-blueberry-50 p-5">
             <h3 className="text-lg font-semibold text-blueberry-900 mb-3">
-              Helsemelding — en ny nasjonal modell
+              Helsemelding — en ny nasjonal tjeneste
             </h3>
-            <p className="mb-3">Inspirert av skattemeldingen tilbyr Helsemelding:</p>
+            <p className="mb-3">
+              Helsemelding er <strong>ikke</strong> en erstatning for PLL, felles medisinkort eller andre eksisterende systemer.
+              Det er en ny, brukerorientert tjeneste som <strong>bruker</strong> disse som kilder og lar pasienten bekrefte og korrigere informasjonen årlig.
+            </p>
+            <p className="mb-3 text-sm font-semibold text-blueberry-900">Helsemelding tilbyr:</p>
             <ul className="space-y-2">
               {[
-                "Forhåndsutfylte opplysninger fra PLL og SYSVAK",
-                "Enkel bekreftelse eller korrigering av medisinbruk",
+                "Forhåndsutfylte opplysninger fra PLL og SYSVAK — hentet direkte fra registrene",
+                "Enkel bekreftelse eller korrigering av faktisk medisinbruk",
                 "Personaliserte vaksineanbefalinger basert på FHI-retningslinjer",
-                "Samlet samtykkehåndtering på ett sted",
-                "Direkte integrasjon mot fastlege og kjernejournal",
+                "Samlet samtykkehåndtering på ett sted (organdonasjon, journaldeling)",
+                "Rapport til fastlege og sykehus basert på pasientsvar",
               ].map((p) => (
                 <li key={p} className="flex items-start gap-2 text-sm">
                   <span className="text-success-700 font-bold mt-0.5" aria-hidden="true">✓</span>
@@ -178,19 +182,18 @@ export default function OmHelsemelding() {
             {[
               {
                 land: "🇩🇰 Danmark",
-                tekst: `Fælles Medicinkort (FMK) deles på tvers av apotek, fastleger og sykehus.
-                  Pasientens Medicinoplysninger er tilgjengelig via MinSundhed og sundhed.dk,
-                  som brukes av over 4 millioner danskere.`,
+                tekst: `Fælles Medicinkort (FMK) — egenopprettet medisinliste. Pasienten kan melde avvik fra legeresepter.
+                  MinSundhed tilbyr også årlige vaccinestatus og samtykker. Over 4 millioner danskere bruker tjenesten.`,
               },
               {
                 land: "🇫🇮 Finland",
-                tekst: `My Kanta (Kela) har aktiv bruk hos over 90 % av yrkesaktive voksne (Jormanainen et al., 2023).
-                  Inneholder samtykker, e-resepter og organdonasjonstestamente.`,
+                tekst: `My Kanta brukes av over 90 % av voksne (Keela.fi, 2023). Pasienten kan bekrefte medisinliste,
+                  e-resepter og samtykker på ett sted — funksjoner som Helsemelding etterligner.`,
               },
               {
                 land: "🇬🇧 Storbritannia",
-                tekst: `NHS App ble brukt av nesten 40 millioner innbyggere i 2025 (NHS England, 24. desember 2025).
-                  Over 500 000 første-gangs organdonasjonsbeslutninger er registrert via appen.`,
+                tekst: `NHS App (40 mill. brukere i 2025) tilbyr medisinhistorie, vaksinestatus og samtykkehåndtering.
+                  Over 500 000 organdonasjonsregistreringer via appen viser pasientsiden av betydningen.`,
               },
             ].map((l) => (
               <div key={l.land} className="rounded-lg border border-neutral-200 p-4">
@@ -199,11 +202,13 @@ export default function OmHelsemelding() {
               </div>
             ))}
           </div>
-          <div className="rounded-lg border-l-4 border-blueberry-500 bg-blueberry-50 p-4">
+          <div className="rounded-lg border-l-4 border-blueberry-500 bg-blueberry-50 p-4 mt-4">
+            <p className="text-neutral-700 text-sm mb-2">
+              <strong>Norges infrastruktur:</strong> Vi har allerede nasjonale systemer (PLL, SYSVAK, kjernejournal, Helsenorge).
+            </p>
             <p className="text-neutral-700 text-sm">
-              <strong>Norge er godt posisjonert:</strong> vi har NHN, Helsenorge, SYSVAK,
-              kjernejournal og PLL i nasjonal forvaltning. Helsemelding vil binde disse tjenestene
-              sammen til en helhetlig, brukerorientert opplevelse.
+              <strong>Helsemelding sitt tilskudd:</strong> En pasientstyrt bekreftelsesprosess som sikrer datakvalitet
+              i PLL og gir pasienten oversikt over sin egen helse — uten å erstatte eller duplisere eksisterende systemer.
             </p>
           </div>
         </Seksjon>
