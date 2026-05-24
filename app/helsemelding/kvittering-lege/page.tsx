@@ -36,7 +36,7 @@ export default function KvitteringLege() {
   });
 
   const alleMed = [...profil.legemidler.faste, ...profil.legemidler.behovs];
-  const { medicationResponses, vaccineResponses, samtykkeState, stepsCompleted } = helsemeldingState;
+  const { medicationResponses, vaccineResponses, samtykkeState, stepsCompleted, kritiskInfoState } = helsemeldingState;
 
   // Kritiske legemidler (blodfortynnende, insulin, nødmedisiner)
   const kritiskeMed = alleMed.filter((m) => m.viktig);
@@ -365,6 +365,20 @@ export default function KvitteringLege() {
                 )}
               </div>
             </section>
+
+            {/* Tilleggsinformasjon fra pasienten */}
+            {kritiskInfoState.personligInfo && (
+              <section aria-labelledby="tillegg-heading">
+                <h2 id="tillegg-heading" className="text-lg font-bold text-neutral-900 mb-3">
+                  Tilleggsinformasjon fra pasienten
+                </h2>
+                <div className="rounded-lg border border-neutral-200 bg-white p-4 shadow-sm">
+                  <p className="text-sm text-neutral-700 whitespace-pre-wrap">
+                    {kritiskInfoState.personligInfo}
+                  </p>
+                </div>
+              </section>
+            )}
 
             {/* Samtykker oppdatert */}
             <section aria-labelledby="samtykke-heading">
