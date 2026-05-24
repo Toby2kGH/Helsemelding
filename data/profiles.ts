@@ -115,6 +115,17 @@ export const kariSolberg: UserProfile = {
         viktig: false,
         kategori: "fast",
       },
+      {
+        id: "km10",
+        handelsnavn: "Amoxicillin Actavis",
+        virkestoff: "amoxicillin",
+        styrke: "500 mg",
+        dose: "1 tablett × 3 daglig i 10 dager",
+        atc: "J01CA04",
+        indikasjon: "Infeksjon (streptokokk)",
+        viktig: false,
+        kategori: "kur",
+      },
     ],
     behovs: [
       {
@@ -299,6 +310,17 @@ export const saraKhan: UserProfile = {
         viktig: false,
         kategori: "fast",
       },
+      {
+        id: "sk6",
+        handelsnavn: "Deltacortril",
+        virkestoff: "prednisolon",
+        styrke: "5 mg",
+        dose: "1 tablett × 3 daglig i 7 dager, så trapp ned over 3 dager",
+        atc: "H02AB07",
+        indikasjon: "Astmaeksakerbation — kortikosteroid-kur",
+        viktig: false,
+        kategori: "kur",
+      },
     ],
     behovs: [
       {
@@ -414,7 +436,19 @@ export const jonasBerg: UserProfile = {
   fastlege: "Dr. Kjersti Nygaard, Midtbyen Legesenter",
   diagnoser: ["Pollenallergi (sesongavhengig)"],
   legemidler: {
-    faste: [],
+    faste: [
+      {
+        id: "jb0",
+        handelsnavn: "Penicillin V Weifa",
+        virkestoff: "fenoksymetylpenicillin",
+        styrke: "500 mg",
+        dose: "1 tablett × 4 daglig i 10 dager",
+        atc: "J01CE02",
+        indikasjon: "Streptokokkinfeksjon i hals (angina)",
+        viktig: false,
+        kategori: "kur",
+      },
+    ],
     behovs: [
       {
         id: "jb1",

@@ -7,7 +7,7 @@ export interface Legemiddel {
   atc: string;
   indikasjon: string;
   viktig: boolean;
-  kategori: "fast" | "behovs";
+  kategori: "fast" | "kur" | "behovs";
   flagg?: string;
 }
 
@@ -88,7 +88,8 @@ export interface MedicationResponse {
   vetHvorfor: "ja" | "nei" | null;
   tarMedisinen: "ja_som_forskrevet" | "ja_annen_dose" | "nei" | null;
   annenDoseBeskriv: string;
-  vetForverring: "ja" | "nei" | null;
+  kurAvsluttet?: "ja" | "nei" | null;
+  vetNårHvordan?: "ja" | "nei" | null;
 }
 
 export interface VaccineResponse {

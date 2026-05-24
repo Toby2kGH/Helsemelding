@@ -11,8 +11,6 @@ interface MedicationCardProps {
   fastlege: string;
   response: MedicationResponse;
   onUpdate: (r: MedicationResponse) => void;
-  visForverringSporsmal?: boolean;
-  forverringSporsmaltekst?: string;
 }
 
 export function MedicationCard({
@@ -20,8 +18,6 @@ export function MedicationCard({
   fastlege,
   response,
   onUpdate,
-  visForverringSporsmal,
-  forverringSporsmaltekst,
 }: MedicationCardProps) {
   const [fastlegeModalOpen, setFastlegeModalOpen] = useState(false);
 
@@ -44,7 +40,7 @@ export function MedicationCard({
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <Badge variant={legemiddel.kategori === "fast" ? "primary" : "neutral"}>
-            {legemiddel.kategori === "fast" ? "FAST" : "VED BEHOV"}
+            {legemiddel.kategori === "fast" ? "FAST" : legemiddel.kategori === "kur" ? "KUR" : "VED BEHOV"}
           </Badge>
           {legemiddel.viktig && (
             <Badge variant="error">
@@ -158,33 +154,60 @@ export function MedicationCard({
           )}
         </fieldset>
 
-        {visForverringSporsmal && forverringSporsmaltekst && (
+        {legemiddel.kategori === "kur" && (
           <fieldset className="space-y-2">
             <legend className="text-sm font-semibold text-neutral-900">
-              3. {forverringSporsmaltekst}
+              3. Er denne kuren avsluttet og medisinen ikke relevant lengre?
             </legend>
             <div className="flex flex-wrap gap-3">
               {(["ja", "nei"] as const).map((v) => (
                 <label key={v} className="flex items-center gap-2 cursor-pointer text-sm">
                   <input
                     type="radio"
-                    name={`${legemiddel.id}-vetForverring`}
+                    name={`${legemiddel.id}-kurAvsluttet`}
                     value={v}
-                    checked={response.vetForverring === v}
-                    onChange={() => update({ vetForverring: v })}
+                    checked={response.kurAvsluttet === v}
+                    onChange={() => update({ kurAvsluttet: v })}
                     className="h-4 w-4 accent-blueberry-700"
                   />
-                  {v === "ja" ? "Ja" : "Nei"}
+                  {v === "ja" ? "Ja, avsluttet" : "Nei, fortsetter"}
                 </label>
               ))}
             </div>
-            {response.vetForverring === "nei" && (
-              <a
-                href="#handlingsplan"
-                className="text-sm text-blueberry-700 underline hover:text-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500 rounded"
-              >
-                Les din handlingsplan
-              </a>
+          </fieldset>
+        )}
+
+        {legemiddel.kategori === "behovs" && (
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-semibold text-neutral-900">
+              3. Vet du når og hvordan medisinen skal tas?
+            </legend>
+            <div className="flex flex-wrap gap-3">
+              {(["ja", "nei"] as const).map((v) => (
+                <label key={v} className="flex items-center gap-2 cursor-pointer text-sm">
+                  <input
+                    type="radio"
+                    name={`${legemiddel.id}-vetNårHvordan`}
+                    value={v}
+                    checked={response.vetNårHvordan === v}
+                    onChange={() => update({ vetNårHvordan: v })}
+                    className="h-4 w-4 accent-blueberry-700"
+                  />
+                  {v === "ja" ? "Ja, jeg vet" : "Nei, usikker"}
+                </label>
+              ))}
+            </div>
+            {response.vetNårHvordan === "nei" && (
+              <div className="mt-2 flex items-center gap-2">
+                <InformationCircleIcon className="h-4 w-4 text-blueberry-500 flex-shrink-0" aria-hidden="true" />
+                <button
+                  type="button"
+                  onClick={() => setFastlegeModalOpen(true)}
+                  className="text-sm text-blueberry-700 underline hover:text-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500 rounded"
+                >
+                  Kontakt fastlege
+                </button>
+              </div>
             )}
           </fieldset>
         )}
