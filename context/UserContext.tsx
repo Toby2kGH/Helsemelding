@@ -28,7 +28,7 @@ interface UserContextValue {
   oppdaterSamtykke: (updates: Partial<SamtykkeState>) => void;
   oppdaterKritiskInfo: (updates: Partial<KritiskInfoState>) => void;
   setErImmunkompromittert: (val: boolean) => void;
-  fullforSteg: (stegIndex: number) => void;
+  fullforSteg: (stegNavn: keyof StepCompletionStatus) => void;
   nullstill: () => void;
 }
 

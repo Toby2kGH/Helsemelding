@@ -25,7 +25,7 @@ const moduler = [
 export default function MinHelse() {
   const { profil, helsemeldingState } = useUser();
   const år = new Date().getFullYear();
-  const stepsCompleted = helsemeldingState.stepsCompleted.filter(Boolean).length;
+  const stepsCompleted = Object.values(helsemeldingState.stepsCompleted).filter(Boolean).length;
 
   return (
     <div>
@@ -73,10 +73,11 @@ export default function MinHelse() {
 
           <div className="mt-5 flex flex-wrap gap-4 text-sm">
             {[
-              { label: "Legemidler", done: helsemeldingState.stepsCompleted[0] },
-              { label: "Vaksiner", done: helsemeldingState.stepsCompleted[1] },
-              { label: "Samtykker", done: helsemeldingState.stepsCompleted[2] },
-              { label: "Bekreft", done: helsemeldingState.stepsCompleted[3] },
+              { label: "Legemidler", done: helsemeldingState.stepsCompleted.legemidler },
+              { label: "Kritisk info", done: helsemeldingState.stepsCompleted.kritiskInfo },
+              { label: "Vaksiner", done: helsemeldingState.stepsCompleted.vaksiner },
+              { label: "Samtykker", done: helsemeldingState.stepsCompleted.samtykker },
+              { label: "Bekreft", done: helsemeldingState.stepsCompleted.bekreft },
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-1.5 text-neutral-600">
                 <span
