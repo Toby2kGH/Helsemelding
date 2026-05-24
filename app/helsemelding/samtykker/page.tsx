@@ -13,6 +13,7 @@ import { DemoBanner } from "@/components/DemoBanner";
 import { Stepper } from "@/components/Stepper";
 import { ConsentToggle } from "@/components/ConsentToggle";
 import ConsentSection from "@/components/ConsentSection";
+import { ConsentDetailModal } from "@/components/ConsentDetailModal";
 import { useUser } from "@/context/UserContext";
 import type { Step } from "@/types";
 
@@ -20,6 +21,7 @@ export default function Samtykker() {
   const router = useRouter();
   const { profil, helsemeldingState, oppdaterSamtykke, fullforSteg } = useUser();
   const [visAlle, setVisAlle] = useState(false);
+  const [selectedConsent, setSelectedConsent] = useState<string | null>(null);
 
   const steps: Step[] = [
     { id: 1, label: "Legemidler", path: "/helsemelding/legemidler", status: "completed" },
@@ -63,9 +65,19 @@ export default function Samtykker() {
         >
           {/* Organdonasjon */}
           <div className="border-b border-blue-100 pb-4 mb-4">
-            <div className="flex items-center gap-2 mb-3">
-              <span aria-hidden="true">❤️</span>
-              <h3 className="font-semibold text-neutral-900">Organdonasjon</h3>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span aria-hidden="true">❤️</span>
+                <h3 className="font-semibold text-neutral-900">Organdonasjon</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedConsent("organdonasjon")}
+                className="text-xs text-blueberry-700 underline hover:text-blueberry-900 focus:outline-none focus:ring-1 focus:ring-blueberry-500 rounded px-1"
+                aria-label="Les mer om organdonasjon"
+              >
+                ? Les mer
+              </button>
             </div>
             {samtykkeState.organdonasjon !== null && (
               <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
@@ -416,6 +428,13 @@ export default function Samtykker() {
             <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
+
+        <ConsentDetailModal
+          open={!!selectedConsent}
+          onClose={() => setSelectedConsent(null)}
+          consentId={selectedConsent || ""}
+          currentValue={selectedConsent ? samtykkeState[selectedConsent as keyof typeof samtykkeState] as boolean | null : null}
+        />
       </div>
     </div>
   );
