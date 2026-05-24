@@ -382,33 +382,105 @@ export default function KvitteringLege() {
 
             {/* Samtykker oppdatert */}
             <section aria-labelledby="samtykke-heading">
-              <h2 id="samtykke-heading" className="text-lg font-bold text-neutral-900 mb-3">
+              <h2 id="samtykke-heading" className="text-lg font-bold text-neutral-900 mb-4">
                 <span className="flex items-center gap-2">
                   <ShieldCheckIcon className="h-5 w-5" aria-hidden="true" />
                   Samtykker (status etter Helsemelding {år})
                 </span>
               </h2>
-              <div className="rounded-lg border border-neutral-200 bg-white overflow-hidden shadow-sm">
-                <table className="w-full text-sm">
-                  <tbody>
-                    {[
-                      { label: "Organdonasjon", verdi: samtykkeState.organdonasjon === "ja" ? "Donor" : samtykkeState.organdonasjon === "nei" ? "Reservert" : "Ikke tatt stilling" },
-                      { label: "Journaldeling mellom sykehus", verdi: samtykkeState.deling_mellom_sykehus ? "Ja" : samtykkeState.deling_mellom_sykehus === false ? "Nei" : "Ikke angitt" },
-                      { label: "Deling mellom helseregioner", verdi: samtykkeState.deling_mellom_regioner ? "Ja" : samtykkeState.deling_mellom_regioner === false ? "Nei" : "Ikke angitt" },
-                      { label: "Deling sykehus–kommune", verdi: samtykkeState.deling_sykehus_kommune ? "Ja" : samtykkeState.deling_sykehus_kommune === false ? "Nei" : "Ikke angitt" },
-                      { label: "Deling med private tilbydere", verdi: samtykkeState.deling_private_aktorer ? "Ja" : samtykkeState.deling_private_aktorer === false ? "Nei" : "Ikke angitt" },
-                    ].map((r) => (
-                      <tr key={r.label} className="border-b border-neutral-100 last:border-0">
-                        <td className="px-4 py-2.5 text-neutral-700 font-medium w-1/2">{r.label}</td>
-                        <td className={`px-4 py-2.5 font-semibold ${
-                          r.verdi === "Ja" || r.verdi === "Donor" ? "text-success-700"
-                          : r.verdi === "Nei" || r.verdi === "Reservert" ? "text-cherry-700"
-                          : "text-neutral-400"
-                        }`}>{r.verdi}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="space-y-4">
+                {/* Min behandling */}
+                <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                  <h3 className="font-semibold text-blue-900 mb-3">Min behandling</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Organdonasjon</span>
+                      <span className={`font-semibold ${samtykkeState.organdonasjon === "ja" ? "text-success-700" : samtykkeState.organdonasjon === "nei" ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.organdonasjon === "ja" ? "Donor" : samtykkeState.organdonasjon === "nei" ? "Reservert" : "Ikke tatt stilling"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Epikrise til fastlege</span>
+                      <span className={`font-semibold ${samtykkeState.epikrise_til_fastlege ? "text-success-700" : samtykkeState.epikrise_til_fastlege === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.epikrise_til_fastlege ? "Ja" : samtykkeState.epikrise_til_fastlege === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Fastlegen kan se sykehusjournal</span>
+                      <span className={`font-semibold ${samtykkeState.fastlege_sykehusjournal_innsyn ? "text-success-700" : samtykkeState.fastlege_sykehusjournal_innsyn === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.fastlege_sykehusjournal_innsyn ? "Ja" : samtykkeState.fastlege_sykehusjournal_innsyn === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Digital kommunikasjon med fastlege</span>
+                      <span className={`font-semibold ${samtykkeState.fastlege_digital_kommunikasjon ? "text-success-700" : samtykkeState.fastlege_digital_kommunikasjon === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.fastlege_digital_kommunikasjon ? "Ja" : samtykkeState.fastlege_digital_kommunikasjon === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Deling av journal mellom sykehus</span>
+                      <span className={`font-semibold ${samtykkeState.deling_mellom_sykehus ? "text-success-700" : samtykkeState.deling_mellom_sykehus === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.deling_mellom_sykehus ? "Ja" : samtykkeState.deling_mellom_sykehus === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Samarbeid om meg */}
+                <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+                  <h3 className="font-semibold text-green-900 mb-3">Samarbeid om meg</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Deling sykehus–kommune</span>
+                      <span className={`font-semibold ${samtykkeState.deling_sykehus_kommune ? "text-success-700" : samtykkeState.deling_sykehus_kommune === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.deling_sykehus_kommune ? "Ja" : samtykkeState.deling_sykehus_kommune === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Samordning av omsorg</span>
+                      <span className={`font-semibold ${samtykkeState.kommune_samordning_omsorg ? "text-success-700" : samtykkeState.kommune_samordning_omsorg === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.kommune_samordning_omsorg ? "Ja" : samtykkeState.kommune_samordning_omsorg === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Digital samhandling</span>
+                      <span className={`font-semibold ${samtykkeState.digital_samhandling_helsenorge ? "text-success-700" : samtykkeState.digital_samhandling_helsenorge === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.digital_samhandling_helsenorge ? "Ja" : samtykkeState.digital_samhandling_helsenorge === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bidra til fremtiden */}
+                <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+                  <h3 className="font-semibold text-purple-900 mb-3">Bidra til fremtiden</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Forskning</span>
+                      <span className={`font-semibold ${samtykkeState.forskning_kontakt ? "text-success-700" : samtykkeState.forskning_kontakt === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.forskning_kontakt ? "Ja" : samtykkeState.forskning_kontakt === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Biobank</span>
+                      <span className={`font-semibold ${samtykkeState.forskning_biobank ? "text-success-700" : samtykkeState.forskning_biobank === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.forskning_biobank ? "Ja" : samtykkeState.forskning_biobank === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Kvalitetsforbedring</span>
+                      <span className={`font-semibold ${samtykkeState.kvalitetsforbedring ? "text-success-700" : samtykkeState.kvalitetsforbedring === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.kvalitetsforbedring ? "Ja" : samtykkeState.kvalitetsforbedring === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">AI og maskinlæring</span>
+                      <span className={`font-semibold ${samtykkeState.ai_maskinlaering ? "text-success-700" : samtykkeState.ai_maskinlaering === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.ai_maskinlaering ? "Ja" : samtykkeState.ai_maskinlaering === false ? "Nei" : "Ikke angitt"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -572,48 +644,60 @@ export default function KvitteringLege() {
 
             {/* Samtykker — kritisk for sykehus */}
             <section aria-labelledby="samtykke-syk-heading">
-              <h2 id="samtykke-syk-heading" className="text-lg font-bold text-neutral-900 mb-3">
+              <h2 id="samtykke-syk-heading" className="text-lg font-bold text-neutral-900 mb-4">
                 Samtykker relevante for innleggelse
               </h2>
-              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                {[
-                  {
-                    label: "Organdonasjon",
-                    verdi: samtykkeState.organdonasjon === "ja" ? "Donor" : samtykkeState.organdonasjon === "nei" ? "Reservert" : "Ikke registrert",
-                    ok: samtykkeState.organdonasjon === "ja",
-                    viktig: true,
-                  },
-                  {
-                    label: "Deling mellom sykehus",
-                    verdi: samtykkeState.deling_mellom_sykehus ? "Samtykket" : samtykkeState.deling_mellom_sykehus === false ? "Reservert" : "Ikke angitt",
-                    ok: samtykkeState.deling_mellom_sykehus === true,
-                    viktig: true,
-                  },
-                  {
-                    label: "Deling mellom regioner",
-                    verdi: samtykkeState.deling_mellom_regioner ? "Samtykket" : samtykkeState.deling_mellom_regioner === false ? "Reservert" : "Ikke angitt",
-                    ok: samtykkeState.deling_mellom_regioner === true,
-                    viktig: false,
-                  },
-                  {
-                    label: "Sykehus–kommune",
-                    verdi: samtykkeState.deling_sykehus_kommune ? "Samtykket" : samtykkeState.deling_sykehus_kommune === false ? "Reservert" : "Ikke angitt",
-                    ok: samtykkeState.deling_sykehus_kommune === true,
-                    viktig: false,
-                  },
-                ].map((s) => (
-                  <div key={s.label} className={`rounded-lg border p-3 text-center ${
-                    s.ok ? "border-success-700 bg-success-100" : s.verdi === "Reservert" ? "border-cherry-700 bg-cherry-100" : "border-neutral-200 bg-neutral-50"
-                  }`}>
-                    <p className={`text-lg font-bold mb-1 ${s.ok ? "text-success-700" : s.verdi === "Reservert" ? "text-cherry-700" : "text-neutral-400"}`}>
-                      {s.ok ? "✓" : s.verdi === "Reservert" ? "✗" : "—"}
-                    </p>
-                    <p className="text-xs font-semibold text-neutral-700">{s.label}</p>
-                    <p className={`text-xs mt-0.5 ${s.ok ? "text-success-700" : s.verdi === "Reservert" ? "text-cherry-700" : "text-neutral-400"}`}>
-                      {s.verdi}
-                    </p>
+              <div className="space-y-4">
+                {/* Organdonasjon — prominent */}
+                <div className="rounded-lg border-2 border-cherry-700 bg-cherry-50 p-4">
+                  <h3 className="font-semibold text-cherry-900 mb-3">Organdonasjon</h3>
+                  <div className="text-sm">
+                    <span className="text-neutral-700 mr-3">Status:</span>
+                    <span className={`font-bold ${samtykkeState.organdonasjon === "ja" ? "text-success-700" : samtykkeState.organdonasjon === "nei" ? "text-cherry-700" : "text-neutral-400"}`}>
+                      {samtykkeState.organdonasjon === "ja" ? "✓ Donor" : samtykkeState.organdonasjon === "nei" ? "✗ Reservert" : "— Ikke registrert"}
+                    </span>
                   </div>
-                ))}
+                </div>
+
+                {/* Samarbeid om meg — hospital-relevant */}
+                <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+                  <h3 className="font-semibold text-green-900 mb-3">Samarbeid om meg</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Deling mellom sykehus</span>
+                      <span className={`font-semibold ${samtykkeState.deling_mellom_sykehus ? "text-success-700" : samtykkeState.deling_mellom_sykehus === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.deling_mellom_sykehus ? "✓ Ja" : samtykkeState.deling_mellom_sykehus === false ? "✗ Nei" : "— Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Deling mellom regioner</span>
+                      <span className={`font-semibold ${samtykkeState.deling_mellom_regioner ? "text-success-700" : samtykkeState.deling_mellom_regioner === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.deling_mellom_regioner ? "✓ Ja" : samtykkeState.deling_mellom_regioner === false ? "✗ Nei" : "— Ikke angitt"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-700">Sykehus–kommune</span>
+                      <span className={`font-semibold ${samtykkeState.deling_sykehus_kommune ? "text-success-700" : samtykkeState.deling_sykehus_kommune === false ? "text-cherry-700" : "text-neutral-400"}`}>
+                        {samtykkeState.deling_sykehus_kommune ? "✓ Ja" : samtykkeState.deling_sykehus_kommune === false ? "✗ Nei" : "— Ikke angitt"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bidra til fremtiden — summary */}
+                <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+                  <h3 className="font-semibold text-purple-900 mb-3">Bidra til fremtiden</h3>
+                  <p className="text-xs text-neutral-600 mb-2">Pasienten har gitt samtykke til:</p>
+                  <div className="space-y-1 text-sm">
+                    {samtykkeState.forskning_kontakt && <span className="block text-success-700">✓ Forskning</span>}
+                    {samtykkeState.forskning_biobank && <span className="block text-success-700">✓ Biobank</span>}
+                    {samtykkeState.kvalitetsforbedring && <span className="block text-success-700">✓ Kvalitetsforbedring</span>}
+                    {samtykkeState.ai_maskinlaering && <span className="block text-success-700">✓ AI og maskinlæring</span>}
+                    {!samtykkeState.forskning_kontakt && !samtykkeState.forskning_biobank && !samtykkeState.kvalitetsforbedring && !samtykkeState.ai_maskinlaering && (
+                      <span className="text-neutral-400 italic">Ingen samtykker gitt</span>
+                    )}
+                  </div>
+                </div>
               </div>
             </section>
 

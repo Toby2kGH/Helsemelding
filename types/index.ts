@@ -49,6 +49,18 @@ export interface Samtykker {
   forskning_biobank: boolean | null;
   kvalitetsregistre: KvalitetsregisterSamtykke[];
   aktive_studier: AktivStudie[];
+  // Fastlege-specific
+  epikrise_til_fastlege: boolean | null;
+  fastlege_sykehusjournal_innsyn: boolean | null;
+  fastlege_digital_kommunikasjon: boolean | null;
+  fastlege_spesialist_deling: boolean | null;
+  // Municipal health services
+  kommune_samordning_omsorg: boolean | null;
+  kommune_helsekoordiator_innsyn: boolean | null;
+  // Digital cooperation
+  digital_samhandling_helsenorge: boolean | null;
+  // Quality and preventive
+  forebyggende_helse_kontakt: boolean | null;
 }
 
 export interface KroniskSykdomPlan {
@@ -98,13 +110,46 @@ export interface VaccineResponse {
 }
 
 export interface SamtykkeState {
+  // Min behandling: Organdonasjon
   organdonasjon: "ja" | "nei" | "ikke_tatt_stilling" | null;
+
+  // Min behandling: Fastlege-specific
+  epikrise_til_fastlege: boolean | null;
+  fastlege_sykehusjournal_innsyn: boolean | null;
+  fastlege_digital_kommunikasjon: boolean | null;
+  fastlege_spesialist_deling: boolean | null;
+
+  // Min behandling: Journalinnsyn og deling
   deling_mellom_sykehus: boolean | null;
   deling_mellom_regioner: boolean | null;
   deling_sykehus_kommune: boolean | null;
   deling_private_aktorer: boolean | null;
-  forskning_biobank: boolean | null;
+
+  // Samarbeid om meg: Municipal health services
+  kommune_samordning_omsorg: boolean | null;
+  kommune_helsekoordiator_innsyn: boolean | null;
+
+  // Samarbeid om meg: Digital cooperation
+  digital_samhandling_helsenorge: boolean | null;
+
+  // Pårørende
+  paroerende_informasjon: boolean | null;
+  paroerende_navn: string;
+
+  // Bidra til fremtiden: Kvalitetsarbeid
   kvalitetsregistre: Record<string, boolean>;
+  kvalitetsforbedring: boolean | null;
+  forebyggende_helse_kontakt: boolean | null;
+
+  // Bidra til fremtiden: Forskning og biobank
+  forskning_kontakt: boolean | null;
+  forskning_biobank: boolean | null;
+
+  // Bidra til fremtiden: Digital og data
+  ai_maskinlaering: boolean | null;
+  student_undervisning: boolean | null;
+
+  // Aktive studier
   aktive_studier: Record<string, boolean | null>;
 }
 

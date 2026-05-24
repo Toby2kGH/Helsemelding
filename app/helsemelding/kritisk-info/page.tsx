@@ -143,7 +143,7 @@ export default function KritiskInfo() {
             Tilleggsinformasjon
           </h2>
           <p className="text-neutral-700 text-sm mb-3">
-            Er det annen informasjon om din helse som du ønsker å dele med helsepersonell? For eksempel sosial situasjon eller andre forhold som er relevant for din helsemelding.
+            Hva er det som er viktig for deg, din helse og din livskvalitet? Dette kan være nyttig for helsepersonell å vite for å tilpasse møter for deg og dine prioriteringer og verdier. For eksempel sosial situasjon eller andre forhold.
           </p>
 
           <div className="relative">
