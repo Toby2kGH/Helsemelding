@@ -11,9 +11,11 @@ interface ConsentToggleProps {
   onChange: (val: boolean) => void;
   consentId?: string;
   onMoreInfo?: (consentId: string) => void;
+  warningRequired?: boolean;
+  warningText?: string;
 }
 
-export function ConsentToggle({ label, description, value, onChange, consentId, onMoreInfo }: ConsentToggleProps) {
+export function ConsentToggle({ label, description, value, onChange, consentId, onMoreInfo, warningRequired, warningText }: ConsentToggleProps) {
   const [saved, setSaved] = useState(false);
   const [showOptOutWarning, setShowOptOutWarning] = useState(false);
 
@@ -71,10 +73,17 @@ export function ConsentToggle({ label, description, value, onChange, consentId, 
       {showOptOutWarning && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-sm">
-            <h2 className="text-lg font-semibold text-neutral-900 mb-3">⚠️ Trekk tilbake samtykke?</h2>
-            <p className="text-sm text-neutral-700 mb-6">
+            <h2 className="text-lg font-semibold text-neutral-900 mb-3">
+              {warningRequired ? "⚠️ Viktig informasjon" : "⚠️ Trekk tilbake samtykke?"}
+            </h2>
+            <p className="text-sm text-neutral-700 mb-3">
               Du er i ferd med å trekke tilbake ditt samtykke til <strong>{label}</strong>.
             </p>
+            {warningText && (
+              <div className="bg-warning-50 border border-warning-200 rounded-md p-3 mb-6">
+                <p className="text-sm text-neutral-700">{warningText}</p>
+              </div>
+            )}
             <p className="text-xs text-neutral-600 mb-6">
               Du kan endre mening og gi samtykke på nytt når som helst.
             </p>
