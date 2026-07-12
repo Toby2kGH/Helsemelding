@@ -26,7 +26,7 @@ const tjenester: Tjeneste[] = [
   { ikon: <DocumentTextIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Journaldokumenter", href: "/logg-inn", desc: "Se dine journaldokumenter fra sykehus" },
   { ikon: <TruckIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Pasientreiser", href: "/logg-inn", desc: "Søk om reiserefusjon" },
   { ikon: <ShieldCheckIcon className="h-7 w-7 text-cherry-500" aria-hidden="true" />, tittel: "Helsemelding", href: "/helsemelding", desc: "Gjennomgå legemidler, vaksiner og samtykker", isNew: true },
-  { ikon: <UserGroupIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.1", href: "/helsemelding-1-1", desc: "Alternativ mobiliserende versjon — helsemelding som virkemiddel på tvers av økosystemet", badge: "1.1" },
+  { ikon: <UserGroupIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.1", href: "/helsemelding-1-1", desc: "Ny versjon — hva som er viktig for deg, personlig forebygging og oppfølging som skjer", badge: "1.1" },
 ];
 
 const artikler = [
