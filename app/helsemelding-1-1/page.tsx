@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { ForebyggingSeksjon } from "@/components/ForebyggingSeksjon";
 
 interface SeksjonProps {
   id: string;
@@ -149,6 +150,7 @@ export default function Helsemelding11() {
             <li><a href="#reframe" className="hover:underline focus:outline-none focus:underline">Fra versjon 1.0 til 1.1</a></li>
             <li><a href="#dimensjoner" className="hover:underline focus:outline-none focus:underline">De fem mobiliseringsdimensjonene</a></li>
             <li><a href="#overganger" className="hover:underline focus:outline-none focus:underline">Overgangene avgjør helheten</a></li>
+            <li><a href="#forebygging" className="hover:underline focus:outline-none focus:underline">Forebygging som ikke drukner</a></li>
             <li><a href="#helsefellesskap" className="hover:underline focus:outline-none focus:underline">Helsefellesskapet som motor</a></li>
             <li><a href="#parorende" className="hover:underline focus:outline-none focus:underline">Pårørende og forebygging</a></li>
             <li><a href="#praksis" className="hover:underline focus:outline-none focus:underline">Læring tett på praksis</a></li>
@@ -333,6 +335,50 @@ export default function Helsemelding11() {
             forstås ikke lenger som sykehusets avslutning på et forløp, men som en felles
             overgang i et økosystem.
           </p>
+        </Seksjon>
+
+        <Seksjon id="forebygging" ikon="🌱" tittel="Forebygging som ikke drukner">
+          <p>
+            Artikkelen peker på at forebygging lett faller mellom stolene: alle gjør noe,
+            men ingen eier hele oppgaven. Helsemeldingen er et fast, årlig kontaktpunkt der
+            denne oppgaven kan mobiliseres — ved å koble deg til de forebyggingsrådene og
+            de lokale tjenestene som faktisk er relevante for deg.
+          </p>
+          <div className="rounded-lg border-l-4 border-cherry-500 bg-cherry-100 p-5">
+            <p className="font-semibold text-cherry-700 mb-1">Utfordringen: det blir fort for mye</p>
+            <p className="text-neutral-700">
+              Det finnes svært mange gode offentlige råd om aktivitet, fall, psykisk helse,
+              skjermbruk og mer. Legger vi dem alle på bordet, drukner det viktige i det
+              generelle. Svaret er ikke å finne <em>riktig antall</em> lenker, men å aldri
+              vise en katalog: helsemeldingen vet allerede alder, bosted og livssituasjon,
+              og <strong>filtrerer</strong> til de få rådene som gjelder deg.
+            </p>
+          </div>
+          <p>
+            Prøv det under — bytt profil eller oppgi en livssituasjon, og se hvordan settet
+            endrer seg. Hver bruker møter et kort, relevant utvalg, ikke alt på én gang:
+          </p>
+
+          <ForebyggingSeksjon />
+
+          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 mt-2">
+            <p className="text-sm font-semibold text-neutral-900 mb-2">
+              Slik holdes det håndterbart når lenkene blir mange
+            </p>
+            <ul className="space-y-1.5">
+              {[
+                "Personalisering, ikke katalog: regler kobler alder, kommune, diagnoser og livssituasjon mot et lite utvalg råd.",
+                "Én kilde per råd: hvert kort peker til én offentlig, redaksjonelt vedlikeholdt kilde — ikke en lenkeliste.",
+                "Tydelig innramming: «bare tips og lenker», ikke personlige medisinske anbefalinger.",
+                "Utvidelse er et datavedlikehold: nye råd legges i en tabell noen eier og oppdaterer, uten at grensesnittet vokser.",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2 text-sm text-neutral-700">
+                  <span className="text-success-700 font-bold mt-0.5" aria-hidden="true">✓</span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
         </Seksjon>
 
         <Seksjon id="helsefellesskap" ikon="🤝" tittel="Helsefellesskapet som motor">
