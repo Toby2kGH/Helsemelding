@@ -7,15 +7,26 @@ import {
   ShieldCheckIcon,
   TruckIcon,
   ClipboardDocumentListIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
-const tjenester = [
+type Tjeneste = {
+  ikon: React.ReactNode;
+  tittel: string;
+  href: string;
+  desc: string;
+  isNew?: boolean;
+  badge?: string;
+};
+
+const tjenester: Tjeneste[] = [
   { ikon: <ClipboardDocumentListIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Mine resepter", href: "/logg-inn", desc: "Se og forny reseptene dine" },
   { ikon: <CalendarDaysIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Timeavtaler", href: "/logg-inn", desc: "Se kommende timer og bestill ny time" },
   { ikon: <BeakerIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Mine vaksiner", href: "/logg-inn", desc: "Se din vaksinasjonshistorikk" },
   { ikon: <DocumentTextIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Journaldokumenter", href: "/logg-inn", desc: "Se dine journaldokumenter fra sykehus" },
   { ikon: <TruckIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Pasientreiser", href: "/logg-inn", desc: "Søk om reiserefusjon" },
   { ikon: <ShieldCheckIcon className="h-7 w-7 text-cherry-500" aria-hidden="true" />, tittel: "Helsemelding", href: "/helsemelding", desc: "Gjennomgå legemidler, vaksiner og samtykker", isNew: true },
+  { ikon: <UserGroupIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.1", href: "/helsemelding-1-1", desc: "Alternativ mobiliserende versjon — helsemelding som virkemiddel på tvers av økosystemet", badge: "1.1" },
 ];
 
 const artikler = [
@@ -105,7 +116,12 @@ export default function Forside() {
                     NY
                   </span>
                 )}
-                <span className={t.isNew ? "text-cherry-500" : "text-blueberry-700"}>
+                {t.badge && (
+                  <span className="absolute top-3 right-3 rounded-full bg-blueberry-500 px-2 py-0.5 text-xs font-bold text-white">
+                    {t.badge}
+                  </span>
+                )}
+                <span className={t.isNew ? "text-cherry-500" : t.badge ? "text-blueberry-500" : "text-blueberry-700"}>
                   {t.ikon}
                 </span>
                 <div>
