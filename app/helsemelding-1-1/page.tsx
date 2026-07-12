@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { ForebyggingSeksjon } from "@/components/ForebyggingSeksjon";
+import { LukkeSloyfaSkisse } from "@/components/LukkeSloyfaSkisse";
 
 interface SeksjonProps {
   id: string;
@@ -151,6 +152,7 @@ export default function Helsemelding11() {
             <li><a href="#dimensjoner" className="hover:underline focus:outline-none focus:underline">De fem mobiliseringsdimensjonene</a></li>
             <li><a href="#overganger" className="hover:underline focus:outline-none focus:underline">Overgangene avgjør helheten</a></li>
             <li><a href="#forebygging" className="hover:underline focus:outline-none focus:underline">Forebygging som ikke drukner</a></li>
+            <li><a href="#lukke-sloyfa" className="hover:underline focus:outline-none focus:underline">Å lukke sløyfa: fra innsikt til handling</a></li>
             <li><a href="#helsefellesskap" className="hover:underline focus:outline-none focus:underline">Helsefellesskapet som motor</a></li>
             <li><a href="#parorende" className="hover:underline focus:outline-none focus:underline">Pårørende og forebygging</a></li>
             <li><a href="#praksis" className="hover:underline focus:outline-none focus:underline">Læring tett på praksis</a></li>
@@ -380,6 +382,62 @@ export default function Helsemelding11() {
               ))}
             </ul>
           </div>
+        </Seksjon>
+
+        <Seksjon id="lukke-sloyfa" ikon="🔁" tittel="Å lukke sløyfa: fra innsikt til handling">
+          <p>
+            En lenke informerer, men mobiliserer ikke. Skal Helsemeldingen faktisk skape
+            bevegelse, må den kunne <strong>lukke sløyfa</strong>: samle det pasienten vil
+            følge opp, og sende det som strukturert handling til riktig aktør — ikke som
+            fritekst pasienten selv må bære videre.
+          </p>
+          <p>Tre utganger, rutet automatisk til rett sted:</p>
+          <div className="grid gap-3 sm:grid-cols-3 not-prose">
+            {[
+              {
+                ikon: "📋",
+                tittel: "Bestilling til fastlege",
+                tekst: "Konkrete ønsker — vaksine, legemiddelgjennomgang, årskontroll — som strukturerte oppgaver, ikke løs tekst.",
+              },
+              {
+                ikon: "💬",
+                tittel: "E-konsultasjon",
+                tekst: "Spørsmål som trenger dialog, koblet til den bekreftede legemiddellisten fra Helsemeldingen.",
+              },
+              {
+                ikon: "🏛️",
+                tittel: "Til kommunen",
+                tekst: "Ønske om frisklivssentral, balansegruppe eller hjemmeoppfølging — med samtykke til deling.",
+              },
+            ].map((k) => (
+              <div key={k.tittel} className="rounded-lg border border-neutral-200 bg-white p-4">
+                <span className="text-2xl mb-2 block" aria-hidden="true">{k.ikon}</span>
+                <p className="font-semibold text-neutral-900 text-sm mb-1">{k.tittel}</p>
+                <p className="text-xs text-neutral-600">{k.tekst}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-lg border-l-4 border-blueberry-500 bg-blueberry-50 p-5">
+            <p className="font-semibold text-blueberry-900 mb-1">
+              «Hva er viktig for meg?» — rammen, ikke enda et felt
+            </p>
+            <p className="text-neutral-700">
+              Pasientens egne mål er selve linsen forløpet skal leses gjennom. For at det ikke
+              skal drukne, gjør vi det til <strong>ett spørsmål øverst</strong> — ikke et
+              skjema — og lar svaret følge med som <strong>overskrift</strong> på alt som
+              sendes til fastlege og kommune. Da ser aktørene ikke bare hva som feiler, men
+              hva pasienten faktisk vil oppnå. Det er også kjernen i artikkelens{" "}
+              <em>eierskap</em>: pasienten som medskaper, ikke bare datakilde.
+            </p>
+          </div>
+
+          <p>
+            Prøv skissen under — velg hva som er viktig for deg, huk av oppfølging, og se hvordan
+            handoffen til fastlege og kommune bygger seg opp:
+          </p>
+
+          <LukkeSloyfaSkisse />
         </Seksjon>
 
         <Seksjon id="helsefellesskap" ikon="🤝" tittel="Helsefellesskapet som motor">
