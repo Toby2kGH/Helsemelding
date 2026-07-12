@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@/context/UserContext";
 import {
@@ -18,6 +18,7 @@ const profilValg = [
 const livssituasjonValg: { id: Livssituasjon; label: string }[] = [
   { id: "barn_6_17", label: "Har barn (6–17 år)" },
   { id: "smaa_barn", label: "Har små barn" },
+  { id: "gravid", label: "Gravid / planlegger" },
 ];
 
 const prioritetStil: Record<string, string> = {
@@ -29,12 +30,18 @@ const prioritetStil: Record<string, string> = {
 export function ForebyggingSeksjon() {
   const { profil, aktivProfil, byttProfil } = useUser();
   const [livssituasjoner, setLivssituasjoner] = useState<Set<Livssituasjon>>(new Set());
+  const [alder, setAlder] = useState<number>(profil.alder);
+
+  // Nullstill alder til profilens faktiske alder når man bytter profil.
+  useEffect(() => {
+    setAlder(profil.alder);
+  }, [profil.alder]);
 
   const raad = useMemo(
-    () => beregnForebygging(profil, livssituasjoner),
-    [profil, livssituasjoner]
+    () => beregnForebygging(profil, alder, livssituasjoner),
+    [profil, alder, livssituasjoner]
   );
-  const tjenester = useMemo(() => tjenesterNaerDeg(profil), [profil]);
+  const tjenester = useMemo(() => tjenesterNaerDeg(profil, alder), [profil, alder]);
 
   const toggleLivssituasjon = (id: Livssituasjon) => {
     setLivssituasjoner((prev) => {
@@ -45,10 +52,12 @@ export function ForebyggingSeksjon() {
     });
   };
 
+  const overstyrt = alder !== profil.alder;
+
   return (
     <div className="not-prose rounded-lg border border-neutral-200 bg-neutral-50 p-5">
       {/* Demo-kontroller */}
-      <div className="mb-5 space-y-3">
+      <div className="mb-5 space-y-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-2">
             Prøv med en profil
@@ -71,6 +80,31 @@ export function ForebyggingSeksjon() {
             ))}
           </div>
         </div>
+
+        <div>
+          <label htmlFor="alder-slider" className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+            Sveip over aldersbåndene:{" "}
+            <span className="text-blueberry-700 normal-case">{alder} år</span>
+            {overstyrt && (
+              <span className="ml-1 text-neutral-400 normal-case font-normal">
+                (overstyrt — {profil.navn.split(" ")[0]} er {profil.alder})
+              </span>
+            )}
+          </label>
+          <input
+            id="alder-slider"
+            type="range"
+            min={1}
+            max={95}
+            value={alder}
+            onChange={(e) => setAlder(Number(e.target.value))}
+            className="mt-1.5 w-full accent-blueberry-700"
+          />
+          <div className="flex justify-between text-[10px] text-neutral-400">
+            <span>0–5</span><span>6–17</span><span>18–39</span><span>40–64</span><span>65+</span><span>80+</span>
+          </div>
+        </div>
+
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-2">
             Livssituasjon (som du selv oppgir)
@@ -97,9 +131,9 @@ export function ForebyggingSeksjon() {
 
       {/* Personalisert resultat */}
       <p className="text-sm text-neutral-600 mb-3">
-        Basert på alder (<strong>{profil.alder} år</strong>) og hvor du bor
+        Basert på alder (<strong>{alder} år</strong>) og hvor du bor
         (<strong>{profil.kommune}</strong>) viser vi{" "}
-        <strong>{raad.length} {raad.length === 1 ? "råd" : "råd"}</strong> — ikke en full katalog.
+        <strong>{raad.length} råd</strong> — ikke en full katalog.
       </p>
 
       <div className="space-y-3">
@@ -117,15 +151,25 @@ export function ForebyggingSeksjon() {
                 <h4 className="font-semibold text-neutral-900">{r.tittel}</h4>
                 <p className="text-sm text-neutral-700 mt-1">{r.tekst}</p>
                 <p className="text-xs text-neutral-500 italic mt-1.5">{r.hvorfor}</p>
-                <a
-                  href={r.lenke}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm font-medium text-blueberry-700 hover:underline mt-2 focus:outline-none focus:underline"
-                >
-                  {r.kilde}
-                  <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
+                {r.lenke ? (
+                  <a
+                    href={r.lenke}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-blueberry-700 hover:underline mt-2 focus:outline-none focus:underline"
+                  >
+                    {r.kilde}
+                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span className="sr-only">(åpnes i ny fane)</span>
+                  </a>
+                ) : (
+                  <p className="mt-2 text-xs text-neutral-500">
+                    Kilde: {r.kilde}
+                    <span className="ml-1 rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-medium text-neutral-500">
+                      delenke kvalitetssikres
+                    </span>
+                  </p>
+                )}
               </div>
             </div>
           </div>

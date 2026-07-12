@@ -369,6 +369,7 @@ export default function Helsemelding11() {
               {[
                 "Personalisering, ikke katalog: regler kobler alder, kommune, diagnoser og livssituasjon mot et lite utvalg råd.",
                 "Én kilde per råd: hvert kort peker til én offentlig, redaksjonelt vedlikeholdt kilde — ikke en lenkeliste.",
+                "Verifiserte lenker: temaer uten en kvalitetssikret delenke vises uten lenke, aldri som en gjetting.",
                 "Tydelig innramming: «bare tips og lenker», ikke personlige medisinske anbefalinger.",
                 "Utvidelse er et datavedlikehold: nye råd legges i en tabell noen eier og oppdaterer, uten at grensesnittet vokser.",
               ].map((t) => (
