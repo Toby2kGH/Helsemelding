@@ -17,7 +17,7 @@ export default function StegViktig() {
 
   function neste() {
     fullforSteg("viktig");
-    router.push("/helsemelding-1-1/forebygging");
+    router.push("/helsemelding-1-1/legemidler");
   }
 
   return (
@@ -83,7 +83,7 @@ export default function StegViktig() {
             onClick={neste}
             className="flex items-center gap-2 rounded-md bg-blueberry-900 px-6 py-3 text-base font-semibold text-white hover:bg-blueberry-700 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2 transition"
           >
-            Neste: Forebygging
+            Neste: Legemidler
             <ArrowRightIcon className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>

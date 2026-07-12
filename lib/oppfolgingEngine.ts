@@ -1,4 +1,4 @@
-import type { UserProfile } from "@/types";
+import type { UserProfile, MedicationResponse } from "@/types";
 
 /**
  * Oppfølgingsmotoren — utleder konkrete oppfølgingsønsker fra det Helsemeldingen
@@ -94,6 +94,39 @@ export function utledHandlinger(profil: UserProfile): Handling[] {
     kanal: "kommune",
     krevesSamtykke: true,
   });
+
+  return handlinger;
+}
+
+/**
+ * Utleder oppfølging fra det pasienten faktisk svarte i legemiddel-gjennomgangen.
+ * Slik lukkes sløyfa: et avvik eller en usikkerhet blir automatisk til en konkret
+ * henvendelse til fastlegen, i stedet for å bare bli registrert.
+ */
+export function utledHandlingerFraSvar(svar: MedicationResponse[]): Handling[] {
+  const handlinger: Handling[] = [];
+
+  const avvik = svar.filter(
+    (r) => r.tarMedisinen === "ja_annen_dose" || r.tarMedisinen === "nei"
+  );
+  if (avvik.length > 0) {
+    handlinger.push({
+      id: "avvik-legemiddel",
+      tittel: "Ta opp endringer i medisinbruk med fastlegen",
+      begrunnelse: `Du oppga avvik på ${avvik.length} ${avvik.length === 1 ? "legemiddel" : "legemidler"} — legemiddellisten bør oppdateres.`,
+      kanal: "e-konsultasjon",
+    });
+  }
+
+  const usikker = svar.filter((r) => r.vetHvorfor === "nei" || r.vetNårHvordan === "nei");
+  if (usikker.length > 0) {
+    handlinger.push({
+      id: "usikker-legemiddel",
+      tittel: "Få forklart legemidler du er usikker på",
+      begrunnelse: `Du var usikker på ${usikker.length} ${usikker.length === 1 ? "legemiddel" : "legemidler"}.`,
+      kanal: "e-konsultasjon",
+    });
+  }
 
   return handlinger;
 }

@@ -9,11 +9,11 @@ import { Stepper } from "@/components/Stepper";
 import { useUser } from "@/context/UserContext";
 import { useHelsemelding11 } from "@/context/Helsemelding11Context";
 import { byggSteps } from "@/lib/helsemelding11";
-import { utledHandlinger, KANAL_INFO } from "@/lib/oppfolgingEngine";
+import { utledHandlinger, utledHandlingerFraSvar, KANAL_INFO } from "@/lib/oppfolgingEngine";
 
 export default function StegOppfolging() {
   const router = useRouter();
-  const { profil } = useUser();
+  const { profil, helsemeldingState } = useUser();
   const {
     valgteHandlinger,
     toggleHandling,
@@ -23,7 +23,13 @@ export default function StegOppfolging() {
   } = useHelsemelding11();
   const steps = byggSteps("oppfolging", fullfort);
 
-  const handlinger = useMemo(() => utledHandlinger(profil), [profil]);
+  const handlinger = useMemo(
+    () => [
+      ...utledHandlingerFraSvar(helsemeldingState.medicationResponses),
+      ...utledHandlinger(profil),
+    ],
+    [profil, helsemeldingState.medicationResponses]
+  );
 
   // Forhåndsvelg alle forslag ved første besøk (før steget er fullført).
   useEffect(() => {
@@ -46,7 +52,7 @@ export default function StegOppfolging() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 3 av 4</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 5 av 6</p>
           <h1 className="text-3xl font-bold text-neutral-900">Oppfølging du ønsker</h1>
           <p className="text-neutral-600 mt-2">
             Vi har foreslått oppfølging ut fra det Helsemeldingen vet om deg. Huk av det du vil

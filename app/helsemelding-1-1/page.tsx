@@ -66,7 +66,7 @@ export default function Helsemelding11Landing() {
         <div className="rounded-lg border border-neutral-200 bg-white p-4 mb-8 text-sm text-neutral-600">
           Hei, <strong>{profil.navn.split(" ")[0]}</strong>! Vi tar utgangspunkt i det
           Helsemeldingen allerede vet om deg — legemidler, vaksiner og kritisk info — og
-          hjelper deg videre i fire korte steg.
+          hjelper deg gjennom seks korte steg.
         </div>
 
         <Link

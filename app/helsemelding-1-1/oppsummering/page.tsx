@@ -15,16 +15,26 @@ import { Stepper } from "@/components/Stepper";
 import { useUser } from "@/context/UserContext";
 import { useHelsemelding11 } from "@/context/Helsemelding11Context";
 import { byggSteps } from "@/lib/helsemelding11";
-import { utledHandlinger } from "@/lib/oppfolgingEngine";
+import { utledHandlinger, utledHandlingerFraSvar } from "@/lib/oppfolgingEngine";
 
 export default function StegOppsummering() {
-  const { profil } = useUser();
+  const { profil, helsemeldingState } = useUser();
   const { viktigForMeg, viktigFritekst, valgteHandlinger, fullfort, fullforSteg } =
     useHelsemelding11();
   const steps = byggSteps("oppsummering", fullfort);
   const [sendt, setSendt] = useState(false);
 
-  const handlinger = useMemo(() => utledHandlinger(profil), [profil]);
+  const medSvar = helsemeldingState.medicationResponses;
+  const antallLegemidler = profil.legemidler.faste.length + profil.legemidler.behovs.length;
+  const antallGjennomgatt = medSvar.filter((r) => r.tarMedisinen !== null).length;
+  const antallAvvik = medSvar.filter(
+    (r) => r.tarMedisinen === "ja_annen_dose" || r.tarMedisinen === "nei"
+  ).length;
+
+  const handlinger = useMemo(
+    () => [...utledHandlingerFraSvar(medSvar), ...utledHandlinger(profil)],
+    [profil, medSvar]
+  );
   const valgte = handlinger.filter((h) => valgteHandlinger.includes(h.id));
   const tilFastlege = valgte.filter((h) => h.kanal === "fastlege" || h.kanal === "e-konsultasjon");
   const tilKommune = valgte.filter((h) => h.kanal === "kommune");
@@ -67,7 +77,7 @@ export default function StegOppsummering() {
         ) : (
           <>
             <div className="mb-6">
-              <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 4 av 4</p>
+              <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 6 av 6</p>
               <h1 className="text-3xl font-bold text-neutral-900">Oppsummering</h1>
               <p className="text-neutral-600 mt-2">
                 Se hva som sendes — strukturert, ikke fritekst — og til hvem. Alt forankres i det
@@ -91,6 +101,33 @@ export default function StegOppsummering() {
                   </Link>
                 </p>
               )}
+            </section>
+
+            {/* Gjennomgått i Helsemeldingen */}
+            <section className="mb-6 rounded-lg border border-neutral-200 bg-white p-4">
+              <h2 className="font-semibold text-neutral-900 mb-3 text-sm">Gjennomgått i Helsemeldingen</h2>
+              <dl className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
+                <div>
+                  <dt className="text-neutral-500 text-xs">Legemidler</dt>
+                  <dd className="font-medium text-neutral-900">
+                    {antallGjennomgatt} av {antallLegemidler} gjennomgått
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-neutral-500 text-xs">Avvik</dt>
+                  <dd className="font-medium text-neutral-900">
+                    {antallAvvik > 0 ? (
+                      <span className="text-warning-700">{antallAvvik} registrert</span>
+                    ) : (
+                      "Ingen"
+                    )}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-neutral-500 text-xs">Kritisk info</dt>
+                  <dd className="font-medium text-neutral-900">Bekreftet</dd>
+                </div>
+              </dl>
             </section>
 
             <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-2">
