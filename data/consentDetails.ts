@@ -14,6 +14,8 @@ export interface ConsentDetail {
     rettigheter: string;
   };
   icon?: string;
+  warningRequired?: boolean;
+  warningText?: string;
 }
 
 export const consentDetails: Record<string, ConsentDetail> = {
@@ -116,6 +118,58 @@ export const consentDetails: Record<string, ConsentDetail> = {
       formål: 'Å sikre samordnet og effektiv behandling av pasienten basert på velinformerte kliniske beslutninger',
       oppbevaring: 'Informasjonen oppbevares i hver behandlers journal etter nasjonale retningslinjer',
       rettigheter: 'Du kan gi eller nekke samtykke for deling med spesifikke helsepersonell. Du har rett til å vite hvem som har sett journalen din.'
+    },
+    warningRequired: true,
+    warningText: 'Hvis du ikke tillater deling med helsepersonell, kan det bli vansker med å koordinere behandlingen din på tvers av institusjoner. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen.'
+  },
+
+  forskning_kontakt: {
+    id: 'forskning_kontakt',
+    navn: 'Kontakt for forskning',
+    kategori: 'bidra_til_fremtiden',
+    beskrivelse: 'Du gir samtykke til at du kan bli kontaktet om deltakelse i forskningsprosjekter som er relevant for din diagnose eller helsetilstand.',
+    hvoem: [
+      'Forskningsinstitusjoner',
+      'Universiteter og høgskolesentre',
+      'Sykehusenheter som driver forskning',
+      'REK (Regionale komiteer for medisinsk og helsefaglig forskningsetikk)'
+    ],
+    praktiskBruk: [
+      'Du kan få invitasjon til å delta i kliniske studier som tester nye behandlinger for din tilstand',
+      'Du blir kontaktet direkte og kan velge å si ja eller nei til hvert enkelt prosjekt',
+      'Du kan senere trekke deg fra et prosjekt uten at det påvirker din behandling'
+    ],
+    juridisk: {
+      hjemmelsgrunnlag: 'Helseforskningsloven og Forskrift om medisinsk og helsefaglig forskning',
+      formål: 'Å identifisere potensielle deltakere for forskningsprosjekter som kan forbedre behandlingen',
+      oppbevaring: 'Kontaktinformasjonen lagres hos forskningsinstitutsjonen. Oppbevaringstid varierer etter prosjekt.',
+      rettigheter: 'Du kan når som helst trekke samtykket. Du blir ikke kontaktet om nye prosjekter etter at du har trukket samtykket.'
+    }
+  },
+
+  forskning_biobank: {
+    id: 'forskning_biobank',
+    navn: 'Biobank — lagring av biologisk materiale',
+    kategori: 'bidra_til_fremtiden',
+    beskrivelse: 'Du gir samtykke til at blodprøver, vevsprøver og annet biologisk materiale som tas i forbindelse med din behandling kan lagres og brukes i fremtidig forskning og diagnostikk.',
+    hvoem: [
+      'Biobanker',
+      'Patologisk institutt',
+      'Laboratorier og sykehus',
+      'Godkjente forskningsgrupper',
+      'REK og datainspektør'
+    ],
+    praktiskBruk: [
+      'Blodprøven din fra diagnoseundersøkelsen oppbevares i biobank',
+      'Prøven kan brukes til nye tester hvis din diagnose endres',
+      'Forskning på nye biomarkører kan inkludere din prøve hvis du gir samtykke',
+      'Du vil bli informert hvis prøven din skal brukes i spesifikt prosjekt'
+    ],
+    juridisk: {
+      hjemmelsgrunnlag: 'Helseforskningsloven og Biobankregisteret',
+      formål: 'Å lagre biologisk materiale for fremtidig forskning, diagnostikk og behandling',
+      oppbevaring: 'Prøver oppbevares under regulert forhold. Oppbevaringtid varierer fra 5-20 år eller lenger, avhengig av prosjekt.',
+      rettigheter: 'Du kan trekke samtykke for fremtidig bruk. Tidligere gjennomførte analyser kan ikke reverseres, men nye analyser vil stoppe.'
     }
   },
 
@@ -147,28 +201,30 @@ export const consentDetails: Record<string, ConsentDetail> = {
 
   kommunal_helse: {
     id: 'kommunal_helse',
-    navn: 'Deling med kommunens helsetjenester',
+    navn: 'Samarbeid med kommunen',
     kategori: 'samarbeid_om_meg',
-    beskrivelse: 'Du gir samtykke til at din helseinformasjon fra sykehus og spesialisthelsetjenesten kan deles med kommunens helsetjenester, som hjemmetjenesten, helsestasjonen og kommunelegene.',
+    beskrivelse: 'Når du skrives ut fra sykehus eller trenger oppfølging hjemme, må kommunens helsetjenester kunne se relevant helseinformasjon for å hjelpe deg. Dette gjelder hjemmesykepleie, kreftkoordinator, eldrehelsekoordinator og andre kommunale tjenester.',
     hvoem: [
-      'Kommunelegene',
-      'Hjemmetjenesten',
-      'Helsestasjonen og skolehelsetjenesten',
-      'Psykisk helse- og russentre i kommunen',
-      'Koordineringsenheter for habilitering og rehabilitering'
+      'Hjemmesykepleien',
+      'Kreftkoordinator eller eldrehelsekoordinator',
+      'Kommunelegen',
+      'Helsestasjonen',
+      'Psykisk helse- og russentre i kommunen'
     ],
     praktiskBruk: [
-      'Hjemmetjenesten vet at du har fått instruksjoner om sårstell fra sykehus',
-      'Kommunelegen kan følge opp reseptfornyinger og medisinselvhjelp du har lært',
-      'Helsestasjon vet om dine kroniske sykdommer når du følger opp med barn',
-      'Psykisk helse-team i kommunen kan samarbeide med sykehuspsykiatrien'
+      'Hjemmesykepleien kan se sårstell-instruksjoner og medisinliste fra sykehus',
+      'Kreftkoordinator får oversikt over behandling for å koordinere oppfølging',
+      'Kommunelegen kan følge opp reseptfornyinger og videre behandling',
+      'Ved utskrivning til rehabilitering eller pleiehjem kan de relevante tjenestene se behandlingsplan'
     ],
     juridisk: {
       hjemmelsgrunnlag: 'Helsepersonelloven § 25 og samhandlingsreformen',
-      formål: 'Å sikre god oppfølging i kommunen og samordnet helsetjenester mellom nivåene',
+      formål: 'Å sikre god oppfølging i kommunen og samordnet helsetjenester mellom sykehus og kommune',
       oppbevaring: 'Informasjonen lagres i kommunens pasientjournal og oppbevares etter nasjonale retningslinjer',
-      rettigheter: 'Du kan trekke dette samtykket, men oppfordres til å velge det for bedre koordinering av din behandling.'
-    }
+      rettigheter: 'Du kan trekke dette samtykket, men det anbefales ikke da det kan påvirke koordineringen av din behandling.'
+    },
+    warningRequired: true,
+    warningText: 'Hvis du ikke tillater deling med kommunen, kan det bli vansker med oppfølging hjemme og koordinering mellom sykehus og kommune. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen.'
   },
 
   nødsituasjoner: {

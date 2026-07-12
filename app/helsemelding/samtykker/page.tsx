@@ -124,24 +124,32 @@ export default function Samtykker() {
               description="Fastlegen mottar oppsummering av hva som skjedde under sykehusoppholdet."
               value={samtykkeState.epikrise_til_fastlege}
               onChange={(val) => oppdaterSamtykke({ epikrise_til_fastlege: val })}
+              consentId="epikrise_til_fastlege"
+              onMoreInfo={setSelectedConsent}
             />
             <ConsentToggle
               label="Fastlegen min kan se sykehusjournal"
               description="Tillater fastlegen å se journalnotater fra sykehusbesøk for bedre oversikt over din behandling."
               value={samtykkeState.fastlege_sykehusjournal_innsyn}
               onChange={(val) => oppdaterSamtykke({ fastlege_sykehusjournal_innsyn: val })}
+              consentId="fastlege_sykehusjournal_innsyn"
+              onMoreInfo={setSelectedConsent}
             />
             <ConsentToggle
               label="Digital meldingsutveksling med fastlege"
               description="Fastlegen kan sende og motta meldinger digitalt om din behandling."
               value={samtykkeState.fastlege_digital_kommunikasjon}
               onChange={(val) => oppdaterSamtykke({ fastlege_digital_kommunikasjon: val })}
+              consentId="fastlege_digital_kommunikasjon"
+              onMoreInfo={setSelectedConsent}
             />
             <ConsentToggle
               label="Dele spesialopplysninger automatisk"
               description="Rapporter fra spesialister sendes automatisk til fastlegen for koordinert oppfølging."
               value={samtykkeState.fastlege_spesialist_deling}
               onChange={(val) => oppdaterSamtykke({ fastlege_spesialist_deling: val })}
+              consentId="fastlege_spesialist_deling"
+              onMoreInfo={setSelectedConsent}
             />
           </div>
 
@@ -150,21 +158,23 @@ export default function Samtykker() {
             <h3 className="font-semibold text-neutral-900 mb-3">Deling av journal mellom helseinstitusjoner</h3>
             <ConsentToggle
               label="Deling av journalopplysninger mellom sykehus"
-              description="Tillater at sykehus du er innlagt på kan se relevante journalnotat fra andre sykehus du har besøkt."
+              description="Tillater at sykehus du er innlagt på kan se relevante journalnotat fra andre sykehus du har besøkt. F.eks. når du behandles på både Oslo Universitetssykehus og Akershus Universitetssykehus."
               value={samtykkeState.deling_mellom_sykehus}
               onChange={(val) => oppdaterSamtykke({ deling_mellom_sykehus: val })}
+              consentId="deling_mellom_sykehus"
+              onMoreInfo={setSelectedConsent}
+              warningRequired={true}
+              warningText="Hvis du ikke tillater deling mellom sykehus, kan det bli vansker med å koordinere behandlingen din. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen."
             />
             <ConsentToggle
               label="Deling mellom helseregioner"
-              description="Gjelder f.eks. ved innleggelse i annen region enn der du normalt behandles."
+              description="Gjelder f.eks. ved innleggelse i annen region enn der du normalt behandles. F.eks. når du flyttes fra Helse Sør-Øst til Helse Nord og de nye legene trenger din behandlingshistorikk."
               value={samtykkeState.deling_mellom_regioner}
               onChange={(val) => oppdaterSamtykke({ deling_mellom_regioner: val })}
-            />
-            <ConsentToggle
-              label="Deling med private tilbydere"
-              description="Private klinikker og spesialister som ikke er tilknyttet offentlig sykehus kan få tilgang."
-              value={samtykkeState.deling_private_aktorer}
-              onChange={(val) => oppdaterSamtykke({ deling_private_aktorer: val })}
+              consentId="deling_mellom_regioner"
+              onMoreInfo={setSelectedConsent}
+              warningRequired={true}
+              warningText="Hvis du ikke tillater deling mellom regioner, kan det føre til forsinkelser ved behandling utenfor din hjemmeregion. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen."
             />
           </div>
         </ConsentSection>
@@ -177,24 +187,36 @@ export default function Samtykker() {
         >
           {/* Municipal health services */}
           <div className="border-b border-green-100 pb-4 mb-4">
-            <h3 className="font-semibold text-neutral-900 mb-3">Kommunale helsetjenester</h3>
+            <h3 className="font-semibold text-neutral-900 mb-3">Samarbeid med kommunen</h3>
             <ConsentToggle
               label="Deling mellom sykehus og kommune"
-              description="Relevant ved utskrivelse til hjemmetjeneste eller kommunal omsorgstjeneste."
+              description="Når du skrives ut fra sykehus eller trenger oppfølging hjemme, må kommunens helsetjenester kunne se relevant helseinformasjon. Dette gjelder hjemmesykepleie, kreftkoordinator, eldrehelsekoordinator og andre kommunale tjenester."
               value={samtykkeState.deling_sykehus_kommune}
               onChange={(val) => oppdaterSamtykke({ deling_sykehus_kommune: val })}
+              consentId="deling_sykehus_kommune"
+              onMoreInfo={setSelectedConsent}
+              warningRequired={true}
+              warningText="Hvis du ikke tillater deling med kommunen, kan det bli vansker med oppfølging hjemme og koordinering mellom sykehus og kommune. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen."
             />
             <ConsentToggle
               label="Samordning av pleie og omsorg"
               description="Kommune og sykehus samordner innsatsen når du trenger både sykehus og kommunale tjenester."
               value={samtykkeState.kommune_samordning_omsorg}
               onChange={(val) => oppdaterSamtykke({ kommune_samordning_omsorg: val })}
+              consentId="kommune_samordning_omsorg"
+              onMoreInfo={setSelectedConsent}
+              warningRequired={true}
+              warningText="Å ikke tillate samordning kan føre til duplisering av tjenester og vansker med koordinert oppfølging."
             />
             <ConsentToggle
               label="Helsekoordiator får tilgang til journal"
-              description="En helsekoordiator i kommunen kan se deler av journalen for å koordinere din behandling."
+              description="En helsekoordiator i kommunen (f.eks. kreftkoordinator eller eldrehelsekoordinator) kan se deler av journalen for å koordinere din behandling."
               value={samtykkeState.kommune_helsekoordiator_innsyn}
               onChange={(val) => oppdaterSamtykke({ kommune_helsekoordiator_innsyn: val })}
+              consentId="kommune_helsekoordiator_innsyn"
+              onMoreInfo={setSelectedConsent}
+              warningRequired={true}
+              warningText="Hvis koordinatoren ikke får tilgang, kan det bli vansker med å samordne din behandling på tvers av tjenestene."
             />
           </div>
 
@@ -206,6 +228,8 @@ export default function Samtykker() {
               description="Gjør at du kan kommunisere digitalt med ulike deler av helsevesenet gjennom Helsenorge."
               value={samtykkeState.digital_samhandling_helsenorge}
               onChange={(val) => oppdaterSamtykke({ digital_samhandling_helsenorge: val })}
+              consentId="digital_samhandling_helsenorge"
+              onMoreInfo={setSelectedConsent}
             />
           </div>
         </ConsentSection>
@@ -224,12 +248,16 @@ export default function Samtykker() {
               description="Helsevesenet kan kontakte deg om deltakelse i forebyggende helseprogram."
               value={samtykkeState.forebyggende_helse_kontakt}
               onChange={(val) => oppdaterSamtykke({ forebyggende_helse_kontakt: val })}
+              consentId="forebyggende_helse_kontakt"
+              onMoreInfo={setSelectedConsent}
             />
             <ConsentToggle
               label="Bidra til kvalitetsforbedring"
               description="Din erfaring kan brukes til å forbedre kvaliteten på helsetjenestene."
               value={samtykkeState.kvalitetsforbedring}
               onChange={(val) => oppdaterSamtykke({ kvalitetsforbedring: val })}
+              consentId="kvalitetsforbedring"
+              onMoreInfo={setSelectedConsent}
             />
           </div>
 
@@ -258,12 +286,16 @@ export default function Samtykker() {
               description="Du kan bli kontaktet om deltakelse i forskningsprosjekter som er relevant for din diagnose."
               value={samtykkeState.forskning_kontakt}
               onChange={(val) => oppdaterSamtykke({ forskning_kontakt: val })}
+              consentId="forskning_kontakt"
+              onMoreInfo={setSelectedConsent}
             />
             <ConsentToggle
               label="Biobank — lagring av biologisk materiale"
               description="Blodprøver eller annet biologisk materiale kan lagres for fremtidig forskning."
               value={samtykkeState.forskning_biobank}
               onChange={(val) => oppdaterSamtykke({ forskning_biobank: val })}
+              consentId="forskning_biobank"
+              onMoreInfo={setSelectedConsent}
             />
           </div>
 
@@ -275,12 +307,16 @@ export default function Samtykker() {
               description="Dine anonymiserte data kan brukes til å forbedre kunstig intelligens i helsetjenesten."
               value={samtykkeState.ai_maskinlaering}
               onChange={(val) => oppdaterSamtykke({ ai_maskinlaering: val })}
+              consentId="ai_maskinlaering"
+              onMoreInfo={setSelectedConsent}
             />
             <ConsentToggle
               label="Student- og undervisningsformål"
               description="Dine anonymiserte data kan brukes til undervisning av helsefagstudenter."
               value={samtykkeState.student_undervisning}
               onChange={(val) => oppdaterSamtykke({ student_undervisning: val })}
+              consentId="student_undervisning"
+              onMoreInfo={setSelectedConsent}
             />
           </div>
 
@@ -434,6 +470,11 @@ export default function Samtykker() {
           onClose={() => setSelectedConsent(null)}
           consentId={selectedConsent || ""}
           currentValue={selectedConsent ? samtykkeState[selectedConsent as keyof typeof samtykkeState] as boolean | null : null}
+          onToggle={(value) => {
+            if (selectedConsent) {
+              oppdaterSamtykke({ [selectedConsent]: value });
+            }
+          }}
         />
       </div>
     </div>
