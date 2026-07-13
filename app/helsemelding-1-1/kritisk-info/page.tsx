@@ -30,7 +30,7 @@ export default function StegKritiskInfo() {
 
   function neste() {
     fullforSteg("kritisk");
-    router.push("/helsemelding-1-1/forebygging");
+    router.push("/helsemelding-1-1/samtykker");
   }
 
   return (
@@ -41,7 +41,7 @@ export default function StegKritiskInfo() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 3 av 6</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 3 av 7</p>
           <h1 className="text-3xl font-bold text-neutral-900">Kritisk helseinformasjon</h1>
           <p className="text-neutral-600 mt-2">
             Gjennomgå informasjonen som er registrert i din kjernejournal. Kontakt
@@ -169,7 +169,7 @@ export default function StegKritiskInfo() {
             onClick={neste}
             className="flex items-center gap-2 rounded-md bg-blueberry-900 px-6 py-3 text-base font-semibold text-white hover:bg-blueberry-700 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2 transition"
           >
-            Neste: Forebygging
+            Neste: Samtykker
             <ArrowRightIcon className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>

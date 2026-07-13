@@ -48,7 +48,7 @@ export default function StegForebygging() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 4 av 6</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 5 av 7</p>
           <h1 className="text-3xl font-bold text-neutral-900">Forebygging for deg</h1>
           <p className="text-neutral-600 mt-2">
             Basert på alder (<strong>{profil.alder} år</strong>) og hvor du bor
@@ -139,7 +139,7 @@ export default function StegForebygging() {
 
         <div className="flex items-center justify-between gap-4 pt-4 border-t border-neutral-200">
           <Link
-            href="/helsemelding-1-1/kritisk-info"
+            href="/helsemelding-1-1/samtykker"
             className="flex items-center gap-2 rounded-md border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-400"
           >
             <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />

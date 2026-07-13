@@ -77,7 +77,7 @@ export default function StegOppsummering() {
         ) : (
           <>
             <div className="mb-6">
-              <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 6 av 6</p>
+              <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 7 av 7</p>
               <h1 className="text-3xl font-bold text-neutral-900">Oppsummering</h1>
               <p className="text-neutral-600 mt-2">
                 Se hva som sendes — strukturert, ikke fritekst — og til hvem. Alt forankres i det

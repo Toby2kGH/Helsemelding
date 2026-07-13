@@ -28,7 +28,7 @@ export default function StegViktig() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 1 av 4</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 1 av 7</p>
           <h1 className="text-3xl font-bold text-neutral-900">Hva er viktig for deg?</h1>
           <p className="text-neutral-600 mt-2">
             Dine egne mål er utgangspunktet. Det du velger her følger med som ramme på alt

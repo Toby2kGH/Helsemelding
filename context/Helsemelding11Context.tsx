@@ -7,6 +7,7 @@ export type Steg11 =
   | "viktig"
   | "legemidler"
   | "kritisk"
+  | "samtykker"
   | "forebygging"
   | "oppfolging"
   | "oppsummering";
@@ -37,6 +38,7 @@ const initialState: Helsemelding11State = {
     viktig: false,
     legemidler: false,
     kritisk: false,
+    samtykker: false,
     forebygging: false,
     oppfolging: false,
     oppsummering: false,

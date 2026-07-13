@@ -45,7 +45,7 @@ export default function StegLegemidler() {
         <Stepper steps={steps} />
 
         <div className="mb-6">
-          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 2 av 6</p>
+          <p className="text-sm text-blueberry-700 font-medium mb-1">Steg 2 av 7</p>
           <h1 className="text-3xl font-bold text-neutral-900">Legemidler</h1>
           <p className="text-neutral-600 mt-2">
             Vi har hentet inn din legemiddelliste fra PLL. Bekreft at opplysningene stemmer og
