@@ -31,6 +31,18 @@ export const STEG_12: StegDef[] = [
   { id: 8, key: "oppsummering", label: "Oppsummering", path: "/helsemelding-1-2/oppsummering" },
 ];
 
+/** Helsemelding 1.3 — som 1.2, men helsekompetanse-steget er et randomisert forsøk. */
+export const STEG_13: StegDef[] = [
+  { id: 1, key: "viktig", label: "Viktig for meg", path: "/helsemelding-1-3/viktig" },
+  { id: 2, key: "legemidler", label: "Legemidler", path: "/helsemelding-1-3/legemidler" },
+  { id: 3, key: "kritisk", label: "Kritisk info", path: "/helsemelding-1-3/kritisk-info" },
+  { id: 4, key: "samtykker", label: "Samtykker", path: "/helsemelding-1-3/samtykker" },
+  { id: 5, key: "forebygging", label: "Forebygging", path: "/helsemelding-1-3/forebygging" },
+  { id: 6, key: "helsekompetanse", label: "Helsekompetanse", path: "/helsemelding-1-3/helsekompetanse" },
+  { id: 7, key: "oppfolging", label: "Oppfølging", path: "/helsemelding-1-3/oppfolging" },
+  { id: 8, key: "oppsummering", label: "Oppsummering", path: "/helsemelding-1-3/oppsummering" },
+];
+
 export function byggSteps(
   aktiv: Steg11 | null,
   fullfort: Record<Steg11, boolean>,
