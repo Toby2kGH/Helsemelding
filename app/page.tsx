@@ -8,6 +8,7 @@ import {
   TruckIcon,
   ClipboardDocumentListIcon,
   UserGroupIcon,
+  AcademicCapIcon,
 } from "@heroicons/react/24/outline";
 
 type Tjeneste = {
@@ -27,6 +28,7 @@ const tjenester: Tjeneste[] = [
   { ikon: <TruckIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Pasientreiser", href: "/logg-inn", desc: "Søk om reiserefusjon" },
   { ikon: <ShieldCheckIcon className="h-7 w-7 text-cherry-500" aria-hidden="true" />, tittel: "Helsemelding", href: "/helsemelding", desc: "Gjennomgå legemidler, vaksiner og samtykker", isNew: true },
   { ikon: <UserGroupIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.1", href: "/helsemelding-1-1", desc: "Ny versjon — hva som er viktig for deg, personlig forebygging og oppfølging som skjer", badge: "1.1" },
+  { ikon: <AcademicCapIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.2", href: "/helsemelding-1-2", desc: "Som 1.1, med et helsekompetanse-steg om forebygging — hva valgene betyr for deg om 5–10 år", badge: "1.2" },
 ];
 
 const artikler = [
