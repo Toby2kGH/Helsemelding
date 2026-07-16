@@ -34,7 +34,7 @@ const andreModuler = [
   { modul: "Viktig for meg", variant: "Fritekst vs. verdikort — hvilken elicitering gir mest meningsfulle mål?" },
   { modul: "Legemidler", variant: "Nøytral vs. mål-koblet påminnelse om «vet du hvorfor?» — påvirker det etterlevelse?" },
   { modul: "Samtykker", variant: "Rekkefølge og innramming av bekreftelses-popup — informert samtykke vs. gjennomføringsgrad." },
-  { modul: "Oppfølging", variant: "Gevinst- vs. tap-innramming av foreslåtte tiltak — hva øker faktisk oppfølging?" },
+  { modul: "Oppfølging ✅", variant: "Opt-in vs. forhåndsvalgt (opt-out) — nå et aktivt forsøk. Måler konvertering PLUSS om valgene kjennes riktige (kvalitets-vaktbikkje)." },
 ];
 
 export default function OmHelsemelding13() {
