@@ -3,7 +3,15 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type { Livssituasjon } from "@/lib/forebyggingEngine";
 
-export type Steg11 = "viktig" | "forebygging" | "oppfolging" | "oppsummering";
+export type Steg11 =
+  | "viktig"
+  | "legemidler"
+  | "kritisk"
+  | "samtykker"
+  | "forebygging"
+  | "helsekompetanse"
+  | "oppfolging"
+  | "oppsummering";
 
 interface Helsemelding11State {
   viktigForMeg: string[];
@@ -27,7 +35,16 @@ const initialState: Helsemelding11State = {
   viktigFritekst: "",
   livssituasjoner: [],
   valgteHandlinger: [],
-  fullfort: { viktig: false, forebygging: false, oppfolging: false, oppsummering: false },
+  fullfort: {
+    viktig: false,
+    legemidler: false,
+    kritisk: false,
+    samtykker: false,
+    forebygging: false,
+    helsekompetanse: false,
+    oppfolging: false,
+    oppsummering: false,
+  },
 };
 
 const Ctx = createContext<Helsemelding11Value | null>(null);

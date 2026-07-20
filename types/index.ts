@@ -119,11 +119,20 @@ export interface SamtykkeState {
   fastlege_digital_kommunikasjon: boolean | null;
   fastlege_spesialist_deling: boolean | null;
 
+  // Min behandling: Kjernejournal
+  kjernejournal_oppslag: boolean | null;
+
   // Min behandling: Journalinnsyn og deling
   deling_mellom_sykehus: boolean | null;
   deling_mellom_regioner: boolean | null;
   deling_sykehus_kommune: boolean | null;
   deling_private_aktorer: boolean | null;
+
+  // Samarbeid om meg: Fullmakt til pårørende
+  fullmakt_paroerende: boolean | null;
+
+  // Bidra til fremtiden: Forskning på journaldata
+  forskning_journaldata: boolean | null;
 
   // Samarbeid om meg: Municipal health services
   kommune_samordning_omsorg: boolean | null;

@@ -149,7 +149,7 @@ export default function OmHelsemelding11() {
         <div className="mt-10 rounded-lg bg-blueberry-900 text-white p-8">
           <h2 className="text-2xl font-bold mb-2">Prøv Helsemelding 1.1</h2>
           <p className="text-blueberry-100 mb-5 max-w-xl">
-            Gå gjennom de fire stegene med en av de fiktive brukerprofilene.
+            Gå gjennom stegene med en av de fiktive brukerprofilene.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
