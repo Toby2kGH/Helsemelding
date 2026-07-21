@@ -24,9 +24,8 @@ export function FlowHelsekompetanse({ steg, basePath }: { steg: StegDef[]; baseP
       <div className="mx-auto max-w-3xl px-4 py-8">
         <Stepper steps={nav.steps} />
         <FlowHeader nr={nav.nr} total={nav.total} title="Helsekompetanse: deg om 5–10 år">
-          Noen av valgene vi tar i dag betyr mest for hvordan vi har det om fem til ti år. Her er
-          ærlig, kunnskapsbasert informasjon om hva du kan gjøre — ikke en pekefinger. Du bestemmer
-          selv hva du vil gjøre med den.
+          Noen av valgene vi tar i dag har mest å si for hvordan vi har det om fem til ti år. Her er
+          kunnskapsbasert informasjon om hva du kan gjøre. Du bestemmer selv hva du vil gjøre med den.
         </FlowHeader>
 
         <HelsekompetanseRaad omHref={`${basePath}/om`} />

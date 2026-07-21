@@ -113,7 +113,7 @@ export function FlowOppfolgingAB({ steg, basePath }: { steg: StegDef[]; basePath
                 <p className="text-sm font-semibold text-blueberry-900 mb-2">Hva studien måler</p>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Konvertering</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Hvor mange du har valgt</p>
                     <p className="text-2xl font-bold text-blueberry-900">
                       {antallValgt}
                       <span className="text-base font-normal text-neutral-500"> / {handlinger.length} valgt</span>
@@ -121,7 +121,7 @@ export function FlowOppfolgingAB({ steg, basePath }: { steg: StegDef[]; basePath
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500 mb-1">
-                      Vaktbikkje: kjennes valgene riktige for deg?
+                      Kvalitetssjekk: kjennes valgene riktige for deg?
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {([
@@ -147,10 +147,10 @@ export function FlowOppfolgingAB({ steg, basePath }: { steg: StegDef[]; basePath
                   </div>
                 </div>
                 <p className="mt-3 border-t border-blueberry-100 pt-2 text-xs text-neutral-600">
-                  Forhåndsvalgt (gruppe B) gir vanligvis flere valg. Men måler vi <em>bare</em> det, kan
-                  vi ende opp med å presse fram oppfølging folk ikke egentlig står inne i. Derfor har
-                  kvalitetsmålingen vetorett — konvertering som går opp mens «riktig for meg» går ned, er
-                  en dårlig endring, ikke en god.
+                  Forhåndsvalgt (gruppe B) gir vanligvis flere valg. Men måler vi <em>bare</em> antallet,
+                  kan vi ende opp med å presse fram oppfølging folk ikke egentlig står inne i. Derfor har
+                  kvalitetssjekken forrang: flere valg som samtidig kjennes mindre riktige, er ikke en
+                  forbedring.
                 </p>
               </section>
             </>

@@ -39,14 +39,14 @@ const prinsipper = [
   {
     nr: "1",
     navn: "Frykt alene virker svakt — koble alltid til noe du kan gjøre",
-    tekst: "En stor metaanalyse av 127 studier fant at trusselbudskap har moderat effekt, og bare når de kombineres med mestringstro (at du kan gjøre noe) og at tiltaket faktisk virker. Uten dette kan frykt slå tilbake i fornekting og unngåelse. Derfor følges hver konsekvens i slidet av et konkret, gjennomførbart tiltak.",
+    tekst: "En stor metaanalyse av 127 studier fant at trusselbudskap har moderat effekt, og bare når de kombineres med mestringstro (at du kan gjøre noe) og at tiltaket faktisk virker. Uten dette kan frykt slå tilbake i fornekting og unngåelse. Derfor følges hver konsekvens av et konkret, gjennomførbart tiltak.",
     kilde: "Tannenbaum m.fl., Psychological Bulletin, 2015 (Extended Parallel Process Model)",
     href: "https://pubmed.ncbi.nlm.nih.gov/25547486/",
   },
   {
     nr: "2",
     navn: "Gevinst-innramming for forebygging",
-    tekst: "For forebyggende atferd (aktivitet, røykeslutt) virker budskap som vektlegger hva du vinner, bedre enn budskap som vektlegger hva du taper. Derfor leder hvert kort med gevinsten, og bruker konsekvensen som ærlig kontekst — ikke som slegge.",
+    tekst: "For forebyggende atferd (aktivitet, røykeslutt) virker budskap som vektlegger hva du vinner, bedre enn budskap som vektlegger hva du taper. Derfor leder hvert kort med gevinsten, og bruker konsekvensen som ærlig kontekst — ikke som skremsel.",
     kilde: "Gallagher & Updegraff, Annals of Behavioral Medicine, 2012 (metaanalyse, 94 studier)",
     href: "https://academic.oup.com/abm/article-abstract/43/1/101/4563944",
   },
@@ -60,7 +60,7 @@ const prinsipper = [
   {
     nr: "4",
     navn: "Gjør fremtiden nær — «deg om 5–10 år»",
-    tekst: "Når fremtiden føles nær og levende, blir vi mindre tilbøyelige til å nedvurdere den, og tar sunnere valg i dag. Å ramme informasjon inn rundt ditt eget fremtidige jeg er derfor et virksomt grep — akkurat slik du beskrev.",
+    tekst: "Når fremtiden føles nær og levende, blir vi mindre tilbøyelige til å nedvurdere den, og tar sunnere valg i dag. Å ramme informasjon inn rundt ditt eget fremtidige jeg er derfor et virksomt grep.",
     kilde: "Hershfield m.fl.; forskning på fremtidig selvkontinuitet og episodisk fremtidstenkning",
     href: "https://anderson-review.ucla.edu/wp-content/uploads/2021/03/2018_Rutchick-Slepian-Reyes-Pleskus-Hershfield_JEPA.pdf",
   },
@@ -74,7 +74,7 @@ const prinsipper = [
   {
     nr: "6",
     navn: "Personlig og autonomistøttende",
-    tekst: "Tilpasset informasjon virker bedre enn generisk, og folk endrer seg mer varig når de opplever å bestemme selv. Slidet bruker alder og det du oppgir, og understreker at du bestemmer hva du vil gjøre.",
+    tekst: "Tilpasset informasjon virker bedre enn generisk, og folk endrer seg mer varig når de opplever å bestemme selv. Steget bruker alder og det du oppgir, og understreker at du bestemmer hva du vil gjøre.",
     kilde: "Selvbestemmelsesteori; forskning på tilpasset helsekommunikasjon",
     href: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11810810/",
   },
@@ -92,8 +92,7 @@ export default function OmHelsemelding12() {
           <h1 className="text-4xl font-bold mb-3">Helsekompetanse — bygget på forskning</h1>
           <p className="text-blueberry-100 text-lg max-w-2xl">
             Hvordan kan en nasjonal helseportal gi ærlige helseråd om for eksempel aktivitet og
-            røyk — uten å bli en pekefinger som slår tilbake? Her er kunnskapsgrunnlaget vi bygde
-            slidet på.
+            røyk — uten å virke som en pekefinger? Her er kunnskapsgrunnlaget bak steget.
           </p>
           <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-warning-100 px-4 py-2 text-sm font-semibold text-warning-700">
             🔬 DEMO — kunnskapsoppsummering, ikke offisiell veileder
@@ -114,7 +113,7 @@ export default function OmHelsemelding12() {
         <Seksjon id="prinsipper" ikon="📚" tittel="Seks prinsipper fra forskningen">
           <p>
             En helseportal som skal gi råd, må balansere ærlighet mot risikoen for å skremme eller
-            skamme. Disse seks prinsippene fra helsekommunikasjonsforskningen styrer hvordan slidet
+            skamme. Disse seks prinsippene fra helsekommunikasjonsforskningen styrer hvordan steget
             er skrevet:
           </p>
           <div className="space-y-4 not-prose">
@@ -135,11 +134,12 @@ export default function OmHelsemelding12() {
           </div>
         </Seksjon>
 
-        <Seksjon id="krast" ikon="⚖️" tittel="Hvor krast tør vi være?">
+        <Seksjon id="krast" ikon="⚖️" tittel="Ærlig uten å skremme">
           <p>
-            Dette var kjernespørsmålet ditt — og forskningen gir et ganske tydelig svar:{" "}
-            <strong>ærlighet virker, krasshet gjør det ikke.</strong> Du kan trygt realitetsorientere,
-            men effekten kommer av tre ting samtidig:
+            Kan en offentlig helseportal realitetsorientere uten å skremme eller skamme? Forskningen
+            gir et ganske tydelig svar:{" "}
+            <strong>ærlighet virker, mens det å være krass ikke gjør det.</strong> Effekten kommer av
+            tre ting samtidig:
           </p>
           <ul className="space-y-1.5">
             {[

@@ -31,10 +31,10 @@ function Kilde({ href, children }: { href: string; children: React.ReactNode }) 
 }
 
 const andreModuler = [
-  { modul: "Viktig for meg", variant: "Fritekst vs. verdikort — hvilken elicitering gir mest meningsfulle mål?" },
+  { modul: "Viktig for meg", variant: "Fritekst vs. verdikort — hva gir mest meningsfulle mål?" },
   { modul: "Legemidler", variant: "Nøytral vs. mål-koblet påminnelse om «vet du hvorfor?» — påvirker det etterlevelse?" },
-  { modul: "Samtykker", variant: "Rekkefølge og innramming av bekreftelses-popup — informert samtykke vs. gjennomføringsgrad." },
-  { modul: "Oppfølging ✅", variant: "Opt-in vs. forhåndsvalgt (opt-out) — nå et aktivt forsøk. Måler konvertering PLUSS om valgene kjennes riktige (kvalitets-vaktbikkje)." },
+  { modul: "Samtykker", variant: "Rekkefølge og innramming av bekreftelsesvinduet — informert samtykke vs. hvor mange som fullfører." },
+  { modul: "Oppfølging ✅", variant: "Tomt vs. forhåndsvalgt utgangspunkt — nå et aktivt forsøk. Måler hvor mange som velger, og om valgene kjennes riktige (kvalitetssjekk)." },
 ];
 
 export default function OmHelsemelding13() {
@@ -66,7 +66,7 @@ export default function OmHelsemelding13() {
             helsetjeneste</em> — den forbedrer rådene sine basert på hva som faktisk virker, ikke på
             hva vi tror virker.
           </p>
-          <p>Akkurat det du foreslo: to måter å angripe forebygging på, testet på befolkningsnivå.</p>
+          <p>Kort sagt: to måter å støtte forebygging på, prøvd ut mot hverandre for mange.</p>
         </Seksjon>
 
         <Seksjon id="armene" ikon="🔀" tittel="De to armene">
@@ -83,13 +83,13 @@ export default function OmHelsemelding13() {
               <p className="text-xs font-semibold uppercase tracking-wide text-blueberry-500 mb-1">Gruppe B</p>
               <h3 className="font-semibold text-blueberry-900 mb-2">Fremtidsbilde (WOOP)</h3>
               <p className="text-sm text-neutral-700">
-                Du ser deg selv om 10 år, kontrasterer ønsket med hindringen din, og lager en hvis–så-plan.
-                Aktiv, selvgenerert prospeksjon i stedet for råd utenfra.
+                Du ser deg selv om 10 år, veier ønsket opp mot hindringen din, og lager en hvis–så-plan.
+                Du skaper bildet selv, i stedet for å få råd utenfra.
               </p>
             </div>
           </div>
           <p>
-            Vi måler <strong>endring i beredskap</strong> (0–10) før og etter steget som et enkelt utfall.
+            Vi måler <strong>hvor klar personen føler seg</strong> (0–10) før og etter steget som et enkelt utfall.
             I en reell studie ville vi fulgt faktisk atferd over tid.
           </p>
         </Seksjon>

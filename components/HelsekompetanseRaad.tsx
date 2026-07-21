@@ -96,9 +96,8 @@ export function HelsekompetanseRaad({ omHref }: { omHref?: string }) {
         <p className="flex items-start gap-2 text-sm text-neutral-700">
           <HeartIcon className="h-5 w-5 flex-shrink-0 text-blueberry-700 mt-0.5" aria-hidden="true" />
           <span>
-            Vi skriver dette rett fram fordi det er viktig — men aldri for å skamme. Forskning er
-            tydelig: informasjon virker best når den er ærlig <em>og</em> viser noe konkret du kan
-            gjøre. Derfor får du alltid et neste steg, ikke bare en advarsel.
+            Her er kunnskapsbasert informasjon om hva du kan gjøre for egen helse. Du får alltid et
+            konkret neste steg — og du bestemmer selv hva du vil gjøre med informasjonen.
           </span>
         </p>
       </div>
@@ -157,9 +156,9 @@ export function HelsekompetanseRaad({ omHref }: { omHref?: string }) {
           <p className="flex items-start gap-2 text-xs text-neutral-600">
             <InformationCircleIcon className="h-4 w-4 flex-shrink-0 text-neutral-500 mt-0.5" aria-hidden="true" />
             <span>
-              Hvorfor akkurat slik? Frykt alene virker svakt og kan slå tilbake, mens budskap som
-              kobler en ærlig konsekvens til et konkret, gjennomførbart tiltak virker. Å knytte det til
-              «deg om 5–10 år» gjør fremtiden nærmere og lettere å handle på.{" "}
+              Hvorfor er informasjonen lagt opp slik? Vi kobler alltid en ærlig konsekvens til et
+              konkret tiltak du kan gjøre, og knytter det til deg om 5–10 år, fordi det gjør
+              informasjonen lettere å ta i bruk.{" "}
               <Link href={omHref} className="text-blueberry-700 hover:underline">Les mer</Link>.
             </span>
           </p>
