@@ -157,7 +157,7 @@ export function MedicationCard({
         {legemiddel.kategori === "kur" && (
           <fieldset className="space-y-2">
             <legend className="text-sm font-semibold text-neutral-900">
-              3. Er denne kuren avsluttet og medisinen ikke relevant lengre?
+              3. Er denne kuren avsluttet og medisinen ikke relevant lenger?
             </legend>
             <div className="flex flex-wrap gap-3">
               {(["ja", "nei"] as const).map((v) => (

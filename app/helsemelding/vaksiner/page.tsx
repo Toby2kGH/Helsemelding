@@ -17,7 +17,7 @@ const statusKonfig: Record<string, { tekst: string; ikon: React.ReactNode; klass
     klasse: "text-success-700",
   },
   utdatert: {
-    tekst: "Kan trengs fornyes",
+    tekst: "Bør kanskje fornyes",
     ikon: <ExclamationCircleIcon className="h-4 w-4 text-warning-700" aria-hidden="true" />,
     klasse: "text-warning-700",
   },

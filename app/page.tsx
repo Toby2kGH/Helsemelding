@@ -28,9 +28,9 @@ const tjenester: Tjeneste[] = [
   { ikon: <DocumentTextIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Journaldokumenter", href: "/logg-inn", desc: "Se dine journaldokumenter fra sykehus" },
   { ikon: <TruckIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Pasientreiser", href: "/logg-inn", desc: "Søk om reiserefusjon" },
   { ikon: <ShieldCheckIcon className="h-7 w-7 text-cherry-500" aria-hidden="true" />, tittel: "Helsemelding", href: "/helsemelding", desc: "Gjennomgå legemidler, vaksiner og samtykker", isNew: true },
-  { ikon: <UserGroupIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.1", href: "/helsemelding-1-1", desc: "Ny versjon — hva som er viktig for deg, personlig forebygging og oppfølging som skjer", badge: "1.1" },
+  { ikon: <UserGroupIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.1", href: "/helsemelding-1-1", desc: "Hva som er viktig for deg, personlig forebygging, og oppfølging til fastlege og kommune", badge: "1.1" },
   { ikon: <AcademicCapIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.2", href: "/helsemelding-1-2", desc: "Som 1.1, med et helsekompetanse-steg om forebygging — hva valgene betyr for deg om 5–10 år", badge: "1.2" },
-  { ikon: <BeakerOutlineIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.3", href: "/helsemelding-1-3", desc: "Forskning i fokus — randomisert forsøk med to forebyggingsvarianter, målt på populasjonsnivå", badge: "1.3" },
+  { ikon: <BeakerOutlineIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.3", href: "/helsemelding-1-3", desc: "Prøver ut to måter å støtte forebygging på, for å lære hvilken som hjelper best", badge: "1.3" },
 ];
 
 const artikler = [
@@ -61,7 +61,7 @@ export default function Forside() {
             ⚠️ DEMO-VERSJON - IKKE EKTE SYSTEM
           </p>
           <p className="text-sm text-warning-800">
-            Dette er en demoversjonen av en fremtidig helseportal. Det er ikke tilknyttet Helsenorge.no eller noen faktiske helseopplysninger. Data er fiktiv og brukes kun til demonstrasjon.
+            Dette er en demoversjon av en fremtidig helseportal. Den er ikke tilknyttet Helsenorge.no eller faktiske helseopplysninger. Dataene er fiktive og brukes kun til demonstrasjon.
           </p>
         </div>
       </section>
@@ -71,7 +71,7 @@ export default function Forside() {
         <div className="mx-auto max-w-6xl">
           <h1 className="text-4xl font-bold mb-3">Din helseportal (Demo)</h1>
           <p className="text-blueberry-100 text-lg mb-8 max-w-xl">
-            Helsedemo gir deg tilgang til en demo av fremtiden helseopplysninger og helsetjenester.
+            Helsedemo viser en demo av hvordan framtidas helseopplysninger og helsetjenester kan henge sammen.
           </p>
 
           <div className="relative max-w-lg mb-8">
@@ -167,7 +167,7 @@ export default function Forside() {
             Logg inn for å utforske demoen
           </h2>
           <p className="text-neutral-700 mb-6 max-w-xl mx-auto">
-            Med mockBankID får du tilgang til Helsedemo. Se demo av resepter, vaksiner, timeavtaler og mer.
+            Logg inn med demo-innlogging for å utforske Helsedemo. Se resepter, vaksiner, timeavtaler og mer.
           </p>
           <Link
             href="/logg-inn"

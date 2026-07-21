@@ -30,7 +30,7 @@ export const consentDetails: Record<string, ConsentDetail> = {
     id: 'organdonasjon',
     navn: 'Organdonasjon',
     kategori: 'min_behandling',
-    beskrivelse: 'Du registrerer om organene og vevet ditt kan brukes til transplantasjon dersom du dør og er medisinsk egnet som donor. Ett ja kan redde flere liv.',
+    beskrivelse: 'Du registrerer om organene og vevet ditt kan brukes til transplantasjon dersom du dør og er medisinsk egnet som donor. Du velger selv, og kan endre valget når som helst.',
     hvoem: [
       'Transplantasjonskoordinator ved donorsykehuset',
       'Transplantasjonssykehuset (Oslo universitetssykehus, Rikshospitalet)',
@@ -43,7 +43,7 @@ export const consentDetails: Record<string, ConsentDetail> = {
       hjemmelsgrunnlag: 'Transplantasjonslova (lov om donasjon og transplantasjon av organ, celler og vev)',
       formål: 'Å gjøre flere livreddende transplantasjoner mulig, basert på frivillig donasjon.',
       oppbevaring: 'Ditt registrerte valg lagres på Helsenorge så lenge det gjelder.',
-      rettigheter: 'Du kan når som helst endre eller trekke tilbake valget. Har du registrert et ja, står din vilje sterkt.'
+      rettigheter: 'Du kan når som helst endre eller trekke tilbake valget. Et registrert valg skal veie tungt i vurderingen.'
     }
   },
 
@@ -198,7 +198,7 @@ export const consentDetails: Record<string, ConsentDetail> = {
     beskrivelse: 'Du tillater at kommune og sykehus samordner innsatsen når du trenger både spesialisthelsetjeneste og kommunale tjenester samtidig.',
     hvoem: ['Kommunale pleie- og omsorgstjenester', 'Sykehusets utskrivningskoordinator'],
     praktiskBruk: [
-      'Tjenestene planlegger sammen, så du slipper å falle mellom to stoler',
+      'Tjenestene planlegger sammen, så tilbudet henger sammen for deg',
       'Mindre dobbeltarbeid og færre ventedager',
     ],
     juridisk: {
@@ -355,9 +355,9 @@ export const consentDetails: Record<string, ConsentDetail> = {
 
   ai_maskinlaering: {
     id: 'ai_maskinlaering',
-    navn: 'AI og maskinlæring',
+    navn: 'Kunstig intelligens og maskinlæring',
     kategori: 'bidra_til_fremtiden',
-    beskrivelse: 'Du tillater at dine anonymiserte data kan brukes til å utvikle og forbedre kunstig intelligens og beslutningsstøtte i helsetjenesten.',
+    beskrivelse: 'Du tillater at avidentifiserte (pseudonymiserte) opplysninger om deg kan brukes til å utvikle og forbedre digitale verktøy og beslutningsstøtte i helsetjenesten.',
     hvoem: ['Godkjente utviklings- og forskningsmiljøer', 'Helsetjenestens fagmiljøer'],
     praktiskBruk: [
       'Bedre verktøy for å oppdage sykdom tidlig',
@@ -367,7 +367,7 @@ export const consentDetails: Record<string, ConsentDetail> = {
       hjemmelsgrunnlag: 'Personvernforordningen (GDPR) og helseforskningsloven ved bruk av data',
       formål: 'Å utvikle tryggere og bedre verktøy for diagnostikk og behandling.',
       oppbevaring: 'Data anonymiseres eller pseudonymiseres før bruk.',
-      rettigheter: 'Frivillig samtykke som kan trekkes tilbake. Helt anonyme data kan ikke alltid spores tilbake og slettes.'
+      rettigheter: 'Frivillig samtykke som kan trekkes tilbake. Da stanser videre bruk av opplysningene dine.'
     }
   },
 
@@ -375,7 +375,7 @@ export const consentDetails: Record<string, ConsentDetail> = {
     id: 'student_undervisning',
     navn: 'Student- og undervisningsformål',
     kategori: 'bidra_til_fremtiden',
-    beskrivelse: 'Du tillater at dine anonymiserte opplysninger kan brukes i undervisning av helsefagstudenter og annet helsepersonell.',
+    beskrivelse: 'Du tillater at avidentifiserte opplysninger om deg kan brukes i undervisning av helsefagstudenter og annet helsepersonell.',
     hvoem: ['Universiteter og høgskoler', 'Undervisningssykehus'],
     praktiskBruk: [
       'Fremtidens helsepersonell lærer av virkelige, anonymiserte eksempler',

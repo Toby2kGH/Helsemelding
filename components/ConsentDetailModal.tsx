@@ -58,7 +58,7 @@ export function ConsentDetailModal({
                 <Toggle
                   checked={currentValue === true}
                   onChange={onToggle}
-                  label={`${currentValue === true ? "Nei" : "Ja"} til ${detail.navn}`}
+                  label={`Samtykke til ${detail.navn}`}
                 />
               </div>
             )}
