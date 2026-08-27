@@ -158,8 +158,8 @@ export default function Bekreft() {
                 Informasjon om innsending
               </h2>
               <p className="text-sm text-neutral-700 mt-1">
-                Fastlegen din ({profil.fastlege}) mottar en kopi av dine svar.
-                Din fullstendige legemiddelliste (PLL) oppdateres automatisk med dine tilbakemeldinger.
+                Fastlegen din ({profil.fastlege}) mottar en kopi av svarene dine.
+                Tilbakemeldingene dine gjør det enklere for fastlegen å holde legemiddellisten (PLL) oppdatert.
               </p>
             </div>
           </div>

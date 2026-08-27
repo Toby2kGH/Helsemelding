@@ -11,18 +11,18 @@ import { byggSteps, STEG_13 } from "@/lib/helsemelding11";
 const nyheter = [
   {
     ikon: "🧪",
-    tittel: "Randomisert forsøk",
-    tekst: "Helsekompetanse-steget plasserer deg tilfeldig i én av to grupper, med samtykke og reservasjonsrett.",
+    tittel: "En liten studie",
+    tekst: "På helsekompetanse-steget blir du tilfeldig valgt til én av to måter — med samtykke og rett til å reservere deg.",
   },
   {
     ikon: "🔀",
-    tittel: "To forebyggingsvarianter",
-    tekst: "Gruppe A får kunnskapsbaserte råd. Gruppe B gjør en aktiv WOOP-øvelse — ser seg selv om 10 år og lager en plan.",
+    tittel: "To måter å støtte forebygging",
+    tekst: "Gruppe A får kunnskapsbaserte råd. Gruppe B gjør en øvelse der man ser seg selv om 10 år og lager en plan.",
   },
   {
     ikon: "📈",
-    tittel: "Læring på populasjonsnivå",
-    tekst: "Vi måler endring i beredskap for å lære hvilken variant som virker best, for hvem — som en megastudie.",
+    tittel: "Læring for mange",
+    tekst: "Vi måler hvor klar du føler deg før og etter, for å lære hvilken måte som hjelper best — og for hvem.",
   },
 ];
 
@@ -44,9 +44,9 @@ export default function Helsemelding13Landing() {
           </div>
           <h1 className="text-3xl font-bold text-neutral-900 mb-2">Din Helsemelding 1.3</h1>
           <p className="text-lg text-neutral-700">
-            Samme flyt som 1.2, men helsekompetanse-steget er et <strong>innebygd, randomisert
-            forsøk</strong>: vi tester to måter å støtte forebygging på, for å lære hvilken som
-            faktisk virker.
+            Samme flyt som 1.2, men helsekompetanse-steget er en <strong>liten innebygd
+            studie</strong>: vi prøver ut to måter å støtte forebygging på, for å lære hvilken som
+            hjelper best.
           </p>
         </div>
 

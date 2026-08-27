@@ -95,7 +95,7 @@ export function SamtykkeSkjema() {
         <div className="border-b border-blue-100 pb-4 mb-4">
           <h3 className="font-semibold text-neutral-900 mb-3">Deling med fastlegen</h3>
           <ConsentToggle
-            label="Sendelse av epikrise etter sykehusopphold"
+            label="Utsending av epikrise etter sykehusopphold"
             description="Fastlegen mottar oppsummering av hva som skjedde under sykehusoppholdet."
             value={samtykkeState.epikrise_til_fastlege}
             onChange={(val) => oppdaterSamtykke({ epikrise_til_fastlege: val })}
@@ -119,7 +119,7 @@ export function SamtykkeSkjema() {
             onMoreInfo={setSelectedConsent}
           />
           <ConsentToggle
-            label="Dele spesialopplysninger automatisk"
+            label="Dele spesialistopplysninger automatisk"
             description="Rapporter fra spesialister sendes automatisk til fastlegen for koordinert oppfølging."
             value={samtykkeState.fastlege_spesialist_deling}
             onChange={(val) => oppdaterSamtykke({ fastlege_spesialist_deling: val })}
@@ -139,7 +139,7 @@ export function SamtykkeSkjema() {
             consentId="deling_mellom_sykehus"
             onMoreInfo={setSelectedConsent}
             warningRequired={true}
-            warningText="Hvis du ikke tillater deling mellom sykehus, kan det bli vansker med å koordinere behandlingen din. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen."
+            warningText="Hvis du ikke tillater deling mellom sykehus, kan det bli vansker med å koordinere behandlingen din. Du kan gi samtykket på nytt når som helst."
           />
           <ConsentToggle
             label="Deling mellom helseregioner"
@@ -149,7 +149,7 @@ export function SamtykkeSkjema() {
             consentId="deling_mellom_regioner"
             onMoreInfo={setSelectedConsent}
             warningRequired={true}
-            warningText="Hvis du ikke tillater deling mellom regioner, kan det føre til forsinkelser ved behandling utenfor din hjemmeregion. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen."
+            warningText="Hvis du ikke tillater deling mellom regioner, kan det føre til forsinkelser ved behandling utenfor din hjemmeregion. Du kan gi samtykket på nytt når som helst."
           />
         </div>
       </ConsentSection>
@@ -171,7 +171,7 @@ export function SamtykkeSkjema() {
             consentId="deling_sykehus_kommune"
             onMoreInfo={setSelectedConsent}
             warningRequired={true}
-            warningText="Hvis du ikke tillater deling med kommunen, kan det bli vansker med oppfølging hjemme og koordinering mellom sykehus og kommune. Vi anbefaler at du snakker med fastlegen din før du gjør denne endringen."
+            warningText="Hvis du ikke tillater deling med kommunen, kan det bli vansker med oppfølging hjemme og koordinering mellom sykehus og kommune. Du kan gi samtykket på nytt når som helst."
           />
           <ConsentToggle
             label="Samordning av pleie og omsorg"
@@ -299,8 +299,8 @@ export function SamtykkeSkjema() {
         <div className="border-b border-purple-100 pb-4 mb-4">
           <h3 className="font-semibold text-neutral-900 mb-3">Teknologi og utdanning</h3>
           <ConsentToggle
-            label="AI og maskinlæring"
-            description="Dine anonymiserte data kan brukes til å forbedre kunstig intelligens i helsetjenesten."
+            label="Kunstig intelligens og maskinlæring"
+            description="Avidentifiserte opplysninger om deg kan brukes til å utvikle og forbedre digitale verktøy i helsetjenesten."
             value={samtykkeState.ai_maskinlaering}
             onChange={(val) => oppdaterSamtykke({ ai_maskinlaering: val })}
             consentId="ai_maskinlaering"
@@ -308,7 +308,7 @@ export function SamtykkeSkjema() {
           />
           <ConsentToggle
             label="Student- og undervisningsformål"
-            description="Dine anonymiserte data kan brukes til undervisning av helsefagstudenter."
+            description="Avidentifiserte opplysninger om deg kan brukes til undervisning av helsefagstudenter."
             value={samtykkeState.student_undervisning}
             onChange={(val) => oppdaterSamtykke({ student_undervisning: val })}
             consentId="student_undervisning"

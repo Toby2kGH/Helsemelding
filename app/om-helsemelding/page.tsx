@@ -60,9 +60,8 @@ export default function OmHelsemelding() {
               Lav etterlevelse av legemiddelbehandling
             </h3>
             <p>
-              Mellom 30 og 50 % av alle pasienter med kroniske sykdommer tar ikke medisinen sin
-              som forskrevet (WHO, 2023; <em>Global Report on Adherence to Medication</em>).
-              Dette fører til:
+              En stor andel pasienter med kroniske sykdommer tar ikke medisinen sin som
+              forskrevet (WHO, 2003; <em>Adherence to long-term therapies</em>). Dette kan føre til:
             </p>
             <ul className="mt-3 space-y-1.5 list-none">
               {[
@@ -82,19 +81,19 @@ export default function OmHelsemelding() {
               slik at PLL blir så korrekt som mulig.
             </p>
             <p className="text-sm text-neutral-500 mt-3 italic">
-              Kilder: WHO (2023). <em>Global Report on Adherence to Medication.</em> Geneva: World Health Organization. |
-              Norges Helsedirektorat. Pasientstyrt legemiddelliste (PLL) — Nasjonal implementering 2026–2029.
+              Kilder: WHO (2003). <em>Adherence to long-term therapies: evidence for action.</em> Genève: Verdens
+              helseorganisasjon. | Helsedirektoratet: Pasientens legemiddelliste (PLL). Tall i denne demoen er
+              avrundet og illustrative.
             </p>
           </div>
         </Seksjon>
 
         <Seksjon id="helsepersonell" ikon="⚕️" tittel="Utfordringer for helsepersonell">
           <p>
-            Helsepersonell bruker betydelig tid på å innhente opplysninger om hvilke medisiner
-            pasienter faktisk tar. En norsk studie (Midlöv et al., <em>Eur J Clin Pharmacol</em>{" "}
-            2005) viste at legemiddelfeil forekommer i opptil{" "}
-            <strong className="text-cherry-700">67 % av innleggelser</strong> der
-            legemiddelsamstemming ikke er systematisk gjennomført.
+            Helsepersonell bruker mye tid på å innhente opplysninger om hvilke legemidler
+            pasienter faktisk tar. Manglende samstemming av legemiddellister er en{" "}
+            <strong className="text-cherry-700">kjent kilde til feil</strong> i overgangene mellom
+            sykehus, fastlege og kommune.
           </p>
           <p>
             I Norge peker Pasientsikkerhetsprogrammets <em>«I trygge hender 24-7»</em> eksplisitt
@@ -128,7 +127,7 @@ export default function OmHelsemelding() {
             Personvernombudsordningen krever at institusjonene dokumenterer gyldige
             behandlingsgrunnlag. En nasjonal, digital samtykkeportal vil forenkle dette og styrke
             pasientenes rettigheter, i tråd med{" "}
-            <strong>GDPR-forordningens artikkel 7</strong> og helseregisterloven.
+            <strong>personvernforordningen (GDPR) artikkel 7</strong> og helseregisterloven.
           </p>
         </Seksjon>
 
@@ -146,7 +145,7 @@ export default function OmHelsemelding() {
               {[
                 "Forhåndsutfylte opplysninger fra PLL og SYSVAK — hentet direkte fra registrene",
                 "Enkel bekreftelse eller korrigering av faktisk medisinbruk",
-                "Personaliserte vaksineanbefalinger basert på FHI-retningslinjer",
+                "Personlig tilpassede vaksineanbefalinger basert på FHI-retningslinjer",
                 "Samlet samtykkehåndtering på ett sted (organdonasjon, journaldeling)",
                 "Rapport til fastlege og sykehus basert på pasientsvar",
               ].map((p) => (
@@ -182,18 +181,18 @@ export default function OmHelsemelding() {
             {[
               {
                 land: "🇩🇰 Danmark",
-                tekst: `Fælles Medicinkort (FMK) — egenopprettet medisinliste. Pasienten kan melde avvik fra legeresepter.
-                  MinSundhed tilbyr også årlige vaccinestatus og samtykker. Over 4 millioner danskere bruker tjenesten.`,
+                tekst: `Fælles Medicinkort (FMK) gir en samlet oversikt over legemidlene på tvers av behandlere.
+                  Innbyggerne kan se listen og følge med via MinSundhed. Tjenesten er bredt brukt i Danmark.`,
               },
               {
                 land: "🇫🇮 Finland",
-                tekst: `My Kanta brukes av over 90 % av voksne (Keela.fi, 2023). Pasienten kan bekrefte medisinliste,
-                  e-resepter og samtykker på ett sted — funksjoner som Helsemelding etterligner.`,
+                tekst: `Kanta brukes av en stor andel av den voksne befolkningen (kanta.fi). Innbyggerne finner
+                  legemiddelliste, e-resepter og samtykker på ett sted — en modell Helsemelding henter inspirasjon fra.`,
               },
               {
                 land: "🇬🇧 Storbritannia",
-                tekst: `NHS App (40 mill. brukere i 2025) tilbyr medisinhistorie, vaksinestatus og samtykkehåndtering.
-                  Over 500 000 organdonasjonsregistreringer via appen viser pasientsiden av betydningen.`,
+                tekst: `NHS App gir tilgang til medisinhistorikk, vaksinestatus og samtykkehåndtering, og har mange
+                  millioner brukere. Muligheten til å registrere organdonasjon i appen viser hvor viktig pasientsiden er.`,
               },
             ].map((l) => (
               <div key={l.land} className="rounded-lg border border-neutral-200 p-4">
@@ -207,7 +206,7 @@ export default function OmHelsemelding() {
               <strong>Norges infrastruktur:</strong> Vi har allerede nasjonale systemer (PLL, SYSVAK, kjernejournal, Helsenorge).
             </p>
             <p className="text-neutral-700 text-sm">
-              <strong>Helsemelding sitt tilskudd:</strong> En pasientstyrt bekreftelsesprosess som sikrer datakvalitet
+              <strong>Helsemeldings bidrag:</strong> En pasientstyrt bekreftelsesprosess som bedrer datakvaliteten
               i PLL og gir pasienten oversikt over sin egen helse — uten å erstatte eller duplisere eksisterende systemer.
             </p>
           </div>
@@ -218,8 +217,8 @@ export default function OmHelsemelding() {
             {[
               {
                 fase: "Fase 1",
-                timing: "Nå (POC)",
-                tekst: "Minimal viable product — Legemiddelgjennomgang i relasjon til PLL",
+                timing: "Nå (demo)",
+                tekst: "Første versjon — legemiddelgjennomgang koblet til PLL",
                 aktiv: true,
               },
               {

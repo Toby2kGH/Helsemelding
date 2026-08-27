@@ -64,14 +64,14 @@ export function FlowHelsekompetanseRCT({ steg, basePath }: { steg: StegDef[]; ba
       <div className="mx-auto max-w-3xl px-4 py-8">
         <Stepper steps={nav.steps} />
         <FlowHeader nr={nav.nr} total={nav.total} title="Helsekompetanse (studie)">
-          Dette steget er en del av en studie: vi tester to måter å støtte forebygging på, for å lære
-          hvilken som faktisk virker best. Du er tilfeldig plassert i én gruppe.
+          Dette steget er en del av en liten studie: vi prøver ut to måter å støtte forebygging på,
+          for å lære hvilken som hjelper best. Du er tilfeldig valgt til den ene.
         </FlowHeader>
 
         <AbEksperiment
-          studieTekst="Vi vet ærlig talt ikke hvilken av de to måtene som hjelper mest — det er derfor vi tester dem opp mot hverandre (likeverd). Begge er trygge og bygger på forskning. Ingen sensitive data forlater tjenesten i denne demoen."
+          studieTekst="Vi vet ikke sikkert hvilken av de to måtene som hjelper mest — derfor prøver vi dem ut mot hverandre. Begge er trygge og bygger på forskning. Ingen sensitive opplysninger forlater tjenesten i denne demoen."
           armA={{ navn: "Gruppe A · Råd", beskr: "Kunnskapsbaserte råd rammet inn rundt deg om 5–10 år." }}
-          armB={{ navn: "Gruppe B · Fremtidsbilde", beskr: "En aktiv WOOP-øvelse der du selv ser deg om 10 år og lager en plan." }}
+          armB={{ navn: "Gruppe B · Fremtidsbilde", beskr: "En øvelse der du selv ser deg om 10 år og lager en plan." }}
         >
           {(visArm) => (
             <>
@@ -95,12 +95,12 @@ export function FlowHelsekompetanseRCT({ steg, basePath }: { steg: StegDef[]; ba
                 />
                 {delta !== null && (
                   <p className="mt-3 text-sm text-neutral-700">
-                    Endring i beredskap:{" "}
+                    Endringen i hvor klar du føler deg:{" "}
                     <span className={`font-bold ${delta > 0 ? "text-success-700" : delta < 0 ? "text-cherry-700" : "text-neutral-700"}`}>
                       {delta > 0 ? `+${delta}` : delta}
                     </span>
-                    . I en ekte studie er det nettopp denne endringen vi ville sammenlignet på tvers av
-                    tusener i gruppe A og B — slik lærer systemet hva som virker, for hvem.
+                    . I en ekte studie er det denne endringen vi ville sammenlignet mellom de to
+                    gruppene — slik lærer vi hva som hjelper, og for hvem.
                   </p>
                 )}
               </section>

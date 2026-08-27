@@ -21,8 +21,8 @@ const nyheter = [
   },
   {
     ikon: "🔁",
-    tittel: "Oppfølging som skjer",
-    tekst: "Samle ønsket oppfølging og send den strukturert til fastlege eller kommune — ikke bare les om den.",
+    tittel: "Oppfølging som sendes videre",
+    tekst: "Samle ønsket oppfølging og send den videre til fastlege eller kommune — ikke bare les om den.",
   },
 ];
 
@@ -48,7 +48,7 @@ export default function Helsemelding11Landing() {
           </h1>
           <p className="text-lg text-neutral-700">
             Bygger videre på Helsemeldingen med tre nye ting: hva som er viktig for deg,
-            personlig forebygging, og oppfølging som faktisk sendes videre.
+            personlig forebygging, og oppfølging som sendes videre til fastlege og kommune.
           </p>
         </div>
 

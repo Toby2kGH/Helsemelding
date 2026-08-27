@@ -21,8 +21,8 @@ const nyheter = [
   },
   {
     ikon: "🤝",
-    tittel: "Ærlig, ikke krast",
-    tekst: "Bygget på forskning om helsekommunikasjon — realitetsorientering koblet til et konkret neste steg.",
+    tittel: "Bygget på forskning",
+    tekst: "Informasjon om helsekommunikasjon som kobler en ærlig konsekvens til et konkret neste steg.",
   },
 ];
 

@@ -37,8 +37,8 @@ const nyheter = [
   },
   {
     ikon: "🔁",
-    tittel: "Oppfølging som skjer",
-    tekst: "Ønsket oppfølging sendes strukturert til fastlege eller kommune — ikke bare til lesning.",
+    tittel: "Oppfølging som sendes videre",
+    tekst: "Ønsket oppfølging sendes videre til fastlege eller kommune — ikke bare til lesning.",
   },
 ];
 
@@ -121,11 +121,11 @@ export default function OmHelsemelding11() {
           </div>
         </Seksjon>
 
-        <Seksjon id="oppfolging" ikon="🔁" tittel="Oppfølging som skjer">
+        <Seksjon id="oppfolging" ikon="🔁" tittel="Oppfølging som sendes videre">
           <p>
-            En lenke informerer, men gjør ingenting. Derfor kan 1.1 samle det du vil følge opp
-            og sende det som <strong>strukturert handling</strong> til riktig sted — ikke som
-            fritekst du selv må bære videre. Tre utganger, rutet automatisk:
+            En lenke gir informasjon, men følger ikke opp. Derfor kan 1.1 samle det du vil følge opp
+            og sende det videre som <strong>konkrete oppgaver</strong> til riktig sted — ikke som
+            fritekst du selv må ta med videre. Tre veier, valgt automatisk:
           </p>
           <div className="grid gap-3 sm:grid-cols-3 not-prose">
             {[
@@ -140,7 +140,7 @@ export default function OmHelsemelding11() {
               </div>
             ))}
           </div>
-          <p>Prøv skissen — velg hva som er viktig, huk av oppfølging, og se handoffen bygge seg opp:</p>
+          <p>Prøv skissen — velg hva som er viktig, huk av oppfølging, og se oversikten bygge seg opp:</p>
 
           <LukkeSloyfaSkisse />
         </Seksjon>
