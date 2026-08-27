@@ -10,6 +10,7 @@ import {
   UserGroupIcon,
   AcademicCapIcon,
   BeakerIcon as BeakerOutlineIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/24/outline";
 
 type Tjeneste = {
@@ -31,6 +32,8 @@ const tjenester: Tjeneste[] = [
   { ikon: <UserGroupIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.1", href: "/helsemelding-1-1", desc: "Hva som er viktig for deg, personlig forebygging, og oppfølging til fastlege og kommune", badge: "1.1" },
   { ikon: <AcademicCapIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.2", href: "/helsemelding-1-2", desc: "Som 1.1, med et helsekompetanse-steg om forebygging — hva valgene betyr for deg om 5–10 år", badge: "1.2" },
   { ikon: <BeakerOutlineIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Helsemelding 1.3", href: "/helsemelding-1-3", desc: "Prøver ut to måter å støtte forebygging på, for å lære hvilken som hjelper best", badge: "1.3" },
+  { ikon: <GlobeAltIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Health Message (English)", href: "/health-message", desc: "Engelsk versjon av 1.0, tilpasset det britiske helsevesenet (NHS)", badge: "EN" },
+  { ikon: <GlobeAltIcon className="h-7 w-7" aria-hidden="true" />, tittel: "Health Message Plus (English)", href: "/health-message-plus", desc: "Engelsk versjon av 1.1 — hva som er viktig for deg, forebygging og oppfølging (NHS)", badge: "EN" },
 ];
 
 const artikler = [
