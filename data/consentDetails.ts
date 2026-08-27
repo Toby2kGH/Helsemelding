@@ -378,13 +378,13 @@ export const consentDetails: Record<string, ConsentDetail> = {
     beskrivelse: 'Du tillater at avidentifiserte opplysninger om deg kan brukes i undervisning av helsefagstudenter og annet helsepersonell.',
     hvoem: ['Universiteter og høgskoler', 'Undervisningssykehus'],
     praktiskBruk: [
-      'Fremtidens helsepersonell lærer av virkelige, anonymiserte eksempler',
+      'Fremtidens helsepersonell lærer av virkelige, avidentifiserte eksempler',
       'Bedre utdannet helsepersonell',
     ],
     juridisk: {
       hjemmelsgrunnlag: 'Universitets- og høyskoleloven og personvernforordningen (GDPR)',
-      formål: 'Å utdanne dyktig helsepersonell ved hjelp av anonymiserte eksempler.',
-      oppbevaring: 'Kun anonymiserte opplysninger benyttes til undervisning.',
+      formål: 'Å utdanne dyktig helsepersonell ved hjelp av avidentifiserte eksempler.',
+      oppbevaring: 'Kun avidentifiserte opplysninger benyttes til undervisning.',
       rettigheter: 'Frivillig samtykke som kan trekkes tilbake når som helst.'
     }
   }

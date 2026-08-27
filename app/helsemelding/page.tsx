@@ -39,7 +39,7 @@ export default function HelsemeldingLanding() {
     {
       ikon: "💉",
       tittel: "Vaksiner",
-      tekst: "Vi sjekker mot SYSVAK og gir deg personaliserte vaksineanbefalinger fra FHI.",
+      tekst: "Vi sjekker mot SYSVAK og gir deg personlig tilpassede vaksineanbefalinger fra FHI.",
     },
     {
       ikon: "📄",
