@@ -28,7 +28,8 @@ const CHOICES: { value: Exclude<ImmunisationChoice, null>; label: string }[] = [
 
 export function VaccinationsStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
   const router = useRouter();
-  const { completed, complete, immunisation, setImmunisation } = useHealthMessage();
+  const { completed, complete, immunisation, setImmunisation, immunosuppressed, setImmunosuppressed } =
+    useHealthMessage();
   const nav = flowNav(steps, "vaccinations", basePath, completed);
 
   function handleNext() {
@@ -83,6 +84,40 @@ export function VaccinationsStep({ steps, basePath }: { steps: StepDef[]; basePa
             );
           })}
         </div>
+
+        {/* Immunosuppression question — affects which vaccines are suitable */}
+        <fieldset className="rounded-lg border border-neutral-200 bg-white p-4 mb-4">
+          <legend className="font-semibold text-neutral-900 px-1">One important question</legend>
+          <p className="text-sm text-neutral-700 mb-3">
+            Do you take any medicines that weaken your immune system? For example steroid tablets,
+            biologic medicines, or chemotherapy.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { value: "yes" as const, label: "Yes" },
+              { value: "no" as const, label: "No" },
+            ].map((o) => (
+              <button
+                key={o.value}
+                onClick={() => setImmunosuppressed(o.value)}
+                aria-pressed={immunosuppressed === o.value}
+                className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blueberry-500 ${
+                  immunosuppressed === o.value
+                    ? "bg-blueberry-900 text-white"
+                    : "border border-neutral-300 text-neutral-700 hover:bg-neutral-100"
+                }`}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+          {immunosuppressed === "yes" && (
+            <div className="mt-3 rounded-md bg-warning-100 px-3 py-2 text-sm text-warning-900">
+              Thanks for letting us know. Some vaccines may not be suitable for you, while others are
+              extra important. Please talk this through with your GP or practice nurse before booking.
+            </div>
+          )}
+        </fieldset>
 
         <details className="rounded-lg border border-neutral-200 bg-white p-4 mb-8">
           <summary className="cursor-pointer font-semibold text-neutral-900">

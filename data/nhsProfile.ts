@@ -42,6 +42,7 @@ export interface NhsProfile {
   conditions: string[];
   medicines: {
     regular: Medicine[];
+    course: Medicine[];
     whenRequired: Medicine[];
   };
   immunisationHistory: Immunisation[];
@@ -156,6 +157,17 @@ export const margaretDoyle: NhsProfile = {
         dose: "One chewable tablet twice a day",
         purpose: "Protects your bones (osteoporosis)",
         kind: "regular",
+      },
+    ],
+    course: [
+      {
+        id: "c1",
+        brand: "Doxycycline",
+        generic: "doxycycline",
+        strength: "100 mg",
+        dose: "One capsule twice a day for 5 days",
+        purpose: "A recent course for a chest infection",
+        kind: "course",
       },
     ],
     whenRequired: [

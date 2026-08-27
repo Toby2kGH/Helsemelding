@@ -24,7 +24,10 @@ const sources = [
 export default function HealthMessageLanding() {
   const { completed } = useHealthMessage();
   const steps = buildSteps(null, completed, STEPS_10);
-  const medsCount = nhsProfile.medicines.regular.length + nhsProfile.medicines.whenRequired.length;
+  const medsCount =
+    nhsProfile.medicines.regular.length +
+    nhsProfile.medicines.course.length +
+    nhsProfile.medicines.whenRequired.length;
   const vaccineCount = nhsProfile.immunisationAdvice.length;
 
   return (

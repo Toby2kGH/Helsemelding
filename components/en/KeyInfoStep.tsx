@@ -28,9 +28,10 @@ function InfoBlock({ title, items }: { title: string; items: string[] }) {
 
 export function KeyInfoStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
   const router = useRouter();
-  const { completed, complete, criticalNote, setCriticalNote } = useHealthMessage();
+  const { completed, complete, criticalNote, setCriticalNote, carePlan, setCarePlan } = useHealthMessage();
   const nav = flowNav(steps, "critical", basePath, completed);
   const ci = nhsProfile.criticalInfo;
+  const hasConditions = nhsProfile.conditions.length > 0;
 
   function handleNext() {
     complete("critical");
@@ -60,7 +61,23 @@ export function KeyInfoStep({ steps, basePath }: { steps: StepDef[]; basePath: s
           </div>
         </div>
 
-        <div className="mb-8">
+        {/* Long-term conditions on record */}
+        {hasConditions && (
+          <div className="rounded-lg border border-neutral-200 bg-white p-5 mb-6">
+            <h2 className="font-semibold text-neutral-900 mb-2">Your long-term conditions</h2>
+            <ul className="space-y-1">
+              {nhsProfile.conditions.map((c) => (
+                <li key={c} className="flex items-start gap-2 text-sm text-neutral-700">
+                  <span className="text-blueberry-500 font-bold mt-0.5" aria-hidden="true">•</span>
+                  {c}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-neutral-500 mt-2">Held on your GP record.</p>
+          </div>
+        )}
+
+        <div className="mb-6">
           <label htmlFor="critical-note" className="block font-semibold text-neutral-900 mb-1">
             Is there anything else that&rsquo;s important for us to know?
           </label>
@@ -77,6 +94,36 @@ export function KeyInfoStep({ steps, basePath }: { steps: StepDef[]; basePath: s
             placeholder="Write anything you'd like your care team to know…"
           />
         </div>
+
+        {/* Care plan question — for people with long-term conditions */}
+        {hasConditions && (
+          <fieldset className="mb-8 rounded-lg border border-neutral-200 bg-white p-5">
+            <legend className="font-semibold text-neutral-900 px-1">Do you have a care plan?</legend>
+            <p className="text-sm text-neutral-600 mb-3">
+              A care plan is an agreement with your GP or nurse about how your long-term condition is
+              managed.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { value: "yes" as const, label: "Yes, I have a care plan" },
+                { value: "no" as const, label: "No, I don't have one" },
+              ].map((o) => (
+                <button
+                  key={o.value}
+                  onClick={() => setCarePlan(o.value)}
+                  aria-pressed={carePlan === o.value}
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blueberry-500 ${
+                    carePlan === o.value
+                      ? "bg-blueberry-900 text-white"
+                      : "border border-neutral-300 text-neutral-700 hover:bg-neutral-100"
+                  }`}
+                >
+                  {o.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+        )}
 
         {nav.nextLabel && (
           <EnFlowNav prevHref={nav.prevHref} onNext={handleNext} nextLabel={`Continue to ${nav.nextLabel.toLowerCase()}`} />

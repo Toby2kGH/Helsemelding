@@ -21,13 +21,17 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 }
 
 export function SummaryStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
-  const { completed, complete, whatMatters, whatMattersNote, medicine, sharing, followUp } =
+  const { completed, complete, whatMatters, whatMattersNote, taking, sharing, followUp } =
     useHealthMessage();
   const nav = flowNav(steps, "summary", basePath, completed);
   const [sent, setSent] = useState(false);
 
-  const allMeds = [...nhsProfile.medicines.regular, ...nhsProfile.medicines.whenRequired];
-  const changed = allMeds.filter((m) => medicine[m.id] === "changed" || medicine[m.id] === "stopped");
+  const allMeds = [
+    ...nhsProfile.medicines.regular,
+    ...nhsProfile.medicines.course,
+    ...nhsProfile.medicines.whenRequired,
+  ];
+  const changed = allMeds.filter((m) => taking[m.id] === "different_dose" || taking[m.id] === "stopped");
   const chosenFollowUps = FOLLOW_UP_ITEMS.filter((i) => followUp.includes(i.id));
 
   function handleSend() {
@@ -118,7 +122,7 @@ export function SummaryStep({ steps, basePath }: { steps: StepDef[]; basePath: s
               <ul className="text-sm text-neutral-700 space-y-1">
                 {changed.map((m) => (
                   <li key={m.id}>
-                    {m.brand} — {medicine[m.id] === "stopped" ? "stopped" : "dose changed"}
+                    {m.brand} — {taking[m.id] === "stopped" ? "stopped" : "dose changed"}
                   </li>
                 ))}
               </ul>

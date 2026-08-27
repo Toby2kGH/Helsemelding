@@ -11,12 +11,17 @@ import { flowNav, type StepDef } from "@/lib/healthMessageEn";
 import { nhsProfile } from "@/data/nhsProfile";
 
 export function ConfirmStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
-  const { completed, complete, medicine, immunisation, criticalNote, sharing } = useHealthMessage();
+  const { completed, complete, taking, knowWhy, immunisation, criticalNote, sharing } = useHealthMessage();
   const nav = flowNav(steps, "confirm", basePath, completed);
   const [sent, setSent] = useState(false);
 
-  const allMeds = [...nhsProfile.medicines.regular, ...nhsProfile.medicines.whenRequired];
-  const changed = allMeds.filter((m) => medicine[m.id] === "changed" || medicine[m.id] === "stopped");
+  const allMeds = [
+    ...nhsProfile.medicines.regular,
+    ...nhsProfile.medicines.course,
+    ...nhsProfile.medicines.whenRequired,
+  ];
+  const changed = allMeds.filter((m) => taking[m.id] === "different_dose" || taking[m.id] === "stopped");
+  const unsure = allMeds.filter((m) => knowWhy[m.id] === "unsure");
   const vaccinesToBook = nhsProfile.immunisationAdvice.filter((v) => immunisation[v.vaccine] === "book");
 
   function handleSend() {
@@ -83,14 +88,20 @@ export function ConfirmStep({ steps, basePath }: { steps: StepDef[]; basePath: s
         <div className="space-y-4 mb-8">
           <div className="rounded-lg border border-neutral-200 bg-white p-4">
             <p className="font-semibold text-neutral-900 mb-1">Medicines</p>
-            {changed.length === 0 ? (
+            {changed.length === 0 && unsure.length === 0 ? (
               <p className="text-sm text-neutral-700">You confirmed your medicines with no changes.</p>
             ) : (
               <ul className="text-sm text-neutral-700 space-y-1">
                 {changed.map((m) => (
                   <li key={m.id} className="flex items-start gap-2">
                     <span className="text-cherry-700 font-bold mt-0.5" aria-hidden="true">•</span>
-                    {m.brand} — {medicine[m.id] === "stopped" ? "stopped" : "dose changed"}
+                    {m.brand} — {taking[m.id] === "stopped" ? "stopped" : "dose changed"}
+                  </li>
+                ))}
+                {unsure.map((m) => (
+                  <li key={`u-${m.id}`} className="flex items-start gap-2">
+                    <span className="text-warning-700 font-bold mt-0.5" aria-hidden="true">•</span>
+                    {m.brand} — not sure why you take it
                   </li>
                 ))}
               </ul>

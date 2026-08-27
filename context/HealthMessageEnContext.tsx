@@ -3,7 +3,9 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { nhsProfile } from "@/data/nhsProfile";
 
-export type MedicineStatus = "taking" | "stopped" | "changed" | null;
+export type TakingStatus = "as_prescribed" | "different_dose" | "stopped" | null;
+export type YesUnsure = "yes" | "unsure" | null;
+export type YesNo = "yes" | "no" | null;
 export type ImmunisationChoice = "book" | "not_now" | "already" | null;
 export type OrganDecision = "opt_in" | "opt_out" | null;
 
@@ -15,12 +17,21 @@ interface SharingState {
 }
 
 interface HealthMessageState {
-  medicine: Record<string, MedicineStatus>;
+  // Medicines review
+  knowWhy: Record<string, YesUnsure>; // "Do you know why you take this?"
+  taking: Record<string, TakingStatus>; // "Are you taking it now?"
+  whenHow: Record<string, YesUnsure>; // when-required: "Do you know when and how to take it?"
+  courseFinished: Record<string, YesNo>; // course: "Has this course finished?"
   medicineNote: Record<string, string>;
-  immunisation: Record<string, ImmunisationChoice>;
+  // Key info
   criticalNote: string;
-  criticalConfirmed: boolean;
+  carePlan: YesNo;
+  // Vaccinations
+  immunisation: Record<string, ImmunisationChoice>;
+  immunosuppressed: YesNo;
+  // Sharing
   sharing: SharingState;
+  // 1.1
   whatMatters: string[];
   whatMattersNote: string;
   prevention: string[];
@@ -29,25 +40,34 @@ interface HealthMessageState {
 }
 
 interface HealthMessageValue extends HealthMessageState {
-  setMedicine: (id: string, status: MedicineStatus) => void;
+  setKnowWhy: (id: string, value: YesUnsure) => void;
+  setTaking: (id: string, value: TakingStatus) => void;
+  setWhenHow: (id: string, value: YesUnsure) => void;
+  setCourseFinished: (id: string, value: YesNo) => void;
   setMedicineNote: (id: string, note: string) => void;
-  setImmunisation: (vaccine: string, choice: ImmunisationChoice) => void;
   setCriticalNote: (note: string) => void;
-  setCriticalConfirmed: (val: boolean) => void;
+  setCarePlan: (value: YesNo) => void;
+  setImmunisation: (vaccine: string, choice: ImmunisationChoice) => void;
+  setImmunosuppressed: (value: YesNo) => void;
   setSharing: (updates: Partial<SharingState>) => void;
   toggleWhatMatters: (value: string) => void;
   setWhatMattersNote: (note: string) => void;
   togglePrevention: (id: string) => void;
   toggleFollowUp: (id: string) => void;
+  setFollowUp: (ids: string[]) => void;
   complete: (stepKey: string) => void;
 }
 
 const initialState: HealthMessageState = {
-  medicine: {},
+  knowWhy: {},
+  taking: {},
+  whenHow: {},
+  courseFinished: {},
   medicineNote: {},
-  immunisation: {},
   criticalNote: "",
-  criticalConfirmed: false,
+  carePlan: null,
+  immunisation: {},
+  immunosuppressed: null,
   sharing: {
     scrAdditionalInformation: nhsProfile.sharing.scrAdditionalInformation,
     gpHospitalSharing: nhsProfile.sharing.gpHospitalSharing,
@@ -69,25 +89,37 @@ const toggleIn = <T,>(list: T[], value: T): T[] =>
 export function HealthMessageProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<HealthMessageState>(initialState);
 
-  const setMedicine = useCallback((id: string, status: MedicineStatus) => {
-    setState((s) => ({ ...s, medicine: { ...s.medicine, [id]: status } }));
-  }, []);
+  const setField = useCallback(
+    <K extends keyof HealthMessageState>(key: K, value: HealthMessageState[K]) => {
+      setState((s) => ({ ...s, [key]: value }));
+    },
+    []
+  );
 
+  const setKnowWhy = useCallback((id: string, value: YesUnsure) => {
+    setState((s) => ({ ...s, knowWhy: { ...s.knowWhy, [id]: value } }));
+  }, []);
+  const setTaking = useCallback((id: string, value: TakingStatus) => {
+    setState((s) => ({ ...s, taking: { ...s.taking, [id]: value } }));
+  }, []);
+  const setWhenHow = useCallback((id: string, value: YesUnsure) => {
+    setState((s) => ({ ...s, whenHow: { ...s.whenHow, [id]: value } }));
+  }, []);
+  const setCourseFinished = useCallback((id: string, value: YesNo) => {
+    setState((s) => ({ ...s, courseFinished: { ...s.courseFinished, [id]: value } }));
+  }, []);
   const setMedicineNote = useCallback((id: string, note: string) => {
     setState((s) => ({ ...s, medicineNote: { ...s.medicineNote, [id]: note } }));
   }, []);
-
   const setImmunisation = useCallback((vaccine: string, choice: ImmunisationChoice) => {
     setState((s) => ({ ...s, immunisation: { ...s.immunisation, [vaccine]: choice } }));
   }, []);
 
-  const setCriticalNote = useCallback((note: string) => {
-    setState((s) => ({ ...s, criticalNote: note }));
-  }, []);
-
-  const setCriticalConfirmed = useCallback((val: boolean) => {
-    setState((s) => ({ ...s, criticalConfirmed: val }));
-  }, []);
+  const setCriticalNote = useCallback((note: string) => setField("criticalNote", note), [setField]);
+  const setCarePlan = useCallback((value: YesNo) => setField("carePlan", value), [setField]);
+  const setImmunosuppressed = useCallback((value: YesNo) => setField("immunosuppressed", value), [setField]);
+  const setWhatMattersNote = useCallback((note: string) => setField("whatMattersNote", note), [setField]);
+  const setFollowUp = useCallback((ids: string[]) => setField("followUp", ids), [setField]);
 
   const setSharing = useCallback((updates: Partial<SharingState>) => {
     setState((s) => ({ ...s, sharing: { ...s.sharing, ...updates } }));
@@ -95,10 +127,6 @@ export function HealthMessageProvider({ children }: { children: ReactNode }) {
 
   const toggleWhatMatters = useCallback((value: string) => {
     setState((s) => ({ ...s, whatMatters: toggleIn(s.whatMatters, value) }));
-  }, []);
-
-  const setWhatMattersNote = useCallback((note: string) => {
-    setState((s) => ({ ...s, whatMattersNote: note }));
   }, []);
 
   const togglePrevention = useCallback((id: string) => {
@@ -117,16 +145,21 @@ export function HealthMessageProvider({ children }: { children: ReactNode }) {
     <Ctx.Provider
       value={{
         ...state,
-        setMedicine,
+        setKnowWhy,
+        setTaking,
+        setWhenHow,
+        setCourseFinished,
         setMedicineNote,
-        setImmunisation,
         setCriticalNote,
-        setCriticalConfirmed,
+        setCarePlan,
+        setImmunisation,
+        setImmunosuppressed,
         setSharing,
         toggleWhatMatters,
         setWhatMattersNote,
         togglePrevention,
         toggleFollowUp,
+        setFollowUp,
         complete,
       }}
     >
