@@ -7,6 +7,7 @@ import { EnStepper } from "@/components/en/EnStepper";
 import { EnFlowHeader, EnFlowNav } from "@/components/en/EnFlowChrome";
 import { useHealthMessage } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
+import { nhsProfile } from "@/data/nhsProfile";
 
 interface Suggestion {
   id: string;
@@ -46,6 +47,39 @@ const SUGGESTIONS: Suggestion[] = [
     title: "Staying connected",
     body: "Living alone can make some weeks quieter than you'd like. Support to stay social and active is available, and it makes a real difference to how you feel.",
     action: "A social prescribing link worker can connect you to local groups and support.",
+  },
+];
+
+interface Service {
+  name: string;
+  description: string;
+}
+
+const SERVICES: Service[] = [
+  {
+    name: "Community pharmacy",
+    description:
+      "Advice and treatment for many everyday conditions, plus help with your medicines — often without an appointment (Pharmacy First).",
+  },
+  {
+    name: "Strength and balance classes",
+    description:
+      "Falls prevention exercise run by your local council or NHS services — gentle, and proven to help.",
+  },
+  {
+    name: "Social prescribing link worker",
+    description:
+      "Connects you to local groups, activities and practical support. Ask at your GP surgery.",
+  },
+  {
+    name: "NHS Talking Therapies",
+    description:
+      "Free NHS support for stress, anxiety and low mood. You can refer yourself — no GP needed.",
+  },
+  {
+    name: "Local council — adult social care",
+    description:
+      "Help to stay independent at home, from small aids and adaptations to support at home.",
   },
 ];
 
@@ -108,6 +142,26 @@ export function PreventionStep({ steps, basePath }: { steps: StepDef[]; basePath
             );
           })}
         </div>
+
+        {/* Services near you */}
+        <section className="mb-8">
+          <h2 className="text-lg font-semibold text-neutral-900 mb-1">Services near you</h2>
+          <p className="text-sm text-neutral-600 mb-3">
+            Local NHS and community services in {nhsProfile.town} that can help.
+          </p>
+          <div className="space-y-2">
+            {SERVICES.map((s) => (
+              <div key={s.name} className="rounded-lg border border-neutral-200 bg-white p-4">
+                <p className="font-medium text-neutral-900">{s.name}</p>
+                <p className="text-sm text-neutral-600 mt-0.5">{s.description}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-neutral-400 mt-2">
+            Illustrative service types. In a real service these would link to what&rsquo;s available in
+            your area.
+          </p>
+        </section>
 
         <p className="text-sm text-neutral-500 mb-8">
           These are general tips and links, not personal medical advice. You decide what, if anything,
