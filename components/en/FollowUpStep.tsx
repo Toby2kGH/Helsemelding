@@ -6,7 +6,7 @@ import { EnStepper } from "@/components/en/EnStepper";
 import { EnFlowHeader, EnFlowNav } from "@/components/en/EnFlowChrome";
 import { useHealthMessage } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
-import { nhsProfile } from "@/data/nhsProfile";
+import type { NhsProfile } from "@/data/nhsProfile";
 
 export interface FollowUpItem {
   id: string;
@@ -15,37 +15,58 @@ export interface FollowUpItem {
   icon: string;
 }
 
-// Standing suggestions plus two derived from the medicines review (closing the loop).
+// The full set of possible next steps; which show depends on your profile and answers.
 export const FOLLOW_UP_ITEMS: FollowUpItem[] = [
   { id: "med-changes", label: "Tell my GP about the changes to my medicines", destination: "GP surgery", icon: "✏️" },
   { id: "med-unsure", label: "Get help understanding a medicine I'm unsure about", destination: "GP surgery or pharmacy", icon: "❓" },
   { id: "vaccines", label: "Book the vaccinations I chose", destination: "Practice nurse", icon: "💉" },
   { id: "zopiclone", label: "Review my sleeping tablet (zopiclone) with my GP", destination: "GP surgery", icon: "💊" },
+  { id: "asthma", label: "Book an asthma review", destination: "Asthma nurse", icon: "🫁" },
   { id: "meds-review", label: "Free medicines review", destination: "Community pharmacy", icon: "🧑‍⚕️" },
   { id: "falls", label: "Refer me to strength & balance / falls prevention classes", destination: "Community services", icon: "🤸" },
   { id: "diabetes", label: "Check my diabetes review and eye screening are booked", destination: "GP surgery", icon: "🩺" },
   { id: "social", label: "Connect me with a social prescribing link worker", destination: "Community services", icon: "🤝" },
 ];
 
+function isRelevant(
+  id: string,
+  profile: NhsProfile,
+  hasChanges: boolean,
+  hasUnsure: boolean,
+  hasZopiclone: boolean
+): boolean {
+  const has = (re: RegExp) => profile.conditions.some((c) => re.test(c));
+  switch (id) {
+    case "med-changes": return hasChanges;
+    case "med-unsure": return hasUnsure;
+    case "zopiclone": return hasZopiclone;
+    case "asthma": return has(/asthma/i);
+    case "diabetes": return has(/diabetes/i);
+    case "meds-review": return profile.medicines.regular.length >= 3;
+    case "falls": return profile.age >= 65;
+    case "social": return profile.age >= 65 || profile.livesAlone;
+    default: return true; // vaccines
+  }
+}
+
 export function FollowUpStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
   const router = useRouter();
-  const { completed, complete, followUp, toggleFollowUp, taking, knowWhy, whenHow } = useHealthMessage();
+  const { completed, complete, followUp, toggleFollowUp, taking, knowWhy, whenHow, profile } =
+    useHealthMessage();
   const nav = flowNav(steps, "followup", basePath, completed);
 
   const allMeds = [
-    ...nhsProfile.medicines.regular,
-    ...nhsProfile.medicines.course,
-    ...nhsProfile.medicines.whenRequired,
+    ...profile.medicines.regular,
+    ...profile.medicines.course,
+    ...profile.medicines.whenRequired,
   ];
   const hasChanges = allMeds.some((m) => taking[m.id] === "different_dose" || taking[m.id] === "stopped");
   const hasUnsure = allMeds.some((m) => knowWhy[m.id] === "unsure" || whenHow[m.id] === "unsure");
+  const hasZopiclone = allMeds.some((m) => /zopiclone/i.test(m.generic));
 
-  // Only show the derived items when your answers make them relevant.
-  const visibleItems = FOLLOW_UP_ITEMS.filter((item) => {
-    if (item.id === "med-changes") return hasChanges;
-    if (item.id === "med-unsure") return hasUnsure;
-    return true;
-  });
+  const visibleItems = FOLLOW_UP_ITEMS.filter((item) =>
+    isRelevant(item.id, profile, hasChanges, hasUnsure, hasZopiclone)
+  );
 
   function handleNext() {
     complete("followup");

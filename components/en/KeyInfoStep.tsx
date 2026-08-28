@@ -7,7 +7,6 @@ import { EnStepper } from "@/components/en/EnStepper";
 import { EnFlowHeader, EnFlowNav } from "@/components/en/EnFlowChrome";
 import { useHealthMessage } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
-import { nhsProfile } from "@/data/nhsProfile";
 
 function InfoBlock({ title, items }: { title: string; items: string[] }) {
   if (items.length === 0) return null;
@@ -28,10 +27,11 @@ function InfoBlock({ title, items }: { title: string; items: string[] }) {
 
 export function KeyInfoStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
   const router = useRouter();
-  const { completed, complete, criticalNote, setCriticalNote, carePlan, setCarePlan } = useHealthMessage();
+  const { completed, complete, criticalNote, setCriticalNote, carePlan, setCarePlan, profile } =
+    useHealthMessage();
   const nav = flowNav(steps, "critical", basePath, completed);
-  const ci = nhsProfile.criticalInfo;
-  const hasConditions = nhsProfile.conditions.length > 0;
+  const ci = profile.criticalInfo;
+  const hasConditions = profile.conditions.length > 0;
 
   function handleNext() {
     complete("critical");
@@ -66,7 +66,7 @@ export function KeyInfoStep({ steps, basePath }: { steps: StepDef[]; basePath: s
           <div className="rounded-lg border border-neutral-200 bg-white p-5 mb-6">
             <h2 className="font-semibold text-neutral-900 mb-2">Your long-term conditions</h2>
             <ul className="space-y-1">
-              {nhsProfile.conditions.map((c) => (
+              {profile.conditions.map((c) => (
                 <li key={c} className="flex items-start gap-2 text-sm text-neutral-700">
                   <span className="text-blueberry-500 font-bold mt-0.5" aria-hidden="true">•</span>
                   {c}

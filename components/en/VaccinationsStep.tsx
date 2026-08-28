@@ -6,7 +6,7 @@ import { EnStepper } from "@/components/en/EnStepper";
 import { EnFlowHeader, EnFlowNav } from "@/components/en/EnFlowChrome";
 import { useHealthMessage, type ImmunisationChoice } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
-import { nhsProfile, type Priority } from "@/data/nhsProfile";
+import { type Priority } from "@/data/nhsProfile";
 
 const PRIORITY_STYLE: Record<Priority, string> = {
   high: "bg-cherry-50 text-cherry-700",
@@ -28,7 +28,7 @@ const CHOICES: { value: Exclude<ImmunisationChoice, null>; label: string }[] = [
 
 export function VaccinationsStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
   const router = useRouter();
-  const { completed, complete, immunisation, setImmunisation, immunosuppressed, setImmunosuppressed } =
+  const { completed, complete, immunisation, setImmunisation, immunosuppressed, setImmunosuppressed, profile } =
     useHealthMessage();
   const nav = flowNav(steps, "vaccinations", basePath, completed);
 
@@ -48,7 +48,7 @@ export function VaccinationsStep({ steps, basePath }: { steps: StepDef[]; basePa
         </EnFlowHeader>
 
         <div className="space-y-3 mb-8">
-          {nhsProfile.immunisationAdvice.map((v) => {
+          {profile.immunisationAdvice.map((v) => {
             const choice = immunisation[v.vaccine] ?? null;
             return (
               <div key={v.vaccine} className="rounded-lg border border-neutral-200 bg-white p-4">
@@ -124,7 +124,7 @@ export function VaccinationsStep({ steps, basePath }: { steps: StepDef[]; basePa
             Your vaccination history
           </summary>
           <ul className="mt-3 space-y-1.5">
-            {nhsProfile.immunisationHistory.map((h) => (
+            {profile.immunisationHistory.map((h) => (
               <li key={h.vaccine} className="flex items-center justify-between text-sm text-neutral-700">
                 <span>{h.vaccine}</span>
                 <span className="text-neutral-500">{h.lastGiven ?? "Not on record"}</span>

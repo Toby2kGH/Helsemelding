@@ -8,7 +8,7 @@ import { EnStepper } from "@/components/en/EnStepper";
 import { EnFlowHeader, EnFlowNav } from "@/components/en/EnFlowChrome";
 import { useHealthMessage, type TakingStatus, type YesUnsure, type YesNo } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
-import { nhsProfile, type Medicine } from "@/data/nhsProfile";
+import { type Medicine } from "@/data/nhsProfile";
 
 const TAKING: { value: Exclude<TakingStatus, null>; label: string }[] = [
   { value: "as_prescribed", label: "Yes, as prescribed" },
@@ -48,6 +48,7 @@ function ChoiceButtons<T extends string>({
 }
 
 function ContactGp({ medName }: { medName: string }) {
+  const { profile } = useHealthMessage();
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -65,7 +66,7 @@ function ContactGp({ medName }: { medName: string }) {
             <h2 className="text-lg font-semibold text-neutral-900 mb-2">Ask your GP surgery</h2>
             <p className="text-sm text-neutral-700 mb-3">Your GP surgery is:</p>
             <div className="rounded-md bg-blueberry-50 p-3 mb-3">
-              <p className="font-semibold text-blueberry-900">{nhsProfile.surgery}</p>
+              <p className="font-semibold text-blueberry-900">{profile.surgery}</p>
             </div>
             <p className="text-sm text-neutral-700 mb-4">
               You can ask them to explain why you take <strong>{medName}</strong> — through the NHS App,
@@ -204,7 +205,7 @@ function MedicineCard({ med }: { med: Medicine }) {
 
 export function MedicinesStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
   const router = useRouter();
-  const { completed, complete } = useHealthMessage();
+  const { completed, complete, profile } = useHealthMessage();
   const nav = flowNav(steps, "medicines", basePath, completed);
 
   function handleNext() {
@@ -225,17 +226,17 @@ export function MedicinesStep({ steps, basePath }: { steps: StepDef[]; basePath:
 
         <h2 className="text-lg font-semibold text-neutral-900 mb-3">Regular medicines</h2>
         <div className="space-y-3 mb-8">
-          {nhsProfile.medicines.regular.map((med) => (
+          {profile.medicines.regular.map((med) => (
             <MedicineCard key={med.id} med={med} />
           ))}
         </div>
 
-        {nhsProfile.medicines.course.length > 0 && (
+        {profile.medicines.course.length > 0 && (
           <>
             <h2 className="text-lg font-semibold text-neutral-900 mb-1">Recent courses</h2>
             <p className="text-sm text-neutral-600 mb-3">A short course prescribed for a specific reason.</p>
             <div className="space-y-3 mb-8">
-              {nhsProfile.medicines.course.map((med) => (
+              {profile.medicines.course.map((med) => (
                 <MedicineCard key={med.id} med={med} />
               ))}
             </div>
@@ -245,7 +246,7 @@ export function MedicinesStep({ steps, basePath }: { steps: StepDef[]; basePath:
         <h2 className="text-lg font-semibold text-neutral-900 mb-1">Medicines to take when needed</h2>
         <p className="text-sm text-neutral-600 mb-3">Only taken as and when you need them.</p>
         <div className="space-y-3 mb-8">
-          {nhsProfile.medicines.whenRequired.map((med) => (
+          {profile.medicines.whenRequired.map((med) => (
             <MedicineCard key={med.id} med={med} />
           ))}
         </div>

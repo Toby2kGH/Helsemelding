@@ -9,7 +9,6 @@ import { EnFlowHeader } from "@/components/en/EnFlowChrome";
 import { useHealthMessage } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
 import { FOLLOW_UP_ITEMS } from "@/components/en/FollowUpStep";
-import { nhsProfile } from "@/data/nhsProfile";
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -21,15 +20,15 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 }
 
 export function SummaryStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
-  const { completed, complete, whatMatters, whatMattersNote, taking, sharing, followUp } =
+  const { completed, complete, whatMatters, whatMattersNote, taking, sharing, followUp, profile } =
     useHealthMessage();
   const nav = flowNav(steps, "summary", basePath, completed);
   const [sent, setSent] = useState(false);
 
   const allMeds = [
-    ...nhsProfile.medicines.regular,
-    ...nhsProfile.medicines.course,
-    ...nhsProfile.medicines.whenRequired,
+    ...profile.medicines.regular,
+    ...profile.medicines.course,
+    ...profile.medicines.whenRequired,
   ];
   const changed = allMeds.filter((m) => taking[m.id] === "different_dose" || taking[m.id] === "stopped");
   const chosenFollowUps = FOLLOW_UP_ITEMS.filter((i) => followUp.includes(i.id));
@@ -47,7 +46,7 @@ export function SummaryStep({ steps, basePath }: { steps: StepDef[]; basePath: s
         <div className="mx-auto max-w-3xl px-4 py-12">
           <div className="rounded-lg border border-success-700 bg-success-100 p-8 text-center">
             <CheckCircleIcon className="mx-auto h-12 w-12 text-success-700" aria-hidden="true" />
-            <h1 className="text-2xl font-bold text-success-700 mt-3">All done, {nhsProfile.firstName}</h1>
+            <h1 className="text-2xl font-bold text-success-700 mt-3">All done, {profile.firstName}</h1>
             <p className="text-neutral-700 mt-2">
               Your Health Message has been sent, and your next steps are on their way to the right
               people.
@@ -59,7 +58,7 @@ export function SummaryStep({ steps, basePath }: { steps: StepDef[]; basePath: s
             {chosenFollowUps.length === 0 ? (
               <p className="text-sm text-neutral-700">
                 You didn&rsquo;t add any next steps this time — your answers have still been shared with
-                {" "}{nhsProfile.surgery}.
+                {" "}{profile.surgery}.
               </p>
             ) : (
               <ul className="space-y-2 text-sm text-neutral-700">
@@ -95,7 +94,7 @@ export function SummaryStep({ steps, basePath }: { steps: StepDef[]; basePath: s
       <div className="mx-auto max-w-3xl px-4 py-8">
         <EnStepper steps={nav.steps} />
         <EnFlowHeader nr={nav.nr} total={nav.total} title="Your summary">
-          Everything in one place before you send. Your answers go to {nhsProfile.surgery}, and your
+          Everything in one place before you send. Your answers go to {profile.surgery}, and your
           chosen next steps go to the people who can act on them.
         </EnFlowHeader>
 

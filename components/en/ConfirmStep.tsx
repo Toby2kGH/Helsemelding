@@ -8,21 +8,21 @@ import { EnStepper } from "@/components/en/EnStepper";
 import { EnFlowHeader } from "@/components/en/EnFlowChrome";
 import { useHealthMessage } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
-import { nhsProfile } from "@/data/nhsProfile";
 
 export function ConfirmStep({ steps, basePath }: { steps: StepDef[]; basePath: string }) {
-  const { completed, complete, taking, knowWhy, immunisation, criticalNote, sharing } = useHealthMessage();
+  const { completed, complete, taking, knowWhy, immunisation, criticalNote, sharing, profile } =
+    useHealthMessage();
   const nav = flowNav(steps, "confirm", basePath, completed);
   const [sent, setSent] = useState(false);
 
   const allMeds = [
-    ...nhsProfile.medicines.regular,
-    ...nhsProfile.medicines.course,
-    ...nhsProfile.medicines.whenRequired,
+    ...profile.medicines.regular,
+    ...profile.medicines.course,
+    ...profile.medicines.whenRequired,
   ];
   const changed = allMeds.filter((m) => taking[m.id] === "different_dose" || taking[m.id] === "stopped");
   const unsure = allMeds.filter((m) => knowWhy[m.id] === "unsure");
-  const vaccinesToBook = nhsProfile.immunisationAdvice.filter((v) => immunisation[v.vaccine] === "book");
+  const vaccinesToBook = profile.immunisationAdvice.filter((v) => immunisation[v.vaccine] === "book");
 
   function handleSend() {
     complete("confirm");
@@ -37,9 +37,9 @@ export function ConfirmStep({ steps, basePath }: { steps: StepDef[]; basePath: s
         <div className="mx-auto max-w-3xl px-4 py-12">
           <div className="rounded-lg border border-success-700 bg-success-100 p-8 text-center">
             <CheckCircleIcon className="mx-auto h-12 w-12 text-success-700" aria-hidden="true" />
-            <h1 className="text-2xl font-bold text-success-700 mt-3">Thank you, {nhsProfile.firstName}</h1>
+            <h1 className="text-2xl font-bold text-success-700 mt-3">Thank you, {profile.firstName}</h1>
             <p className="text-neutral-700 mt-2">
-              Your Health Message has been sent to <strong>{nhsProfile.surgery}</strong>.
+              Your Health Message has been sent to <strong>{profile.surgery}</strong>.
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export function ConfirmStep({ steps, basePath }: { steps: StepDef[]; basePath: s
             <ul className="space-y-2 text-sm text-neutral-700">
               <li className="flex items-start gap-2">
                 <span className="text-blueberry-500 font-bold mt-0.5" aria-hidden="true">→</span>
-                {nhsProfile.gp} and the team will review anything you&rsquo;ve flagged about your medicines.
+                {profile.gp} and the team will review anything you&rsquo;ve flagged about your medicines.
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-blueberry-500 font-bold mt-0.5" aria-hidden="true">→</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import { nhsProfile } from "@/data/nhsProfile";
+import { nhsProfiles, type NhsProfile, type NhsProfileKey } from "@/data/nhsProfile";
 
 export type TakingStatus = "as_prescribed" | "different_dose" | "stopped" | null;
 export type YesUnsure = "yes" | "unsure" | null;
@@ -17,11 +17,12 @@ interface SharingState {
 }
 
 interface HealthMessageState {
+  activeProfile: NhsProfileKey;
   // Medicines review
-  knowWhy: Record<string, YesUnsure>; // "Do you know why you take this?"
-  taking: Record<string, TakingStatus>; // "Are you taking it now?"
-  whenHow: Record<string, YesUnsure>; // when-required: "Do you know when and how to take it?"
-  courseFinished: Record<string, YesNo>; // course: "Has this course finished?"
+  knowWhy: Record<string, YesUnsure>;
+  taking: Record<string, TakingStatus>;
+  whenHow: Record<string, YesUnsure>;
+  courseFinished: Record<string, YesNo>;
   medicineNote: Record<string, string>;
   // Key info
   criticalNote: string;
@@ -34,12 +35,15 @@ interface HealthMessageState {
   // 1.1
   whatMatters: string[];
   whatMattersNote: string;
+  lifeSituations: string[];
   prevention: string[];
   followUp: string[];
   completed: Record<string, boolean>;
 }
 
 interface HealthMessageValue extends HealthMessageState {
+  profile: NhsProfile;
+  setProfile: (key: NhsProfileKey) => void;
   setKnowWhy: (id: string, value: YesUnsure) => void;
   setTaking: (id: string, value: TakingStatus) => void;
   setWhenHow: (id: string, value: YesUnsure) => void;
@@ -52,34 +56,40 @@ interface HealthMessageValue extends HealthMessageState {
   setSharing: (updates: Partial<SharingState>) => void;
   toggleWhatMatters: (value: string) => void;
   setWhatMattersNote: (note: string) => void;
+  toggleLifeSituation: (value: string) => void;
   togglePrevention: (id: string) => void;
   toggleFollowUp: (id: string) => void;
   setFollowUp: (ids: string[]) => void;
   complete: (stepKey: string) => void;
 }
 
-const initialState: HealthMessageState = {
-  knowWhy: {},
-  taking: {},
-  whenHow: {},
-  courseFinished: {},
-  medicineNote: {},
-  criticalNote: "",
-  carePlan: null,
-  immunisation: {},
-  immunosuppressed: null,
-  sharing: {
-    scrAdditionalInformation: nhsProfile.sharing.scrAdditionalInformation,
-    gpHospitalSharing: nhsProfile.sharing.gpHospitalSharing,
-    organDonationDecision: nhsProfile.sharing.organDonationDecision,
-    nationalDataOptOut: nhsProfile.sharing.nationalDataOptOut,
-  },
-  whatMatters: [],
-  whatMattersNote: "",
-  prevention: [],
-  followUp: [],
-  completed: {},
-};
+function makeInitialState(key: NhsProfileKey): HealthMessageState {
+  const profile = nhsProfiles[key];
+  return {
+    activeProfile: key,
+    knowWhy: {},
+    taking: {},
+    whenHow: {},
+    courseFinished: {},
+    medicineNote: {},
+    criticalNote: "",
+    carePlan: null,
+    immunisation: {},
+    immunosuppressed: null,
+    sharing: {
+      scrAdditionalInformation: profile.sharing.scrAdditionalInformation,
+      gpHospitalSharing: profile.sharing.gpHospitalSharing,
+      organDonationDecision: profile.sharing.organDonationDecision,
+      nationalDataOptOut: profile.sharing.nationalDataOptOut,
+    },
+    whatMatters: [],
+    whatMattersNote: "",
+    lifeSituations: [],
+    prevention: [],
+    followUp: [],
+    completed: {},
+  };
+}
 
 const Ctx = createContext<HealthMessageValue | null>(null);
 
@@ -87,14 +97,10 @@ const toggleIn = <T,>(list: T[], value: T): T[] =>
   list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 
 export function HealthMessageProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<HealthMessageState>(initialState);
+  const [state, setState] = useState<HealthMessageState>(() => makeInitialState("margaret"));
 
-  const setField = useCallback(
-    <K extends keyof HealthMessageState>(key: K, value: HealthMessageState[K]) => {
-      setState((s) => ({ ...s, [key]: value }));
-    },
-    []
-  );
+  // Switching profile starts a fresh Health Message for that person.
+  const setProfile = useCallback((key: NhsProfileKey) => setState(makeInitialState(key)), []);
 
   const setKnowWhy = useCallback((id: string, value: YesUnsure) => {
     setState((s) => ({ ...s, knowWhy: { ...s.knowWhy, [id]: value } }));
@@ -115,28 +121,27 @@ export function HealthMessageProvider({ children }: { children: ReactNode }) {
     setState((s) => ({ ...s, immunisation: { ...s.immunisation, [vaccine]: choice } }));
   }, []);
 
-  const setCriticalNote = useCallback((note: string) => setField("criticalNote", note), [setField]);
-  const setCarePlan = useCallback((value: YesNo) => setField("carePlan", value), [setField]);
-  const setImmunosuppressed = useCallback((value: YesNo) => setField("immunosuppressed", value), [setField]);
-  const setWhatMattersNote = useCallback((note: string) => setField("whatMattersNote", note), [setField]);
-  const setFollowUp = useCallback((ids: string[]) => setField("followUp", ids), [setField]);
+  const setCriticalNote = useCallback((note: string) => setState((s) => ({ ...s, criticalNote: note })), []);
+  const setCarePlan = useCallback((value: YesNo) => setState((s) => ({ ...s, carePlan: value })), []);
+  const setImmunosuppressed = useCallback((value: YesNo) => setState((s) => ({ ...s, immunosuppressed: value })), []);
+  const setWhatMattersNote = useCallback((note: string) => setState((s) => ({ ...s, whatMattersNote: note })), []);
+  const setFollowUp = useCallback((ids: string[]) => setState((s) => ({ ...s, followUp: ids })), []);
 
   const setSharing = useCallback((updates: Partial<SharingState>) => {
     setState((s) => ({ ...s, sharing: { ...s.sharing, ...updates } }));
   }, []);
-
   const toggleWhatMatters = useCallback((value: string) => {
     setState((s) => ({ ...s, whatMatters: toggleIn(s.whatMatters, value) }));
   }, []);
-
+  const toggleLifeSituation = useCallback((value: string) => {
+    setState((s) => ({ ...s, lifeSituations: toggleIn(s.lifeSituations, value) }));
+  }, []);
   const togglePrevention = useCallback((id: string) => {
     setState((s) => ({ ...s, prevention: toggleIn(s.prevention, id) }));
   }, []);
-
   const toggleFollowUp = useCallback((id: string) => {
     setState((s) => ({ ...s, followUp: toggleIn(s.followUp, id) }));
   }, []);
-
   const complete = useCallback((stepKey: string) => {
     setState((s) => ({ ...s, completed: { ...s.completed, [stepKey]: true } }));
   }, []);
@@ -145,6 +150,8 @@ export function HealthMessageProvider({ children }: { children: ReactNode }) {
     <Ctx.Provider
       value={{
         ...state,
+        profile: nhsProfiles[state.activeProfile],
+        setProfile,
         setKnowWhy,
         setTaking,
         setWhenHow,
@@ -157,6 +164,7 @@ export function HealthMessageProvider({ children }: { children: ReactNode }) {
         setSharing,
         toggleWhatMatters,
         setWhatMattersNote,
+        toggleLifeSituation,
         togglePrevention,
         toggleFollowUp,
         setFollowUp,
