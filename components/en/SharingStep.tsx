@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ShieldCheckIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { NhsDemoBanner } from "@/components/en/NhsDemoBanner";
 import { EnStepper } from "@/components/en/EnStepper";
 import { EnFlowHeader, EnFlowNav } from "@/components/en/EnFlowChrome";
@@ -8,17 +10,26 @@ import { EnToggle } from "@/components/en/EnToggle";
 import { useHealthMessage, type OrganDecision } from "@/context/HealthMessageEnContext";
 import { flowNav, type StepDef } from "@/lib/healthMessageEn";
 
+interface Pending {
+  title: string;
+  body: string;
+  warning?: string;
+  confirmLabel: string;
+  danger: boolean;
+  onConfirm: () => void;
+}
+
 function ToggleRow({
   title,
   description,
   checked,
-  onChange,
+  onRequestChange,
   label,
 }: {
   title: string;
   description: string;
   checked: boolean;
-  onChange: (v: boolean) => void;
+  onRequestChange: (next: boolean) => void;
   label: string;
 }) {
   return (
@@ -29,7 +40,7 @@ function ToggleRow({
           <p className="text-sm text-neutral-700 mt-1">{description}</p>
         </div>
         <div className="flex-shrink-0 pt-1">
-          <EnToggle checked={checked} onChange={onChange} label={label} />
+          <EnToggle checked={checked} onChange={onRequestChange} label={label} />
         </div>
       </div>
     </div>
@@ -45,6 +56,28 @@ export function SharingStep({ steps, basePath }: { steps: StepDef[]; basePath: s
   const router = useRouter();
   const { completed, complete, sharing, setSharing } = useHealthMessage();
   const nav = flowNav(steps, "sharing", basePath, completed);
+  const [pending, setPending] = useState<Pending | null>(null);
+
+  // Turning a share ON asks you to agree; turning it OFF confirms, with a warning
+  // where switching off genuinely affects safe care. Consent shouldn't be a slip of a switch.
+  function confirmEnable(title: string, body: string, apply: () => void) {
+    setPending({ title, body, confirmLabel: "Yes, I agree", danger: false, onConfirm: apply });
+  }
+  function confirmDisable(
+    title: string,
+    body: string,
+    apply: () => void,
+    opts?: { warning?: string; confirmLabel?: string }
+  ) {
+    setPending({
+      title,
+      body,
+      warning: opts?.warning,
+      confirmLabel: opts?.confirmLabel ?? "Yes, turn it off",
+      danger: !!opts?.warning,
+      onConfirm: apply,
+    });
+  }
 
   function handleNext() {
     complete("sharing");
@@ -57,8 +90,9 @@ export function SharingStep({ steps, basePath }: { steps: StepDef[]; basePath: s
       <div className="mx-auto max-w-3xl px-4 py-8">
         <EnStepper steps={nav.steps} />
         <EnFlowHeader nr={nav.nr} total={nav.total} title="Sharing and consent">
-          You decide how your information is shared and used. You can change any of these choices at
-          any time, and it won&rsquo;t affect the care you receive.
+          You decide how your information is shared and used. When you turn something on or off,
+          we&rsquo;ll show you what it means first — and you can change any choice later, without it
+          affecting your care.
         </EnFlowHeader>
 
         <div className="space-y-3 mb-6">
@@ -66,16 +100,48 @@ export function SharingStep({ steps, basePath }: { steps: StepDef[]; basePath: s
             title="Summary Care Record — additional information"
             description="Your Summary Care Record lets NHS staff caring for you — such as A&E, out-of-hours services and pharmacists — see key details like your medicines, allergies and reactions. Adding extra information (your long-term conditions and care preferences) helps them treat you safely."
             checked={sharing.scrAdditionalInformation}
-            onChange={(v) => setSharing({ scrAdditionalInformation: v })}
             label="Share additional information in my Summary Care Record"
+            onRequestChange={(next) =>
+              next
+                ? confirmEnable(
+                    "Add extra information to your Summary Care Record",
+                    "You're choosing to include your long-term conditions and care preferences so NHS staff can treat you safely in urgent situations.",
+                    () => setSharing({ scrAdditionalInformation: true })
+                  )
+                : confirmDisable(
+                    "Turn off additional information?",
+                    "You're choosing to remove your long-term conditions and care preferences from your Summary Care Record.",
+                    () => setSharing({ scrAdditionalInformation: false }),
+                    {
+                      warning:
+                        "In an emergency, the staff treating you may see less about you. We'd suggest keeping this on unless you have a particular reason not to.",
+                    }
+                  )
+            }
           />
 
           <ToggleRow
             title="Sharing between your GP and hospital"
             description="Lets your GP surgery and local hospitals see the same up-to-date record when they care for you, so you don't have to repeat your history each time."
             checked={sharing.gpHospitalSharing}
-            onChange={(v) => setSharing({ gpHospitalSharing: v })}
             label="Allow my GP and hospital to share my record"
+            onRequestChange={(next) =>
+              next
+                ? confirmEnable(
+                    "Let your GP and hospital share your record",
+                    "You're choosing to let your GP surgery and local hospitals see the same record when they're caring for you.",
+                    () => setSharing({ gpHospitalSharing: true })
+                  )
+                : confirmDisable(
+                    "Stop sharing between your GP and hospital?",
+                    "You're choosing that your GP surgery and hospitals will no longer see the same shared record.",
+                    () => setSharing({ gpHospitalSharing: false }),
+                    {
+                      warning:
+                        "You may have to repeat your history, and there could be delays when different teams are involved in your care.",
+                    }
+                  )
+            }
           />
         </div>
 
@@ -92,7 +158,15 @@ export function SharingStep({ steps, basePath }: { steps: StepDef[]; basePath: s
             {ORGAN_CHOICES.map((c) => (
               <button
                 key={c.value}
-                onClick={() => setSharing({ organDonationDecision: c.value })}
+                onClick={() =>
+                  c.value === "opt_in"
+                    ? confirmEnable(
+                        "Register as an organ donor",
+                        "You're choosing to record on the NHS Organ Donor Register that you want to donate your organs and tissue. Your family will always be involved at the time.",
+                        () => setSharing({ organDonationDecision: "opt_in" })
+                      )
+                    : setSharing({ organDonationDecision: "opt_out" })
+                }
                 aria-pressed={sharing.organDonationDecision === c.value}
                 className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blueberry-500 ${
                   sharing.organDonationDecision === c.value
@@ -113,8 +187,21 @@ export function SharingStep({ steps, basePath }: { steps: StepDef[]; basePath: s
           title="Using your data for research and planning"
           description="The NHS can use your information (with details removed where possible) to research new treatments and plan services. You have a choice — turning this off applies your National Data Opt-out, and it never affects your own care."
           checked={!sharing.nationalDataOptOut}
-          onChange={(v) => setSharing({ nationalDataOptOut: !v })}
           label="Allow my data to be used for research and planning"
+          onRequestChange={(next) =>
+            next
+              ? confirmEnable(
+                  "Allow your data to be used for research and planning",
+                  "You're choosing to let your information be used, with identifying details removed where possible, to research new treatments and plan NHS services.",
+                  () => setSharing({ nationalDataOptOut: false })
+                )
+              : confirmDisable(
+                  "Apply your National Data Opt-out?",
+                  "You're choosing that your confidential information won't be used for research and planning. This is your right, and it will not affect the care you receive.",
+                  () => setSharing({ nationalDataOptOut: true }),
+                  { confirmLabel: "Yes, opt out" }
+                )
+          }
         />
 
         <div className="mt-6">
@@ -123,6 +210,57 @@ export function SharingStep({ steps, basePath }: { steps: StepDef[]; basePath: s
           )}
         </div>
       </div>
+
+      {/* Confirmation dialog — consent (and withdrawing it) is an active choice, not just a switch */}
+      {pending && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="consent-title">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <div className="flex items-center gap-2 mb-3">
+              {pending.danger ? (
+                <ExclamationTriangleIcon className="h-6 w-6 text-warning-700 flex-shrink-0" aria-hidden="true" />
+              ) : (
+                <ShieldCheckIcon className="h-6 w-6 text-blueberry-700 flex-shrink-0" aria-hidden="true" />
+              )}
+              <h2 id="consent-title" className="text-lg font-semibold text-neutral-900">{pending.title}</h2>
+            </div>
+            <p className="text-sm text-neutral-700 mb-3">{pending.body}</p>
+            {pending.warning && (
+              <div className="rounded-md bg-warning-100 border border-warning-200 p-3 mb-3">
+                <p className="text-sm text-warning-900">{pending.warning}</p>
+              </div>
+            )}
+            <div className="rounded-md bg-blueberry-50 border border-blueberry-100 p-3 mb-5">
+              <p className="text-xs text-neutral-700">
+                This is your choice, and you can change it at any time. It won&rsquo;t affect the care
+                you receive.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setPending(null)}
+                className="flex-1 rounded-md border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-300"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  pending.onConfirm();
+                  setPending(null);
+                }}
+                className={`flex-1 rounded-md px-4 py-2 text-sm font-semibold text-white focus:outline-none focus:ring-2 ${
+                  pending.danger
+                    ? "bg-warning-700 hover:bg-warning-800 focus:ring-warning-500"
+                    : "bg-blueberry-900 hover:bg-blueberry-700 focus:ring-blueberry-500"
+                }`}
+              >
+                {pending.confirmLabel}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

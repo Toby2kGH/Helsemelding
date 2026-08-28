@@ -6,7 +6,6 @@ import { NhsDemoBanner } from "@/components/en/NhsDemoBanner";
 import { EnStepper } from "@/components/en/EnStepper";
 import { buildSteps, STEPS_10 } from "@/lib/healthMessageEn";
 import { useHealthMessage } from "@/context/HealthMessageEnContext";
-import { nhsProfile } from "@/data/nhsProfile";
 
 const infoCards = [
   { icon: "💊", title: "Medicines", text: "Check the repeat medicines on your record and tell us what you're actually taking." },
@@ -22,10 +21,13 @@ const sources = [
 ];
 
 export default function HealthMessageLanding() {
-  const { completed } = useHealthMessage();
+  const { completed, profile } = useHealthMessage();
   const steps = buildSteps(null, completed, STEPS_10);
-  const medsCount = nhsProfile.medicines.regular.length + nhsProfile.medicines.whenRequired.length;
-  const vaccineCount = nhsProfile.immunisationAdvice.length;
+  const medsCount =
+    profile.medicines.regular.length +
+    profile.medicines.course.length +
+    profile.medicines.whenRequired.length;
+  const vaccineCount = profile.immunisationAdvice.length;
 
   return (
     <div>
@@ -68,7 +70,7 @@ export default function HealthMessageLanding() {
             ))}
           </ul>
           <p className="mt-3 text-sm text-neutral-600">
-            Hello, <strong>{nhsProfile.firstName}</strong>! We found{" "}
+            Hello, <strong>{profile.firstName}</strong>! We found{" "}
             <strong>{medsCount} repeat medicines</strong> and{" "}
             <strong>{vaccineCount} vaccinations</strong> that may be due.
           </p>
